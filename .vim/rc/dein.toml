@@ -1,0 +1,36 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+#ソースから選択肢アクションを適用
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+#素敵なカラースキーム
+[[plugins]]
+repo = 'tomasr/molokai'
+
+#クオートで囲ったり消したり
+[[plugins]]
+repo = 'surround.vim'
+[[plugins]]
+repo = 'mattn/emmet-vim'
+
+#ファイルブラウザ
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+
+#スニペット
+[[plugins]]
+repo = 'Shougo/neocomplcache'
+[[plugins]]
+repo = 'Shougo/neosnippet'
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+#線画
+[[plugins]]
+repo = 'DrawIt'
+
+#コメント非表示
+[[plugins]]
+repo = 'naoty/vim-folcom'
