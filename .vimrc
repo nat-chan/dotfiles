@@ -1,22 +1,53 @@
+" -----------------------------------
+"|nat-chanのvimrc                    |
+"|debian/ubuntu/macos/に対応         |
+" -----------------------------------
+"if has('unix')
+"	" Unix 用設定
+"endif
+"if has('mac')
+"	" Mac 用設定
+"endif
+"
+"if has('unix') || has('mac')
+"	" Unix と Mac の共通設定
+"endif
+"
+"if has('win32') || has ('win64')
+"	" Windows 32bit, Windows 64bit のどちらか
+"endif
+
+"一行のコードが長くならないように80行目に縦線を引く
+set colorcolumn=80 
+"行番号を表示
 set number
+"タブはハードタブ
 set noexpandtab
+"タブ幅
 set tabstop=2
 set shiftwidth=2
+"自動インデントの設定
 set smartindent
 set autoindent
+"改行、タブ等を可視化
 set list
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<,eol:<
-set nocompatible
+"自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
-set clipboard=unnamedplus
-"set cursorline
-set virtualedit=block
-inoremap <silent> jj <ESC>
 let loaded_matchparen = 1
 
+"clipboardの設定os依存強し
+if has('unix')
+set clipboard=unnamedplus
+endif
+if has('mac')
+set clipboard=unamed,autoselectplus
+endif
+"set cursorline
+
 " プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = expand('~/.dein/dein')
+let s:dein_dir = expand('~/.vim/dein')
 " dein.vim 本体
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
@@ -67,13 +98,8 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: "\<TAB>"
 
-" For snippet_complete marker.
-if has('conceal')
-	set conceallevel=2 concealcursor=i
-endif
-
+"vimrc最後にすべき設定
 filetype plugin indent on
-
 set t_Co=256
 syntax on
 colorscheme molokai
