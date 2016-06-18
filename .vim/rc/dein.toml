@@ -15,10 +15,6 @@ repo = 'surround.vim'
 [[plugins]]
 repo = 'mattn/emmet-vim'
 
-#ファイルブラウザ
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
 #スニペット
 [[plugins]]
 repo = 'Shougo/neocomplcache'
