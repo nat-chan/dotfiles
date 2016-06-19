@@ -1,4 +1,12 @@
 function! Texas() range abort
+":let pos = getpos(".")
+":normal `<
+":echo line(".")
+":echo col(".")
+":normal `>
+":echo line(".")
+":echo col(".")
+":call setpos('.', pos)
 	let l:s="'"
 	let l:w='"'
 	let l:line=""

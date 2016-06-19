@@ -31,7 +31,7 @@ set smartindent
 set autoindent
 "改行、タブ等を可視化
 set list
-set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<,eol:<
+set listchars=tab:\|-,trail:-,nbsp:%,extends:>,precedes:<,eol:·
 "自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
