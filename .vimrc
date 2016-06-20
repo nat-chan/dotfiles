@@ -39,10 +39,10 @@ let loaded_matchparen = 1
 
 "clipboardの設定os依存強し
 if has('unix')
-set clipboard=unnamedplus
+	set clipboard=unnamedplus
 endif
 if has('mac')
-set clipboard=unamed,autoselectplus
+	set clipboard=unnamed,autoselect
 endif
 "set cursorline
 
