@@ -1,3 +1,4 @@
+"{{{
 " -----------------------------------
 "|nat-chanのvimrc                    |
 "|debian/ubuntu/macos/に対応         |
@@ -16,6 +17,7 @@
 "if has('win32') || has ('win64')
 "	" Windows 32bit, Windows 64bit のどちらか
 "endif
+"}}}
 
 "一行のコードが長くならないように80行目に縦線を引く
 set colorcolumn=80 
@@ -46,6 +48,7 @@ if has('mac')
 endif
 "set cursorline
 
+"{{{
 " プラグインが実際にインストールされるディレクトリ
 let s:dein_dir = expand('~/dein')
 " dein.vim 本体
@@ -82,6 +85,7 @@ endif
 if dein#check_install()
 	call dein#install()
 endif
+"}}}
 
 "スニペット用マッピング
 let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/snippets/'
