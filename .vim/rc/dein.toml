@@ -31,7 +31,7 @@ repo = 'DrawIt'
 
 #TODO めっちゃ重い
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'Shougo/vimfiler'
 
 [[plugins]]
 repo = 'Lokaltog/vim-easymotion'

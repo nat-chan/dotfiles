@@ -1,4 +1,4 @@
-"{{{
+"{{{コーディング規約
 " -----------------------------------
 "|nat-chanのvimrc                    |
 "|debian/ubuntu/macos/に対応         |
@@ -18,7 +18,6 @@
 "	" Windows 32bit, Windows 64bit のどちらか
 "endif
 "}}}
-
 "一行のコードが長くならないように80行目に縦線を引く
 set colorcolumn=80 
 "行番号を表示
@@ -38,7 +37,8 @@ set listchars=tab:\|-,trail:-,nbsp:%,extends:>,precedes:<,eol:·
 set noswapfile
 set nobackup
 let loaded_matchparen = 1
-
+"lightlineを常に表示
+set laststatus=2
 "clipboardの設定os依存強し
 if has('unix')
 	set clipboard=unnamedplus
@@ -102,6 +102,13 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: "\<TAB>"
 
+nnoremap [unite]    <Nop>
+nmap     <Space>u [unite]
+nnoremap <silent> [unite]b   :<C-u>Unite buffer<CR>
+
+nnoremap [vimfilter]    <Nop>
+nmap     <Space>v [vimfilter]
+nnoremap <silent> [vimfilter]v   :<C-u>VimFiler -split -simple -winwidth=20 -no-quit<CR>
 "vimrc最後にすべき設定
 filetype plugin indent on
 set t_Co=256
