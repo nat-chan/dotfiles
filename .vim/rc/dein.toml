@@ -20,8 +20,6 @@ repo = 'mattn/emmet-vim'
 repo = 'Shougo/neocomplcache'
 [[plugins]]
 repo = 'Shougo/neosnippet'
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
 
 #線画
 [[plugins]]
@@ -31,6 +29,7 @@ repo = 'DrawIt'
 #[[plugins]]
 #repo = 'naoty/vim-folcom'
 
+#TODO めっちゃ重い
 [[plugins]]
 repo = 'scrooloose/nerdtree'
 
@@ -43,4 +42,3 @@ repo = 'itchyny/lightline.vim'
 [[plugins]]
 #name = 'lang/python/compl-jedi'
 repo = 'davidhalter/jedi-vim'
-

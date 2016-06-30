@@ -88,7 +88,7 @@ endif
 "}}}
 
 "スニペット用マッピング
-let g:neosnippet#snippets_directory='~/.vim/bundle/neosnippet-snippets/snippets/'
+let g:neosnippet#snippets_directory='~/.vim/neosnippets'
 " Plugin key-mappings.
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
