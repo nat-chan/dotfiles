@@ -114,4 +114,6 @@ filetype plugin indent on
 set t_Co=256
 syntax on
 colorscheme molokai
+"hi Comment ctermfg=102
+hi Visual ctermbg=236
 
