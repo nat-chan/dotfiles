@@ -1,5 +1,23 @@
-#ファイルブラウザ
+#クオートで囲ったり消したり
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'surround.vim'
+[[plugins]]
+repo = 'mattn/emmet-vim'
 
+#スニペット
+[[plugins]]
+repo = 'Shougo/neocomplcache'
+[[plugins]]
+repo = 'Shougo/neosnippet'
 
+#線画
+[[plugins]]
+repo = 'DrawIt'
+
+#コメント非表示
+#[[plugins]]
+#repo = 'naoty/vim-folcom'
+
+[[plugins]]
+#name = 'lang/python/compl-jedi'
+repo = 'davidhalter/jedi-vim'

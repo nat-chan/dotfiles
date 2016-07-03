@@ -53,7 +53,7 @@ endif
 let s:dein_dir = expand('~/dein')
 " dein.vim 本体
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
+"
 " dein.vim がなければ github から落としてくる
 if &runtimepath !~# '/dein.vim'
 	if !isdirectory(s:dein_repo_dir)
@@ -61,26 +61,26 @@ if &runtimepath !~# '/dein.vim'
 	endif
 	execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
-
+"
 " 設定開始
 if dein#load_state(s:dein_dir)
 	call dein#begin(s:dein_dir)
-
+"
 	" プラグインリストを収めた TOML ファイル
 	" 予め TOML ファイル（後述）を用意しておく
 	let g:rc_dir    = expand('~/.vim/rc')
 	let s:toml      = g:rc_dir . '/dein.toml'
 	let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-
+"
 	" TOML を読み込み、キャッシュしておく
 	call dein#load_toml(s:toml,      {'lazy': 0})
 	call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
+"
 	" 設定終了
 	call dein#end()
 	call dein#save_state()
 endif
-
+"
 " もし、未インストールものものがあったらインストール
 if dein#check_install()
 	call dein#install()
@@ -105,15 +105,25 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 nnoremap [unite]    <Nop>
 nmap     <Space>u [unite]
 nnoremap <silent> [unite]b   :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]f   :<C-u>Unite file<CR>
+nnoremap <silent> [unite]y   :<C-u>Unite history/yank<CR>
+nnoremap <silent> [unite]g   :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> [unite]r   :<C-u>Unite -buffer-name=register register<CR> nnoremap <silent> [unite]u   :<C-u>Unite file_mru buffer<CR>
 
 nnoremap [vimfilter]    <Nop>
 nmap     <Space>v [vimfilter]
 nnoremap <silent> [vimfilter]v   :<C-u>VimFiler -split -simple -winwidth=20 -no-quit<CR>
+nnoremap <silent> [vimfilter]<Space>   :<C-u>VimFiler<CR>
+
+inoremap <silent> jj <ESC>
+let g:vimfiler_as_default_explorer = 1
+
+let g:EasyMotion_do_mapping = 0
+nmap s <Plug>(easymotion-f2)
 "vimrc最後にすべき設定
 filetype plugin indent on
 set t_Co=256
 syntax on
-colorscheme molokai
 "hi Comment ctermfg=102
+colorscheme molokai
 hi Visual ctermbg=236
-
