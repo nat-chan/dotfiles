@@ -21,3 +21,6 @@ repo = 'DrawIt'
 [[plugins]]
 #name = 'lang/python/compl-jedi'
 repo = 'davidhalter/jedi-vim'
+
+[[plugins]]
+repo = 'vim-scripts/ShowMarks'

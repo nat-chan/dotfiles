@@ -18,8 +18,9 @@
 "	" Windows 32bit, Windows 64bit のどちらか
 "endif
 "}}}
+
 "一行のコードが長くならないように80行目に縦線を引く
-set colorcolumn=80 
+set colorcolumn=80
 "行番号を表示
 set number
 "タブはハードタブ
@@ -32,13 +33,15 @@ set smartindent
 set autoindent
 "改行、タブ等を可視化
 set list
-set listchars=tab:\|-,trail:-,nbsp:%,extends:>,precedes:<,eol:·
+"set listchars=tab:\|-,trail:-,nbsp:%,extends:>,precedes:<,eol:·
+set listchars=tab:\|\ ,trail:-
 "自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
 let loaded_matchparen = 1
 "lightlineを常に表示
 set laststatus=2
+set backspace=indent,eol,start
 "clipboardの設定os依存強し
 if has('unix')
 	set clipboard=unnamedplus
@@ -49,6 +52,7 @@ endif
 "set cursorline
 
 "{{{
+"---------------------------------------------------------------------------
 " プラグインが実際にインストールされるディレクトリ
 let s:dein_dir = expand('~/dein')
 " dein.vim 本体
@@ -105,21 +109,27 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 nnoremap [unite]    <Nop>
 nmap     <Space>u [unite]
 nnoremap <silent> [unite]b   :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]f   :<C-u>Unite file<CR>
 nnoremap <silent> [unite]y   :<C-u>Unite history/yank<CR>
-nnoremap <silent> [unite]g   :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> [unite]f   :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]r   :<C-u>Unite -buffer-name=register register<CR> nnoremap <silent> [unite]u   :<C-u>Unite file_mru buffer<CR>
 
 nnoremap [vimfilter]    <Nop>
 nmap     <Space>v [vimfilter]
 nnoremap <silent> [vimfilter]v   :<C-u>VimFiler -split -simple -winwidth=20 -no-quit<CR>
 nnoremap <silent> [vimfilter]<Space>   :<C-u>VimFiler<CR>
-
-inoremap <silent> jj <ESC>
 let g:vimfiler_as_default_explorer = 1
 
+"easy motion
 let g:EasyMotion_do_mapping = 0
-nmap s <Plug>(easymotion-f2)
+nmap s <Plug>(easymotion-s2)
+map f <Plug>(easymotion-bd-fl)
+map t <Plug>(easymotion-bd-tl)
+nmap g/ <Plug>(easymotion-sn)
+
+"自分のマッピング
+inoremap <silent> jj <ESC>
+nmap <Space>a ^
+nmap <Space>e $
 "vimrc最後にすべき設定
 filetype plugin indent on
 set t_Co=256

@@ -4,6 +4,9 @@ repo = 'Shougo/dein.vim'
 #ソースから選択肢アクションを適用
 [[plugins]]
 repo = 'Shougo/unite.vim'
+[[plugins]]
+repo = 'Shougo/neomru.vim'
+
 
 #素敵なカラースキーム
 [[plugins]]
