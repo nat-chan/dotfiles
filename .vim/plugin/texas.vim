@@ -1,4 +1,4 @@
-function! Texas() abort
+function! Texas() abort range
 python << PYTHON
 import vim
 #import libtmux
