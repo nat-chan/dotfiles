@@ -10,16 +10,30 @@ function! g:Selected_Pos() abort range
 	return start + end
 endfunction
 
-function! g:Escape(src) abort range
+function! g:Escape(src) abort
 	let s = "'"
 	let w = '"'
 	let d = s . w . s . w . s
 	return s . substitute(a:src, s, d, 'g') . s
 endfunction
 
-function! g:Tmux() abort range
-	let cmd='tmux send-keys -l -t "{marked}" '
-	let s = Selected_Pos()
-	echo s
-"call system("mkdir")
+function! g:Selected_Str() abort range
+	let tmp = @@
+	silent normal gvy
+	let selected = @@
+	let @@ = tmp
+	return selected
 endfunction
+
+function! g:Send_Keys(pane, str) abort range
+	let cmd='tmux send-keys -l -t ' . a:pane .' ' . Escape(a:str)
+	call system(cmd)
+endfunction
+
+function! g:Tmux() abort range
+	let pane = '"{marked}"'
+	let str = Selected_Str()
+	call Send_Keys(pane, str)
+endfunction
+
+header = 'platex -halt-on-error && killall -10 xdvi.bin'
