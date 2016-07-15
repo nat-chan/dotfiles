@@ -10,6 +10,11 @@ function! g:Selected_Pos() abort range
 	return start + end
 endfunction
 
+function! g:Range_Tmux() abort range
+	let list = getline(a:firstline, a:lastline)
+	echo join(list, "\n")
+endfunction
+
 function! g:Escape(src) abort
 	let s = "'"
 	let w = '"'
@@ -36,4 +41,17 @@ function! g:Tmux() abort range
 	call Send_Keys(pane, str)
 endfunction
 
-header = 'platex -halt-on-error && killall -10 xdvi.bin'
+function! g:Mebius() abort range
+	"xxdviが起動していないなら起動
+	if ! exists('s:flag_xdvi')
+		echo "初めてプラグインが実行されたのでxdviが起動しているか確かめます"
+		if system('pgrep xdvi.bin') == ''
+			echo "xdviを起動しました"
+			call system('xxdvi')
+		endif
+		let s:flag_xdvi = 1
+	endif
+	"vimの下のpaneに
+	"{down}"
+endfunction
+let header = 'platex -halt-on-error && killall -10 xdvi.bin'
