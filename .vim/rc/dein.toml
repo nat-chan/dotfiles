@@ -22,6 +22,3 @@ repo = 'itchyny/lightline.vim'
 [[plugins]]
 repo = 'Shougo/vimfiler'
 
-[[plugins]]
-repo = 'vim-scripts/ShowMarks'
-
