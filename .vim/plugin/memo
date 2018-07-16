@@ -1,0 +1,16 @@
+vvim -u NORC -N --cmd "set runtimepath+=~/.vim/bundle/ctrlp.vim"
+init
+  ├─sshd
+  │   ├─sshd
+  │   │   └─zsh
+  │   ├─sshd
+  │   │   └─zsh
+  │   │       └─tmux -2
+  │   └─sshd
+  │       └─zsh
+  │           └─tmux -2
+  ├─tmux -2
+  │   ├─zsh
+  │   │   └─pstree -a
+  │   └─zsh
+  └─xsel --nodetach -i -b

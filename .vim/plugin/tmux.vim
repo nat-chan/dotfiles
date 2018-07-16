@@ -31,13 +31,21 @@ function! g:Selected_Str() abort range
 endfunction
 
 function! g:Send_Keys(pane, str) abort range
-	let cmd='tmux send-keys -l -t ' . a:pane .' ' . Escape(a:str)
+	let cmd='tmux send-keys -l -t ' . a:pane .' ' . g:Escape(a:str)
 	call system(cmd)
 endfunction
 
 function! g:Tmux() abort range
 	let pane = '"{marked}"'
+	let str = g:Selected_Str()
+	call g:Send_Keys(pane, str)
+endfunction
+
+
+function! g:Tex() abort range
+	let pane = '"{marked}"'
 	let str = Selected_Str()
+	let str = "platex\n" . str . "killall -10 xdvi.bin\n"
 	call Send_Keys(pane, str)
 endfunction
 

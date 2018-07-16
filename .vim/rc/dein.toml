@@ -1,24 +1,221 @@
-[[plugins]]
+#hookの名前       実行されるタイミング                       lazyOFF lazyON
+#hook_add         プラグインがdein.vimによって追加されたとき OK      OK
+#hook_source      プラグインが読み込まれる直前               NG      OK
+#hook_post_source プラグインが読み込まれた直後               NG      OK
+#hook_post_update プラグインが更新された直後                 OK      OK
+
+[[plugins]] #プラグインマネージャ
 repo = 'Shougo/dein.vim'
 
-#ソースから選択肢アクションを適用
-[[plugins]]
-repo = 'Shougo/unite.vim'
-[[plugins]]
-repo = 'Shougo/neomru.vim'
+#[[plugins]] #uniteの進化版
+#repo = 'Shougo/denite.nvim'
+#hook_add = '''
+#	"プロンプトを変更
+#	call denite#custom#option('default', 'prompt', '>')
+#	" denite/insert モードのときは，C- で移動できるようにする
+#	call denite#custom#map('insert', "<C-j>", '<denite:move_to_next_line>')
+#	call denite#custom#map('insert', "<C-k>", '<denite:move_to_previous_line>')
 
+#	" tabopen や vsplit のキーバインドを割り当て
+#	call denite#custom#map('insert', "<C-t>", '<denite:do_action:tabopen>')
+#	call denite#custom#map('insert', "<C-v>", '<denite:do_action:vsplit>')
+#	call denite#custom#map('normal', "v", '<denite:do_action:vsplit>')
 
-#素敵なカラースキーム
-[[plugins]]
-repo = 'tomasr/molokai'
+#	" jj で denite/insert を抜けるようにする
+#	call denite#custom#map('insert', 'jj', '<denite:enter_mode:normal>')
+#'''
 
-[[plugins]]
-repo = 'Lokaltog/vim-easymotion'
+#[[plugins]] #†闇の力†
+#repo = 'Shougo/deoplete.nvim'
+#hook_source = '''
+#  let g:deoplete#enable_at_startup = 1
+#  "Tab補完の設定
+#  inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+#        \ neosnippet#expandable_or_jumpable() ?
+#        \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+#'''
+#on_i = 1
 
-[[plugins]]
+#[[plugins]]
+#repo = 'Shougo/neomru.vim'
+#[[plugins]]
+#repo = 'Shougo/neossh.vim'
+#[[plugins]]
+#repo = 'Shougo/neocomplete.vim'
+
+#[[plugins]]
+#repo = 'ConradIrwin/vim-bracketed-paste'
+
+#[[plugins]]
+#repo = 'vim-scripts/surround.vim'
+
+##[[plugins]]
+##repo = 'scrooloose/syntastic'
+
+#[[plugins]] #fで高速カーソル移動
+#repo = 'easymotion/vim-easymotion'
+#hook_add = '''
+#	"map  f <Plug>(easymotion-bd-f)
+#	nmap F <Plug>(easymotion-overwin-f)
+
+#	" s{char}{char} to move to {char}{char}
+#	"nmap s <Plug>(easymotion-overwin-f2)
+
+#	" Move to line
+#	"map <Leader>L <Plug>(easymotion-bd-jk)
+#	"nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+#	" Move to word
+#	"map  <Leader>w <Plug>(easymotion-bd-w)
+#	"nmap <Leader>w <Plug>(easymotion-overwin-w)
+#'''
+
+##[[plugins]] #:'<,'>Align ,で表を整形
+##repo = 'Align'
+##hook_add = '''
+##  let g:Align_xstrlen = 3
+##'''
+
+#[[plugins]]
+#repo = 'junegunn/vim-easy-align'
+#hook_add = '''
+#" Start interactive EasyAlign in visual mode (e.g. vipga)
+#xmap ga <Plug>(EasyAlign)
+
+#" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+#nmap ga <Plug>(EasyAlign)
+#'''
+
+#http://itchyny.hatenablog.com/entry/20130917/1379369171
+[[plugins]] #Ricty Diminished Discord for Powerlineを使ってstatus lineを改善
 repo = 'itchyny/lightline.vim'
+hook_add = '''
+set laststatus=2
+let g:lightline = {
+"        \ 'colorscheme': 'wombat',
+        \ 'colorscheme': 'powerline',
+"        \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"        \ 'subseparator': { 'left': '⮁', 'right': '⮃' },
+        \ 'mode_map': {'c': 'NORMAL'},
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+        \ },
+        \ 'component_function': {
+        \   'modified': 'LightlineModified',
+        \   'readonly': 'LightlineReadonly',
+        \   'fugitive': 'LightlineFugitive',
+        \   'filename': 'LightlineFilename',
+        \   'fileformat': 'LightlineFileformat',
+        \   'filetype': 'LightlineFiletype',
+        \   'fileencoding': 'LightlineFileencoding',
+        \   'mode': 'LightlineMode'
+        \ }
+        \ }
 
-#TODO 
+function! LightlineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! LightlineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+endfunction
+
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+
+function! LightlineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    return fugitive#head()
+  else
+    return ''
+  endif
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+
+function! LightlineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+'''
+
+
+[[plugins]] #カラースキーム
+repo = 'tomasr/molokai'
+hook_add = '''
+	au ColorScheme * highlight Comment ctermfg=152
+	"au ColorScheme * highlight Visual  ctermbg=23 "or 58 #:%s/hoge/fuga/gcしたとき見ずらい
+	au ColorScheme * highlight Visual  ctermbg=58
+	au ColorScheme * highlight Normal ctermbg=none
+	colorscheme molokai
+	"au VimEnter * nested colorscheme molokai
+	"au VimEnter * nested highlight Comment ctermfg=152
+	"au VimEnter * nested highlight Visual  ctermbg=23 "or 58
+'''
+
+#[[plugins]]
+#repo = 'cocopon/iceberg.vim'
+
+##TODO 
+##[[plugins]]
+##repo = 'Shougo/vimfiler'
+
+##[[plugins]]
+##repo = 'vim-scripts/ShowMarks'
+##[[plugins]]
+##repo = 'nat-chan/pronyu-quick'
+
+#[[plugins]]
+#repo = 'Shougo/vimshell.vim'
+#[[plugins]]
+#repo  = 'Shougo/vimproc.vim'
+#build = 'make'
+
+#[[plugins]] #日本語IMEが使えない時はC-jでskkを使う
+#repo  = 'tyru/eskk.vim'
+#hook_add = '''
+#	let g:eskk#directory = "~/.eskk"
+#	let g:eskk#dictionary = { 'path': "~/.skk-jisyo", 'sorted': 0, 'encoding': 'utf-8', }
+#	let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+#	let g:eskk#enable_completion = 1
+#'''
+
+##[[plugins]] #埋め込みコード内でfiletypeを変える
+##repo = 'osyo-manga/vim-precious'
+##depends = ['Shougo/context_filetype.vim']
+
+#[[plugins]] #カーソル上のfiletype判定
+#repo = 'Shougo/context_filetype.vim'
+
+[[plugins]] #:AnsiEsc でエスケープシーケンスを可視化
+repo = 'powerman/vim-plugin-AnsiEsc'
+
+#[[plugin]]
+#repo = 'ConradIrwin/vim-bracketed-paste'
+
 [[plugins]]
-repo = 'Shougo/vimfiler'
+repo = 'Shougo/neosnippet-snippets'
 
+#[[plugins]]
+#repo = 'vim-jp/vimdoc-ja'
+
+#[[plugins]]
+#repo = 'jacobsimpson/nvim-example-python-plugin'
+
+#[[plugins]]
+#repo = 'fuenor/JpFormat.vim'
