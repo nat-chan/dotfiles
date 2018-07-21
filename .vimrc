@@ -67,8 +67,8 @@ let mapleader = "\<Space>"
 
 let $PATH = "~/.pyenv/shims:".$PATH
 
-let g:python_host_prog = "/home/N/.pyenv/versions/2.7.13/bin/python"
-let g:python3_host_prog = "/home/N/.pyenv/versions/anaconda3-4.3.1/bin/python"
+"let g:python_host_prog = "/home/n/.pyenv/versions/2.7.13/bin/python"
+"let g:python3_host_prog = "/home/n/.pyenv/versions/anaconda3-4.3.1/bin/python"
 
 " Vimであいまいな幅の文字の論理幅を1にする
 set ambiwidth=single
@@ -119,34 +119,6 @@ if dein#check_install()
 	call dein#install()
 endif
 "}}}
-"Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
-"そのためfishをデフォルトシェルにしている時次の設定が必要
-if $SHELL =~ '/fish$'
-	set shell=bash
-endif
-
-nnoremap [vimfilter]    <Nop>
-nmap     <Space>v [vimfilter]
-nnoremap <silent> [vimfilter]v   :<C-u>VimFiler -split -simple -winwidth=20 -no-quit<CR>
-nnoremap <silent> [vimfilter]<Space>   :<C-u>VimFiler<CR>
-let g:vimfiler_as_default_explorer = 1
-
-"marlin
-let g:opamshare = "/home/N/.opam/system/share"
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
-
-if !exists('g:neocomplete#sources#omni#input_patterns')
-	let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.ocaml = '[^. *\t]\.\w*\|\h\w*|#'
-
-if has('nvim')
-	let g:deoplete#enable_at_startup = 1
-	let g:deoplete#omni#input_patterns = {}
-	let g:deoplete#omni#input_patterns.java = '[^. *\t]\.\w*'
-	let g:deoplete#omni_patterns = {}
-	let g:deoplete#omni_patterns.ocaml = '[^ ,;\t\[()\]]'
-endif
 
 "自分のマッピング
 let mapleader = "\<Space>"
