@@ -31,9 +31,10 @@ set colorcolumn=80
 set number
 "タブはハードタブ
 set noexpandtab
-"タブ幅
+"ハードタブの表示幅
 set tabstop=2
-set shiftwidth=2
+"ソフトタブのインデント幅
+set shiftwidth=4
 "自動インデントの設定
 set smartindent
 set autoindent
@@ -60,15 +61,19 @@ endif
 "set cursorline
 "set termguicolors
 
-"文末に改行をつけるのを禁止
+"文末に自動で改行をつけない
 set nofixeol
 
 let mapleader = "\<Space>"
 
 let $PATH = "~/.pyenv/shims:".$PATH
 
-"let g:python_host_prog = "/home/n/.pyenv/versions/2.7.13/bin/python"
-"let g:python3_host_prog = "/home/n/.pyenv/versions/anaconda3-4.3.1/bin/python"
+let g:python_host_prog = "/home/N/.pyenv/versions/2.7.13/bin/python"
+let g:python3_host_prog = "/home/N/.pyenv/versions/anaconda3-4.3.1/bin/python"
+
+"conceallevel=0
+let g:tex_conceal = ''
+let g:vim_markdown_folding_disabled=1
 
 " Vimであいまいな幅の文字の論理幅を1にする
 set ambiwidth=single
@@ -79,8 +84,7 @@ set ambiwidth=single
 "マーカーで折りたたむ zaで展開
 set foldmethod=marker
 
-"{{{
-"---------------------------------------------------------------------------
+"{{{ deinプラグイン --------------------------------------------------------
 " プラグインが実際にインストールされるディレクトリ
 let s:dein_dir = expand('~/dein')
 " dein.vim 本体
@@ -93,22 +97,18 @@ if &runtimepath !~# '/dein.vim'
 	endif
 	execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
 endif
-
 " プラグインリストを収めた TOML ファイル
 " 予め TOML ファイルを用意しておく
 let g:rc_dir    = expand('~/.vim/rc')
 let s:toml      = g:rc_dir . '/dein.toml'
 let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-
 " 設定開始
 " dien#beginの第二引数に変更があった場合は読み込みなおす
 if dein#load_state(s:dein_dir)
 	call dein#begin(s:dein_dir, [$MYVIMRC, s:toml, s:lazy_toml])
-
 	" TOML を読み込み、キャッシュしておく
 	call dein#load_toml(s:toml,      {'lazy': 0})
 	call dein#load_toml(s:lazy_toml, {'lazy': 1})
-
 	" 設定終了
 	call dein#end()
 	call dein#save_state()
@@ -120,22 +120,22 @@ if dein#check_install()
 endif
 "}}}
 
+"Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
+"そのためfishをデフォルトシェルにしている時次の設定が必要
+if $SHELL =~ '/fish$'
+	set shell=bash
+endif
+
 "自分のマッピング
 let mapleader = "\<Space>"
-nnoremap <silent> <Leader>re :<C-u>Denite register<CR>
-nnoremap <silent> <Leader>t :<C-u>Denite register<CR>
-nnoremap <silent> <Leader>j :<C-u>Denite jump<CR>
-nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-nnoremap <silent> <Leader>f :<C-u>Denite file_mru<CR>
-nnoremap <silent> <Leader>c :<C-u>Denite command_history<CR>
-nnoremap          <Leader>w :w<CR>
-nnoremap          <Leader>. :<C-u>e .<CR>
-nnoremap          <Leader>v :<C-u>e ~/.vimrc<CR>
-nnoremap          <Leader>s :<C-u>source %<CR>
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>. :<C-u>e .<CR>
+nnoremap <Leader>v :<C-u>e ~/.vimrc<CR>
+nnoremap <Leader>s :<C-u>source %<CR>
 
-inoremap <silent> ¥ \
 inoremap <silent> jj <ESC>
 inoremap <silent> kk <ESC>
+inoremap <silent> ¥ \
 inoremap <silent> 　 <Space>
 
 cnoremap <C-a> <Home>

@@ -3,10 +3,83 @@
 #hook_source      プラグインが読み込まれる直前               NG      OK
 #hook_post_source プラグインが読み込まれた直後               NG      OK
 #hook_post_update プラグインが更新された直後                 OK      OK
-#クオートで囲ったり消したり
+
+[[plugins]] #クオートで囲ったり消したり
+repo = 'mattn/emmet-vim'
+
+[[plugins]] # http://wonderwall.hatenablog.com/entry/2017/01/29/213052
+repo = 'davidhalter/jedi-vim'
+on_ft = 'python'
+hook_add = '''
+"	let g:jedi#auto_initialization = 0 "デフォルトのキーマップをしない
+	let g:jedi#auto_vim_configuration = 1 "completeopt=longest候補の共通部分を自動入力
+	let g:jedi#auto_close_doc = 0
+	let g:jedi#completions_enabled = 1
+	nnoremap <C-k> :call jedi#goto()<CR>
+'''
 
 [[plugins]]
-repo = 'mattn/emmet-vim'
+repo = 'Shougo/neosnippet.vim'
+hook_source = '''
+  "Ctrl+Kにターゲットジャンプ割当
+  imap <C-k> <Plug>(neosnippet_expand_or_jump)
+  smap <C-k> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k> <Plug>(neosnippet_expand_target)
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
+on_i  = 1
+on_ft = ['snippet']
+depends = ['neosnippet-snippets']
+
+[[plugin]]
+repo = 'gorodinskiy/vim-coloresque'
+on_ft = ['vim']
+
+[[plugins]] #Asynchronous Lint Engine
+repo = 'w0rp/ale'
+on_ft = ['python', 'ocaml', 'tex'] #配列を使え
+hook_add = '''
+	let g:ale_sign_column_always = 1
+	"次の行の指定を消すとすべての言語でチェックツールが動く
+	let g:ale_linters = {'python': ['mypy']} "pyenv localに入ってないと動かない
+'''
+
+[[plugins]] # mardkown リアルタイムプレビュー
+repo = 'previm/previm'
+on_ft = 'markdown'
+hook_add = '''
+	let g:previm_open_cmd = 'ch'
+	let g:previm_enable_realtime = 1
+'''
+
+[[plugins]] #Mathematica
+repo = 'rsmenon/vim-mathematica'
+on_ft = 'mma'
+hook_add = '''
+	let g:mma_candy = 0
+'''
+
+[[plugins]] #.inoをシンタックスハイライト
+repo = 'sudar/vim-arduino-syntax'
+on_ft = 'arduino'
+
+#cd01/poshcomplete-vim powershellを補完する
+[[plugins]] #powershellのシンタックスハイライト
+repo='PProvost/vim-ps1'
+on_ft = 'ps1'
+
+#[[plugins]] # docstringの表示とオムニ保管はdeopleteを使うことで高速化
+#repo = 'zchee/deoplete-jedi'
+#on_ft = 'python'
+#hook_add = '''
+#	let g:deoplete#sources#jedi#show_docstring = 1
+#'''
+
+#[[plugins]] #eclim
+#repo = 'ervandew/eclim'
+#on_ft = 'java'
 
 #[[plugins]]
 #repo = 'tweekmonster/braceless.vim'
@@ -45,67 +118,3 @@ repo = 'mattn/emmet-vim'
 #コメント非表示
 #[[plugins]]
 #repo = 'naoty/vim-folcom'
-
-
-[[plugins]] # http://wonderwall.hatenablog.com/entry/2017/01/29/213052
-repo = 'davidhalter/jedi-vim'
-on_ft = 'python'
-hook_add = '''
-"	let g:jedi#auto_initialization = 0 "デフォルトのキーマップをしない
-	let g:jedi#auto_vim_configuration = 1 "completeopt=longest候補の共通部分を自動入力
-	let g:jedi#auto_close_doc = 0
-	let g:jedi#completions_enabled = 1
-	nnoremap <C-k> :call jedi#goto()<CR>
-'''
-
-#[[plugins]] # docstringの表示とオムニ保管はdeopleteを使うことで高速化
-#repo = 'zchee/deoplete-jedi'
-#on_ft = 'python'
-#hook_add = '''
-#	let g:deoplete#sources#jedi#show_docstring = 1
-#'''
-
-[[plugins]] #Mathematica
-repo = 'rsmenon/vim-mathematica'
-on_ft = 'mma'
-hook_add = '''
-	let g:mma_candy = 0
-'''
-
-#[[plugins]] #eclim
-#repo = 'ervandew/eclim'
-#on_ft = 'java'
-#
-
-[[plugins]] #.inoをシンタックスハイライト
-repo = 'sudar/vim-arduino-syntax'
-on_ft = 'arduino'
-
-[[plugins]]
-repo = 'Shougo/neosnippet.vim'
-hook_source = '''
-  "Ctrl+Kにターゲットジャンプ割当
-  imap <C-k> <Plug>(neosnippet_expand_or_jump)
-  smap <C-k> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k> <Plug>(neosnippet_expand_target)
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
-'''
-on_i  = 1
-on_ft = ['snippet']
-depends = ['neosnippet-snippets']
-
-[[plugin]]
-repo = 'gorodinskiy/vim-coloresque'
-on_ft = ['vim']
-
-[[plugins]] #Asynchronous Lint Engine
-repo = 'w0rp/ale'
-on_ft = ['python', 'tex'] #配列を使え
-hook_add = '''
-	let g:ale_sign_column_always = 1
-	"次の行の指定を消すとすべての言語でチェックツールが動く
-	let g:ale_linters = {'python': ['mypy']} "pyenv localに入ってないと動かないよ
-'''
-
