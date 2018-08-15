@@ -1,0 +1,13 @@
+#!/bin/bash
+if   [ $# == 0 ]; then
+	rlwrap python.exe
+elif [ $# == 1 ]; then
+	absolute=`readlink -f $1`
+	if [ "${absolute:0:6}" == "/mnt/c" ]; then
+		python.exe "C:${absolute:6}"
+	else
+		python.exe "C:/Users/qzrp0/AppData/Local/lxss$absolute"
+	fi
+else
+	echo "len(sys.argv) == $#"
+fi

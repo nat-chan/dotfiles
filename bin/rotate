@@ -1,0 +1,2 @@
+#!/bin/bash
+/mnt/c/bin/display.exe /rotate:270 /toggle
