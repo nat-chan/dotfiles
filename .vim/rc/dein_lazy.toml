@@ -15,6 +15,7 @@ hook_add = '''
 	let g:jedi#auto_vim_configuration = 1 "completeopt=longest候補の共通部分を自動入力
 	let g:jedi#auto_close_doc = 0
 	let g:jedi#completions_enabled = 1
+	set completeopt+=noselect
 	nnoremap <C-k> :call jedi#goto()<CR>
 '''
 
