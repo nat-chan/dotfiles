@@ -68,8 +68,8 @@ let mapleader = "\<Space>"
 
 let $PATH = "~/.pyenv/shims:".$PATH
 
-let g:python_host_prog = "/home/N/.pyenv/versions/2.7.13/bin/python"
-let g:python3_host_prog = "/home/N/.pyenv/versions/anaconda3-4.3.1/bin/python"
+"let g:python_host_prog = "/home/nat/.pyenv/versions/2.7.13/bin/python"
+let g:python3_host_prog = "/home/nat/.pyenv/versions/3.7.0/bin/python"
 
 "conceallevel=0
 let g:tex_conceal = ''

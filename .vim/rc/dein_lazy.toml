@@ -46,13 +46,20 @@ hook_add = '''
 	let g:ale_linters = {'python': ['mypy']} "pyenv localに入ってないと動かない
 '''
 
+[[plugins]] # vimからブラウザを開く
+repo = 'tyru/open-browser.vim'
+hook_add = '''
+let $DISPLAY=':0'
+'''
+
 [[plugins]] # mardkown リアルタイムプレビュー
 repo = 'previm/previm'
 on_ft = 'markdown'
 hook_add = '''
-	let g:previm_open_cmd = 'ch'
+"	let g:previm_open_cmd = 'google-chrome'
 	let g:previm_enable_realtime = 1
 '''
+depends = ['open-browser.vim']
 
 [[plugins]] #Mathematica
 repo = 'rsmenon/vim-mathematica'
