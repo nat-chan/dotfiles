@@ -1,0 +1,2 @@
+#!/bin/bash
+'/mnt/c/Users/qzrp0/Documents/nvim-win64/Neovim/bin/nvim-qt.exe' `uw $1`
