@@ -1,2 +1,2 @@
 #!/bin/bash
-/mnt/c/Windows/explorer.exe `uw $1|tr '/' '\' 2>/dev/null`
+/mnt/c/Windows/system32/cmd.exe /c `uw $1|tr '/' '\' 2>/dev/null`
