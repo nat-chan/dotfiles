@@ -9,15 +9,15 @@ set -o BSD_ECHO
 export PATH="\
 $HOME/bin\
 :/usr/local/bin\
-:$HOME/.pyenv/shims\
-:$HOME/.pyenv/bin\
 :/usr/bin\
 :/bin\
 :/sbin:/usr/sbin\
 "
 
-export PYENV_ROOT="$HOME/.pyenv"
-pyenv rehash
+#:$HOME/.pyenv/shims\
+#:$HOME/.pyenv/bin\
+#export PYENV_ROOT="$HOME/.pyenv"
+#pyenv rehash
 
 export LANG='ja_JP.UTF-8'
 export DISPLAY='localhost:0.0'
@@ -39,7 +39,7 @@ alias pandoc="pandoc +RTS -V0 -RTS"
 alias vim='nvim -u ~/.vimrc'
 alias vi='nvim -u ~/.vimrc'
 alias mux=tmuxinator
-alias tmux='~/tmux-SIXEL-24bitColor/tmux -2'
+alias tmux='tmux -2'
 
 function glcc(){
 	g++ $1 -lglut -lGLU -lGL -lm -std=c++11 -o ${1%.cpp}.out
