@@ -1,4 +1,4 @@
-# デュアルブートのUbuntu18.04.1
+# デュアルブートのUbuntu18.04
 pyenvの廃止、試験的にvenvに移行
 venvのほうがjediがconflictしない
 
