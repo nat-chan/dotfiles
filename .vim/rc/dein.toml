@@ -81,13 +81,16 @@ hook_add = '''
 	call denite#custom#map('normal', "v", '<denite:do_action:vsplit>')
 	" jj で denite/insert を抜けるようにする
 	call denite#custom#map('insert', 'jj', '<denite:enter_mode:normal>')
-	nnoremap <silent> <Leader>re :<C-u>Denite register<CR>
-	nnoremap <silent> <Leader>t :<C-u>Denite register<CR>
-	nnoremap <silent> <Leader>j :<C-u>Denite jump<CR>
-	nnoremap <silent> <Leader>b :<C-u>Denite buffer<CR>
-	nnoremap <silent> <Leader>f :<C-u>Denite file_mru<CR>
-	nnoremap <silent> <Leader>c :<C-u>Denite command_history<CR>
+	nnoremap <silent> <Leader>re :<C-u>Denite -mode=insert register<CR>
+	nnoremap <silent> <Leader>t  :<C-u>Denite -mode=insert register<CR>
+	nnoremap <silent> <Leader>j  :<C-u>Denite -mode=normal jump<CR>
+	nnoremap <silent> <Leader>b  :<C-u>Deeite -mode=normal buffer<CR>
+	nnoremap <silent> <Leader>f  :<C-u>Denite -mode=insert file_mru<CR>
+	nnoremap <silent> <Leader>c  :<C-u>Denite -mode=normal jcommand_history<CR>
 '''
+
+[[plugins]]
+repo = 'h1mesuke/vim-alignta'
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
@@ -101,6 +104,79 @@ repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
 repo = 'vim-jp/vimdoc-ja'
+
+#http://itchyny.hatenablog.com/entry/20130917/1379369171
+[[plugins]] #Ricty Diminished Discord for Powerlineを使ってstatus lineを改善
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+set laststatus=2
+let g:lightline = {
+"        \ 'colorscheme': 'wombat',
+        \ 'colorscheme': 'powerline',
+"        \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"        \ 'subseparator': { 'left': '⮁', 'right': '⮃' },
+        \ 'mode_map': {'c': 'NORMAL'},
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+        \ },
+        \ 'component_function': {
+        \   'modified': 'LightlineModified',
+        \   'readonly': 'LightlineReadonly',
+        \   'fugitive': 'LightlineFugitive',
+        \   'filename': 'LightlineFilename',
+        \   'fileformat': 'LightlineFileformat',
+        \   'filetype': 'LightlineFiletype',
+        \   'fileencoding': 'LightlineFileencoding',
+        \   'mode': 'LightlineMode'
+        \ }
+        \ }
+function! LightlineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+function! LightlineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+endfunction
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+function! LightlineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    return fugitive#head()
+  else
+    return ''
+  endif
+endfunction
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+function! LightlineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+'''
+
+[[plugins]] #カラースキーム
+repo = 'tomasr/molokai'
+hook_add = '''
+	au ColorScheme * highlight Comment ctermfg=152
+	"au ColorScheme * highlight Visual  ctermbg=23 "or 58 #:%s/hoge/fuga/gcしたとき見ずらい
+	au ColorScheme * highlight Visual  ctermbg=58
+	au ColorScheme * highlight Normal ctermbg=none
+	colorscheme molokai
+	"au VimEnter * nested colorscheme molokai
+	"au VimEnter * nested highlight Comment ctermfg=152
+	"au VimEnter * nested highlight Visual  ctermbg=23 "or 58
+'''
 
 #[[plugins]] #†闇の力†
 #repo = 'Shougo/deoplete.nvim'
@@ -174,81 +250,7 @@ repo = 'vim-jp/vimdoc-ja'
 #" Start interactive EasyAlign for a motion/text object (e.g. gaip)
 #nmap ga <Plug>(EasyAlign)
 #'''
-
-#http://itchyny.hatenablog.com/entry/20130917/1379369171
-[[plugins]] #Ricty Diminished Discord for Powerlineを使ってstatus lineを改善
-repo = 'itchyny/lightline.vim'
-hook_add = '''
-set laststatus=2
-let g:lightline = {
-"        \ 'colorscheme': 'wombat',
-        \ 'colorscheme': 'powerline',
-"        \ 'separator': { 'left': '⮀', 'right': '⮂' },
-"        \ 'subseparator': { 'left': '⮁', 'right': '⮃' },
-        \ 'mode_map': {'c': 'NORMAL'},
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
-        \ },
-        \ 'component_function': {
-        \   'modified': 'LightlineModified',
-        \   'readonly': 'LightlineReadonly',
-        \   'fugitive': 'LightlineFugitive',
-        \   'filename': 'LightlineFilename',
-        \   'fileformat': 'LightlineFileformat',
-        \   'filetype': 'LightlineFiletype',
-        \   'fileencoding': 'LightlineFileencoding',
-        \   'mode': 'LightlineMode'
-        \ }
-        \ }
-function! LightlineModified()
-  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-endfunction
-function! LightlineReadonly()
-  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
-endfunction
-function! LightlineFilename()
-  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-        \  &ft == 'unite' ? unite#get_status_string() :
-        \  &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-endfunction
-function! LightlineFugitive()
-  if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-    return fugitive#head()
-  else
-    return ''
-  endif
-endfunction
-function! LightlineFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
-endfunction
-function! LightlineFiletype()
-  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-endfunction
-function! LightlineFileencoding()
-  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-endfunction
-function! LightlineMode()
-  return winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-'''
-
-
-[[plugins]] #カラースキーム
-repo = 'tomasr/molokai'
-hook_add = '''
-	au ColorScheme * highlight Comment ctermfg=152
-	"au ColorScheme * highlight Visual  ctermbg=23 "or 58 #:%s/hoge/fuga/gcしたとき見ずらい
-	au ColorScheme * highlight Visual  ctermbg=58
-	au ColorScheme * highlight Normal ctermbg=none
-	colorscheme molokai
-	"au VimEnter * nested colorscheme molokai
-	"au VimEnter * nested highlight Comment ctermfg=152
-	"au VimEnter * nested highlight Visual  ctermbg=23 "or 58
-'''
-
+#
 #[[plugins]]
 #repo = 'cocopon/iceberg.vim'
 
@@ -265,9 +267,7 @@ hook_add = '''
 
 #[[plugins]]
 #repo = 'vim-scripts/ShowMarks'
-#[[plugins]]
-#repo = 'nat-chan/pronyu-quick'
-
+#
 #[[plugins]]
 #repo = 'Shougo/vimshell.vim'
 #[[plugins]]
@@ -282,14 +282,7 @@ hook_add = '''
 #	let g:eskk#large_dictionary = { 'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
 #	let g:eskk#enable_completion = 1
 #'''
-
-#[[plugins]] #埋め込みコード内でfiletypeを変える
-#repo = 'osyo-manga/vim-precious'
-#depends = ['Shougo/context_filetype.vim']
-
-#[[plugins]] #カーソル上のfiletype判定
-#repo = 'Shougo/context_filetype.vim'
-
+#
 #[[plugin]]
 #repo = 'ConradIrwin/vim-bracketed-paste'
 

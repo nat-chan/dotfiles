@@ -1,8 +1,35 @@
-#ookの名前       実行されるタイミング                       lazyOFF lazyON
+#hookの名前       実行されるタイミング                       lazyOFF lazyON
 #hook_add         プラグインがdein.vimによって追加されたとき OK      OK
 #hook_source      プラグインが読み込まれる直前               NG      OK
 #hook_post_source プラグインが読み込まれた直後               NG      OK
 #hook_post_update プラグインが更新された直後                 OK      OK
+
+[[plugins]]
+repo = 'hisaknown/jupyterkernel.vim'
+hook_add = '''
+      nnoremap <leader>o :call jupyterkernel#send_inside_codefence()<CR>
+'''
+on_ft = 'markdown'
+
+#[[plugins]] #埋め込みコード内でfiletypeを変える
+#repo = 'osyo-manga/vim-precious'
+#depends = ['Shougo/context_filetype.vim']
+#on_ft = 'markdown'
+#
+#[[plugins]] #カーソル上のfiletype判定
+#repo = 'Shougo/context_filetype.vim'
+#on_ft = 'markdown'
+
+[[plugins]]
+repo = 'xuhdev/vim-latex-live-preview'
+on_ft = 'tex'
+hook_add = '''
+  let g:livepreview_previewer = 'evince'
+"  let g:livepreview_engine = 'luajittex --fmt=luajitlatex.fmt'
+  let g:livepreview_engine = 'lualatex'
+  set swapfile
+  set updatetime=1000
+'''
 
 [[plugins]] #クオートで囲ったり消したり
 repo = 'mattn/emmet-vim'
@@ -15,7 +42,7 @@ hook_add = '''
 	let g:jedi#auto_vim_configuration = 1 "completeopt=longest候補の共通部分を自動入力
 	let g:jedi#auto_close_doc = 0
 	let g:jedi#completions_enabled = 1
-	set completeopt+=noselect
+"	set completeopt+=noselect
 	nnoremap <C-k> :call jedi#goto()<CR>
 '''
 
@@ -47,17 +74,17 @@ hook_add = '''
 	let g:ale_linters = {'python': ['mypy']} "pyenv localに入ってないと動かない
 '''
 
-[[plugins]] # vimからブラウザを開く
-repo = 'tyru/open-browser.vim'
-hook_add = '''
-let $DISPLAY=':0'
-'''
+#[[plugins]] # vimからブラウザを開く
+#repo = 'tyru/open-browser.vim'
+#hook_add = '''
+#let $DISPLAY=':0'
+#'''
 
 [[plugins]] # mardkown リアルタイムプレビュー
 repo = 'previm/previm'
 on_ft = 'markdown'
 hook_add = '''
-"	let g:previm_open_cmd = 'google-chrome'
+"	let g:previm_open_cmd = 'ch'
 	let g:previm_enable_realtime = 1
 '''
 depends = ['open-browser.vim']

@@ -30,9 +30,9 @@ set colorcolumn=80
 "行番号を表示
 set number
 "タブはハードタブ
-set noexpandtab
+"set noexpandtab
 "ハードタブの表示幅
-set tabstop=2
+set tabstop=4
 "ソフトタブのインデント幅
 set shiftwidth=4
 "自動インデントの設定
@@ -47,7 +47,8 @@ set listchars=tab:\|\ ,trail:-
 "自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
-"let loaded_matchparen = 1 "対応するかっこのハイライトを消す
+let loaded_matchparen = 1 "対応するかっこのハイライトを消す
+set noshowmatch
 set backspace=indent,eol,start
 "modifiedでも新しいbufferを開けるようにする
 set hidden
@@ -64,12 +65,28 @@ endif
 "文末に自動で改行をつけない
 set nofixeol
 
+autocmd FileType netrw setl bufhidden=delete
+set splitbelow
+set nosplitright
+" netrwは常にtree view
+let g:netrw_liststyle = 3
+" CVSと.で始まるファイルは表示しない
+"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
+" 'v'でファイルを開くときは右側に開く。(デフォルトが左側なので入れ替え)
+let g:netrw_altv = 1
+" 'o'でファイルを開くときは下側に開く。(デフォルトが上側なので入れ替え)
+let g:netrw_alto = 1
+
+"新しい*.texを開いたときfiletypeをplaintexにしない
+let g:tex_flavor = "latex"
+
+"set scrolloff=999 "カーソル行を画面の中央に
 let mapleader = "\<Space>"
 
 let $PATH = "~/.pyenv/shims:".$PATH
 
-"let g:python_host_prog = "/home/nat/.pyenv/versions/2.7.13/bin/python"
-let g:python3_host_prog = "/home/nat/.pyenv/versions/3.7.0/bin/python"
+let g:python_host_prog = "/home/N/.pyenv/versions/2.7.13/bin/python"
+let g:python3_host_prog = "/home/N/.pyenv/versions/anaconda3-4.3.1/bin/python"
 
 "conceallevel=0
 let g:tex_conceal = ''
@@ -83,6 +100,13 @@ set ambiwidth=single
 "call writefile(["\e[?8428h"], '/dev/tty')
 "マーカーで折りたたむ zaで展開
 set foldmethod=marker
+
+augroup pandoc_syntax
+    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+augroup END
+
+autocmd VimEnter * nested
+    \ if @% == '' && line2byte(line('$') + 1) <= 0 | Explore | endif
 
 "{{{ deinプラグイン --------------------------------------------------------
 " プラグインが実際にインストールされるディレクトリ
@@ -132,10 +156,12 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>. :<C-u>e .<CR>
 nnoremap <Leader>v :<C-u>e ~/.vimrc<CR>
 nnoremap <Leader>s :<C-u>source %<CR>
+nnoremap n nzz
+nnoremap N Nzz
 
 inoremap <silent> jj <ESC>
 inoremap <silent> kk <ESC>
-inoremap <silent> ¥ \
+"inoremap <silent> ¥ \
 inoremap <silent> 　 <Space>
 
 cnoremap <C-a> <Home>
@@ -144,6 +170,8 @@ cnoremap <C-e> <End>
 "cnoremap <C-w> <S-Right>
 tnoremap <silent> <ESC> <C-\><C-n>
 tnoremap <silent> jj <C-\><C-n>
+
+command! M /\(。\|、\)
 
 "vimrc最後にすべき設定
 filetype plugin indent on
