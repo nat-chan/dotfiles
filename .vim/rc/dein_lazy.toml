@@ -31,6 +31,14 @@ hook_add = '''
   set updatetime=1000
 '''
 
+[[plugins]]
+repo = 'lervag/vimtex'
+on_ft = 'tex'
+hook_add = '''
+    let g:vimtex_view_method = 'zathura'
+    let g:vimtex_compiler_progname = 'nvr'
+'''
+
 [[plugins]] #クオートで囲ったり消したり
 repo = 'mattn/emmet-vim'
 
@@ -57,9 +65,9 @@ hook_source = '''
     set conceallevel=2 concealcursor=niv
   endif
 '''
-on_i  = 1
-on_ft = ['snippet']
-depends = ['neosnippet-snippets']
+on_ft = ['snippet', 'tex']
+#on_i  = 1
+#depends = ['neosnippet-snippets']
 
 [[plugin]]
 repo = 'gorodinskiy/vim-coloresque'
@@ -84,10 +92,10 @@ hook_add = '''
 repo = 'previm/previm'
 on_ft = 'markdown'
 hook_add = '''
-"	let g:previm_open_cmd = 'ch'
+	let g:previm_open_cmd = 'ch'
 	let g:previm_enable_realtime = 1
 '''
-depends = ['open-browser.vim']
+#depends = ['open-browser.vim']
 
 [[plugins]] #Mathematica
 repo = 'rsmenon/vim-mathematica'

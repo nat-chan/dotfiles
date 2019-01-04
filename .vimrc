@@ -21,16 +21,17 @@
 
 "改行コードを判別
 set encoding=utf-8
+"set encoding=sjis
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 set fileformats=unix,dos,mac
 " TODO
 "一行のコードが長くならないように80行目に縦線を引く
-set colorcolumn=80
+set colorcolumn=130
 "set nowrap
 "行番号を表示
 set number
 "タブはハードタブ
-"set noexpandtab
+set expandtab
 "ハードタブの表示幅
 set tabstop=4
 "ソフトタブのインデント幅
@@ -43,30 +44,35 @@ set nosmarttab
 "改行、タブ等を可視化
 set list
 "set listchars=tab:\|-,trail:-,nbsp:%,extends:>,precedes:<,eol:·
-set listchars=tab:\|\ ,trail:-
+set listchars=tab:\▊\ ,trail:▒
 "自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
 let loaded_matchparen = 1 "対応するかっこのハイライトを消す
 set noshowmatch
 set backspace=indent,eol,start
+set inccommand=split ":%s/hoge...で候補を表示
 "modifiedでも新しいbufferを開けるようにする
 set hidden
 "clipboardの設定os依存強し
-if has('unix')
-	set clipboard=unnamedplus
-endif
-if has('mac')
-	set clipboard=unnamed,autoselect
-endif
+"if has('unix')
+"	set clipboard=unnamedplus
+"endif
+"if has('mac')
+"	set clipboard=unnamed,autoselect
+"endif
 "set cursorline
 "set termguicolors
 
+set incsearch "8.0.1238から追加された。nvimでも悪さしない
+
 "文末に自動で改行をつけない
 set nofixeol
+"スワップファイルが発見されたときに "注意" しない
+set shortmess=A
 
 autocmd FileType netrw setl bufhidden=delete
-set splitbelow
+set nosplitbelow
 set nosplitright
 " netrwは常にtree view
 let g:netrw_liststyle = 3
@@ -159,10 +165,10 @@ nnoremap <Leader>s :<C-u>source %<CR>
 nnoremap n nzz
 nnoremap N Nzz
 
-inoremap <silent> jj <ESC>
-inoremap <silent> kk <ESC>
+"inoremap <silent> jj <ESC>
+"inoremap <silent> kk <ESC>
 "inoremap <silent> ¥ \
-inoremap <silent> 　 <Space>
+"inoremap <silent> 　 <Space>
 
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>

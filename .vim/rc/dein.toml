@@ -7,10 +7,14 @@
 [[plugins]] #プラグインマネージャ
 repo = 'Shougo/dein.vim'
 
+[[plugins]]
+repo = 'thinca/vim-quickrun'
+
 [[plugins]] #括弧の色分け
 repo = 'luochen1990/rainbow'
 hook_add = '''
 "[[[[[[]]]]]]
+"{{{
 	"let g:loaded_matchparen = 1
 	"NoMatchParen
 	let g:rainbow_active = 1
@@ -65,6 +69,7 @@ hook_add = '''
 	\		'css': 0,
 	\	}
 	\}
+	"}}}
 '''
 
 [[plugins]] #uniteの進化版
@@ -84,13 +89,31 @@ hook_add = '''
 	nnoremap <silent> <Leader>re :<C-u>Denite -mode=insert register<CR>
 	nnoremap <silent> <Leader>t  :<C-u>Denite -mode=insert register<CR>
 	nnoremap <silent> <Leader>j  :<C-u>Denite -mode=normal jump<CR>
-	nnoremap <silent> <Leader>b  :<C-u>Deeite -mode=normal buffer<CR>
+	nnoremap <silent> <Leader>b  :<C-u>Denite -mode=normal buffer<CR>
 	nnoremap <silent> <Leader>f  :<C-u>Denite -mode=insert file_mru<CR>
 	nnoremap <silent> <Leader>c  :<C-u>Denite -mode=normal jcommand_history<CR>
+'''
+[[plugins]] #スニッピング
+repo = 'SirVer/ultisnips'
+
+[[plugins]] # Snippets are separated from the engine. Add this if you want them:
+repo = 'honza/vim-snippets'
+hook_add = '''
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 '''
 
 [[plugins]]
 repo = 'h1mesuke/vim-alignta'
+hook_add = '''
+vnoremap v :Alignta 
+'''
 
 [[plugins]]
 repo = 'Shougo/neomru.vim'
@@ -171,12 +194,17 @@ hook_add = '''
 	au ColorScheme * highlight Comment ctermfg=152
 	"au ColorScheme * highlight Visual  ctermbg=23 "or 58 #:%s/hoge/fuga/gcしたとき見ずらい
 	au ColorScheme * highlight Visual  ctermbg=58
-	au ColorScheme * highlight Normal ctermbg=none
+	au ColorScheme * highlight Normal  ctermbg=none
+	au ColorScheme * highlight NonText ctermfg=23 "listcharsが可視化する文字を見やすくする7だと-を見間違う
+	au ColorScheme * highlight SpecialKey ctermfg=23 "vimだとNonText->SpecialKey
 	colorscheme molokai
 	"au VimEnter * nested colorscheme molokai
 	"au VimEnter * nested highlight Comment ctermfg=152
 	"au VimEnter * nested highlight Visual  ctermbg=23 "or 58
 '''
+
+[[plugins]] # セッションの保存、復元、tmux と協調
+repo = 'tpope/vim-obsession'
 
 #[[plugins]] #†闇の力†
 #repo = 'Shougo/deoplete.nvim'
