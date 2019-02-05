@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/elect/.vim/bundle/Vundle.vim'
+let g:netrw_dirhist_2='/home/elect'
+let g:netrw_dirhist_3='/etc/nginx/conf.d'
+let g:netrw_dirhist_4='/etc/nginx'
+let g:netrw_dirhist_5='/etc'
+let g:netrw_dirhist_6='/'
+let g:netrw_dirhist_7='/etc/nginx/conf.d'
+let g:netrw_dirhist_8='/etc/nginx'
+let g:netrw_dirhist_9='/etc/nginx/sites-available'

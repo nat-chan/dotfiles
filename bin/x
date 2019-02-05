@@ -1,2 +1,0 @@
-#!/bin/bash
-/mnt/c/Windows/explorer.exe `uw $1|tr '/' '\' 2>/dev/null`

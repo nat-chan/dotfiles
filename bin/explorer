@@ -1,2 +1,0 @@
-#!/bin/bash
-/mnt/c/Windows/explorer.exe '/e,/root,' "`uw $1`"

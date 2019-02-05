@@ -1,1 +1,2 @@
-__pycache__/
+# vim-plugが管理しているリポジトリは:PlugInstallで入るのでgit管理から外す
+.vim/plugged

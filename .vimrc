@@ -1,36 +1,19 @@
-"{{{コーディング規約
-"┌──────────────────────────────┐
-"│▛▖▐  ▞▖ ▀▜▀▘▄▄ ▞▀▙ ▌ ▐  ▞▖ ▛▖▐│
-"│▌▝▟ ▞ ▝▖ ▐     ▚▄▖ ▛▀▜ ▞ ▝▖▌▝▟│
-"└──────────────────────────────┘
-"if has('unix')
-"	" Unix 用設定
-"endif
-"if has('mac')
-"	" Mac 用設定
-"endif
-"
-"if has('unix') || has('mac')
-"	" Unix と Mac の共通設定
-"endif
-"
-"if has('win32') || has ('win64')
-"	" Windows 32bit, Windows 64bit のどちらか
-"endif
-"}}}
+set encoding=utf-8 "このvimrcのエンコーディング
+"Vi互換モードをなくす
+set nocompatible
+"NERDTreeやバッファの選択をマウスでもできるようにする
+set mouse=a
 
 "改行コードを判別
-set encoding=utf-8
-"set encoding=sjis
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 set fileformats=unix,dos,mac
-" TODO
-"一行のコードが長くならないように80行目に縦線を引く
+
+"一行のコードが長くならないように130行目に縦線を引く
 set colorcolumn=130
-"set nowrap
+set nowrap
 "行番号を表示
 set number
-"タブはハードタブ
+"タブはスペースに変換
 set expandtab
 "ハードタブの表示幅
 set tabstop=4
@@ -44,27 +27,20 @@ set nosmarttab
 "改行、タブ等を可視化
 set list
 "set listchars=tab:\|-,trail:-,nbsp:%,extends:>,precedes:<,eol:·
+"行末の空白とタブを可視化
 set listchars=tab:\▊\ ,trail:▒
 "自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
-let loaded_matchparen = 1 "対応するかっこのハイライトを消す
+"カーソルを見失うので対応するかっこのハイライトを消す
+"rainbowプラグインを入れてるので十分わかるはず。
+"ノーマルモードで%を入力することで対応するかっこにジャンプできる
+let loaded_matchparen = 1
 set noshowmatch
+"バックスペースで行を跨いで文字を消せるようにする
 set backspace=indent,eol,start
-set inccommand=split ":%s/hoge...で候補を表示
-"modifiedでも新しいbufferを開けるようにする
+"新しいbufferを開くときに編集を保存するか聞かない
 set hidden
-"clipboardの設定os依存強し
-"if has('unix')
-"	set clipboard=unnamedplus
-"endif
-"if has('mac')
-"	set clipboard=unnamed,autoselect
-"endif
-"set cursorline
-"set termguicolors
-
-set incsearch "8.0.1238から追加された。nvimでも悪さしない
 
 "文末に自動で改行をつけない
 set nofixeol
@@ -74,81 +50,11 @@ set shortmess=A
 autocmd FileType netrw setl bufhidden=delete
 set nosplitbelow
 set nosplitright
-" netrwは常にtree view
-let g:netrw_liststyle = 3
-" CVSと.で始まるファイルは表示しない
-"let g:netrw_list_hide = 'CVS,\(^\|\s\s\)\zs\.\S\+'
-" 'v'でファイルを開くときは右側に開く。(デフォルトが左側なので入れ替え)
-let g:netrw_altv = 1
-" 'o'でファイルを開くときは下側に開く。(デフォルトが上側なので入れ替え)
-let g:netrw_alto = 1
-
-"新しい*.texを開いたときfiletypeをplaintexにしない
-let g:tex_flavor = "latex"
-
-"set scrolloff=999 "カーソル行を画面の中央に
-let mapleader = "\<Space>"
-
-let $PATH = "~/.pyenv/shims:".$PATH
-
-let g:python_host_prog = "/home/N/.pyenv/versions/2.7.13/bin/python"
-let g:python3_host_prog = "/home/N/.pyenv/versions/anaconda3-4.3.1/bin/python"
-
-"conceallevel=0
-let g:tex_conceal = ''
-let g:vim_markdown_folding_disabled=1
-
 " Vimであいまいな幅の文字の論理幅を1にする
 set ambiwidth=single
 
-" East Asian Ambiguous Width問題
-" 端末側であいまいな幅の文字の論理幅を1にする
-"call writefile(["\e[?8428h"], '/dev/tty')
-"マーカーで折りたたむ zaで展開
+"マーカーで折りたたむzaで畳み込みをトグル
 set foldmethod=marker
-
-augroup pandoc_syntax
-    au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
-augroup END
-
-autocmd VimEnter * nested
-    \ if @% == '' && line2byte(line('$') + 1) <= 0 | Explore | endif
-
-"{{{ deinプラグイン --------------------------------------------------------
-" プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = expand('~/dein')
-" dein.vim 本体
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-"
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-	if !isdirectory(s:dein_repo_dir)
-		execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-	endif
-	execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
-" プラグインリストを収めた TOML ファイル
-" 予め TOML ファイルを用意しておく
-let g:rc_dir    = expand('~/.vim/rc')
-let s:toml      = g:rc_dir . '/dein.toml'
-let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-" 設定開始
-" dien#beginの第二引数に変更があった場合は読み込みなおす
-if dein#load_state(s:dein_dir)
-	call dein#begin(s:dein_dir, [$MYVIMRC, s:toml, s:lazy_toml])
-	" TOML を読み込み、キャッシュしておく
-	call dein#load_toml(s:toml,      {'lazy': 0})
-	call dein#load_toml(s:lazy_toml, {'lazy': 1})
-	" 設定終了
-	call dein#end()
-	call dein#save_state()
-endif
-"
-" もし、未インストールものものがあったらインストール
-if dein#check_install()
-	call dein#install()
-endif
-"}}}
 
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
 "そのためfishをデフォルトシェルにしている時次の設定が必要
@@ -156,30 +62,176 @@ if $SHELL =~ '/fish$'
 	set shell=bash
 endif
 
-"自分のマッピング
-let mapleader = "\<Space>"
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>. :<C-u>e .<CR>
-nnoremap <Leader>v :<C-u>e ~/.vimrc<CR>
-nnoremap <Leader>s :<C-u>source %<CR>
-nnoremap n nzz
-nnoremap N Nzz
+"ターミナルモードをEscで抜けられるようにする
+"ただしターミナル内のプログラムにEscを送信できなくなる
+tnoremap <silent> <ESC> <C-\><C-n>
 
-"inoremap <silent> jj <ESC>
-"inoremap <silent> kk <ESC>
-"inoremap <silent> ¥ \
-"inoremap <silent> 　 <Space>
-
+"コマンドライン行でC-a,C-eで行頭、行末
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-"cnoremap <C-b> <S-Left>
-"cnoremap <C-w> <S-Right>
-tnoremap <silent> <ESC> <C-\><C-n>
-tnoremap <silent> jj <C-\><C-n>
 
-command! M /\(。\|、\)
+"プラグインをここに追記
+"Plug リポジトリ名
+"新しいプラグインをインストールするときは
+":source ~/.vimrc
+":PlugInstall
+call plug#begin('~/.vim/plugged')
+
+Plug 'airblade/vim-gitgutter'
+Plug 'jacoborus/tender.vim'
+Plug 'tomasr/molokai' "僕の使ってるカラースキーム
+
+"かっこいいモードライン
+Plug 'itchyny/lightline.vim' "{{{
+"        \ 'separator': { 'left': '⮀', 'right': '⮂' },
+"        \ 'subseparator': { 'left': '⮁', 'right': '⮃' },
+set laststatus=2
+let g:lightline = {
+        \ 'colorscheme': 'powerline',
+        \ 'mode_map': {'c': 'NORMAL'},
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], ['fugitive', 'absolutepath' , 'modified'] ]
+        \ },
+        \ 'component_function': {
+        \   'modified': 'LightlineModified',
+        \   'readonly': 'LightlineReadonly',
+        \   'fugitive': 'LightlineFugitive',
+        \   'filename': 'LightlineFilename',
+        \   'fileformat': 'LightlineFileformat',
+        \   'filetype': 'LightlineFiletype',
+        \   'fileencoding': 'LightlineFileencoding',
+        \   'mode': 'LightlineMode'
+        \ }
+        \ }
+function! LightlineModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+function! LightlineReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+endfunction
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
+function! LightlineFugitive()
+  if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+    return fugitive#head()
+  else
+    return ''
+  endif
+endfunction
+function! LightlineFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+function! LightlineFiletype()
+  return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+endfunction
+function! LightlineFileencoding()
+  return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+endfunction
+function! LightlineMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+"}}}
+
+"対応するかっこを色つける
+Plug 'luochen1990/rainbow' "{{{
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\	'guifgs': [
+\		'cyan',
+\		'magenta',
+\		'yellow',
+\		'red',
+\		'green',
+\		'blue',
+\	],
+\	'ctermfgs': [
+\		'cyan',
+\		'magenta',
+\		'yellow',
+\		'red',
+\		'green',
+\		'blue',
+\	],
+\	'operators': '_,_',
+\	'parentheses': [
+\		'start=/(/ end=/)/ fold',
+\		'start=/\[/ end=/\]/ fold',
+\		'start=/{/ end=/}/ fold'
+\	],
+\	'separately': {
+\		'*': {},
+\		'tex': {
+\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+\		},
+\		'lisp': {
+\			'guifgs': [
+\				'royalblue3',
+\				'darkorange3',
+\				'seagreen3',
+\				'firebrick',
+\				'darkorchid3'
+\			],
+\		},
+\		'vim': {
+\			'parentheses': [
+\				'start=/(/ end=/)/',
+\				'start=/\[/ end=/\]/',
+\				'start=/{/ end=/}/ fold',
+\				'start=/(/ end=/)/ containedin=vimFuncBody',
+\				'start=/\[/ end=/\]/ containedin=vimFuncBody',
+\				'start=/{/ end=/}/ fold containedin=vimFuncBody'
+\			],
+\		},
+\		'html': {
+\			'parentheses': [
+\				'start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|'.
+\				'menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)'.
+\				'(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".
+\				'"><=`]*))?)*\>/ end=#</\z1># fold'
+\			],
+\		},
+\		'css': 0,
+\	}
+\} "}}}
+
+"ディレクトリツリー
+Plug 'scrooloose/nerdtree' "{{{
+let g:NERDTreeMouseMode=3 "シングルクリックで開く
+nnoremap <silent> <C-b> :NERDTreeToggle<CR>
+"}}}
+
+
+"複数行を選択して:Align ,でカンマを揃える
+Plug 'h1mesuke/vim-alignta'
+
+"ヘルプ、ドキュメントを日本語化
+"たとえばhogeのヘルプを引きたいときは
+":h hoge
+Plug 'vim-jp/vimdoc-ja'
+"ヘルプを英語より日本語を優先
+set helplang=ja,en
+
+"python の補完
+Plug 'davidhalter/jedi-vim', {'for':'python'} "{{{
+let g:jedi#auto_initialization = 0 " デフォルトのキーマップをしない(deopleteを使用)
+autocmd Filetype python nnoremap <Leader>g :call jedi#goto()<CR>
+autocmd Filetype python nnoremap <Leader>u :call jedi#usages()<CR>
+autocmd Filetype python nnoremap <Leader>r :call jedi#rename()<CR>
+autocmd Filetype python nnoremap <Leader>d :call jedi#show_documentation()<CR>
+autocmd Filetype python nnoremap <C-k> :call jedi#goto()<CR>
+"}}}
+
+call plug#end()
 
 "vimrc最後にすべき設定
 filetype plugin indent on
 set t_Co=256
 syntax on
+set termguicolors
+colorscheme molokai

@@ -1,3 +1,0 @@
-#!/bin/zsh
-tmux new-session -s niso -d "~/6elenium/save_the_world.sh"
-sudo service rsyslog start

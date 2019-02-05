@@ -1,3 +1,0 @@
-#!/bin/bash
-[ $# = 0 ] && echo "useage: back user@host" && exit
-autossh -fNR 8128:localhost:22 $1
