@@ -1,1 +1,1 @@
-# my setting
+# my settings
