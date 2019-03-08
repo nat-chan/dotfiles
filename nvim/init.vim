@@ -77,9 +77,7 @@ cnoremap <C-e> <End>
 ":PlugInstall
 call plug#begin('~/.vim/plugged')
 
-Plug 'airblade/vim-gitgutter'
-Plug 'jacoborus/tender.vim'
-Plug 'tomasr/molokai' "僕の使ってるカラースキーム
+Plug 'tomasr/molokai'
 
 "かっこいいモードライン
 Plug 'itchyny/lightline.vim' "{{{
@@ -206,7 +204,6 @@ let g:NERDTreeMouseMode=3 "シングルクリックで開く
 nnoremap <silent> <C-b> :NERDTreeToggle<CR>
 "}}}
 
-
 "複数行を選択して:Align ,でカンマを揃える
 Plug 'h1mesuke/vim-alignta'
 
@@ -226,6 +223,10 @@ autocmd Filetype python nnoremap <Leader>r :call jedi#rename()<CR>
 autocmd Filetype python nnoremap <Leader>d :call jedi#show_documentation()<CR>
 autocmd Filetype python nnoremap <C-k> :call jedi#goto()<CR>
 "}}}
+
+"float clock
+Plug 'iamcco/sran.nvim', { 'do': { -> sran#util#install() } }
+Plug 'iamcco/clock.nvim'
 
 call plug#end()
 
