@@ -12,3 +12,12 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 alias vim=nvim
+alias tmux='tmux -2'
+alias ls='ls -v --group-directories-first --color=auto'
+
+function paste64() {
+        echo -ne '\e]52;0;'
+        base64 | tr -d '\012'
+        echo -ne '\e\\'
+}
+
