@@ -75,7 +75,7 @@ tnoremap <silent> <ESC> <C-\><C-n>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
-let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python3')
+let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python')
 
 "プラグインをここに追記
 "Plug リポジトリ名
@@ -231,7 +231,7 @@ endif "}}}
     endfunction
     "nnoremap <silent> <C-b> :NERDTreeToggle<CR>:execute (&ft == 'nerdtree' ? ':wincmd p' : '')<CR>
     nnoremap <silent> <C-b> :call MyNERDTreeToggle()<CR>
-    autocmd DirChanged * :NERDTreeCWD | :wincmd p
+    "autocmd DirChanged * :NERDTreeCWD | :wincmd p
     "}}}
     Plug 'h1mesuke/vim-alignta'
     Plug 'nat-chan/ksm.vim'
@@ -270,6 +270,14 @@ endif "}}}
     Plug 'zchee/deoplete-jedi'    , {'for':'python'}
     Plug 'lambdalisue/doctest.vim', {'for':'python'}
 "}}} Python
+
+"{{{ TeX
+    Plug 'xuhdev/vim-latex-live-preview', {'for':'tex'}
+    let g:livepreview_previewer = 'zathura'
+    let g:livepreview_engine = 'lualatex'
+    set swapfile
+    set updatetime=1000
+"}}} TeX
 
 call plug#end()
 
