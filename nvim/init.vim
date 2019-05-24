@@ -75,7 +75,7 @@ tnoremap <silent> <ESC> <C-\><C-n>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
-let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python')
+"let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python3')
 
 "プラグインをここに追記
 "Plug リポジトリ名
