@@ -75,7 +75,11 @@ tnoremap <silent> <ESC> <C-\><C-n>
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 
-let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python3')
+let mapleader = "\<Space>"
+
+if filereadable($PYENV_ROOT . '/shims/python3')
+    let g:python3_host_prog = expand($PYENV_ROOT . '/shims/python3')
+endif
 
 "プラグインをここに追記
 "Plug リポジトリ名
