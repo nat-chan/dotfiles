@@ -258,10 +258,10 @@ endif "}}}
     let g:deoplete#enable_at_startup = 1
     let g:deoplete#sources#jedi#show_docstring = 1              " 1にしないと関数のparamしかpreviewされない
     "}}}
-    Plug 'w0rp/ale'               , {'for':'python'}              " 非同期チェック         {{{
+    Plug 'w0rp/ale'               , {'for':['python', 'ipynb']}              " 非同期チェック         {{{
     let g:ale_linters = {'python': ['mypy']}
     "}}}
-    Plug 'davidhalter/jedi-vim'   , {'for':'python'}              "                        {{{
+    Plug 'davidhalter/jedi-vim'   , {'for':['python', 'ipynb']}              "                        {{{
     let g:jedi#auto_initialization = 0                          " デフォルトのキーマップをしない(deopleteを使用)
     autocmd InsertEnter *.py call g:jedi#show_call_signatures()
     autocmd InsertLeave *.py call g:jedi#clear_call_signatures()
@@ -271,8 +271,13 @@ endif "}}}
     autocmd Filetype python nnoremap <Leader>d :call jedi#show_documentation()<CR>
     autocmd Filetype python nnoremap <C-k> :call jedi#goto()<CR>
     "}}}
-    Plug 'zchee/deoplete-jedi'    , {'for':'python'}
-    Plug 'lambdalisue/doctest.vim', {'for':'python'}
+    Plug 'zchee/deoplete-jedi'    , {'for':['python', 'ipynb']}
+    Plug 'lambdalisue/doctest.vim', {'for':['python', 'ipynb']}
+    Plug 'szymonmaszke/vimpyter' "{{{
+    autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
+    autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
+    autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
+    "}}}
 "}}} Python
 
 call plug#end()
