@@ -273,10 +273,13 @@ endif "}}}
 
 "{{{ TeX
     Plug 'xuhdev/vim-latex-live-preview', {'for':'tex'}
-    let g:livepreview_previewer = 'zathura'
+    let g:livepreview_previewer = 'evince'
     let g:livepreview_engine = 'lualatex'
     set swapfile
     set updatetime=1000
+    Plug 'lervag/vimtex', {'for':'tex'}
+    "let g:vimtex_view_method = 'zathura'
+    "let g:vimtex_compiler_progname = 'nvr'
 "}}} TeX
 
 call plug#end()
