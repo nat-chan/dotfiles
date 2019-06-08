@@ -1,0 +1,122 @@
+# chpwd               カレントディレクトリが変更したとき
+# periodic            プロンプトを表示するたびに、$PERIOD秒ごと
+# precmd              プロンプトを表示する直前
+# preexec             Enterを押してコマンドを実行する直前
+# zshaddhistory       コマンドラインがヒストリに追加される直前
+# zshexit             zshを終了する直前
+# zsh_directory_name  Dynamic named directoriesによるディレクトリ名変換
+#
+# PROMPTに[32mを混ぜるとtab補完で崩れる
+
+pmodload 'helper'
+
+function prompt_N_precmd {
+  local EXIT_CODE=$?
+  vcs_info
+  _pwd=$(prompt-pwd)
+  local block="\
+⠀⢀⠠⢠⠐⢐⠰⢰⠈⢈⠨⢨⠘⢘⠸⢸⡀⣀⡠⣠⡐⣐⡰⣰⡈⣈⡨⣨⡘⣘⡸⣸⠄⢄⠤⢤⠔⢔⠴⢴⠌⢌⠬⢬⠜⢜⠼⢼⡄⣄⡤⣤⡔⣔⡴⣴⡌⣌⡬⣬⡜⣜⡼⣼\
+⠂⢂⠢⢢⠒⢒⠲⢲⠊⢊⠪⢪⠚⢚⠺⢺⡂⣂⡢⣢⡒⣒⡲⣲⡊⣊⡪⣪⡚⣚⡺⣺⠆⢆⠦⢦⠖⢖⠶⢶⠎⢎⠮⢮⠞⢞⠾⢾⡆⣆⡦⣦⡖⣖⡶⣶⡎⣎⡮⣮⡞⣞⡾⣾\
+⠁⢁⠡⢡⠑⢑⠱⢱⠉⢉⠩⢩⠙⢙⠹⢹⡁⣁⡡⣡⡑⣑⡱⣱⡉⣉⡩⣩⡙⣙⡹⣹⠅⢅⠥⢥⠕⢕⠵⢵⠍⢍⠭⢭⠝⢝⠽⢽⡅⣅⡥⣥⡕⣕⡵⣵⡍⣍⡭⣭⡝⣝⡽⣽\
+⠃⢃⠣⢣⠓⢓⠳⢳⠋⢋⠫⢫⠛⢛⠻⢻⡃⣃⡣⣣⡓⣓⡳⣳⡋⣋⡫⣫⡛⣛⡻⣻⠇⢇⠧⢧⠗⢗⠷⢷⠏⢏⠯⢯⠟⢟⠿⢿⡇⣇⡧⣧⡗⣗⡷⣷⡏⣏⡯⣯⡟⣟⡿⣿\
+"
+	if [[ $EXIT_CODE -ne 0 ]]; then
+		ec="%F{red}$block[$((EXIT_CODE+1))]%f"
+	else
+		if [ "$TMUX" = "" ]; then
+			ec="%F{cyan}<%f"
+		else
+			ec="%F{cyan}>%f"
+		fi
+	fi
+	
+}
+
+function +vi-git_status {
+  # Check for untracked files or updated submodules since vcs_info does not.
+  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+    hook_com[unstaged]='%F{red}$%f'
+  fi
+}
+
+function exit_code() {
+  local EXIT_CODE=$?
+block="\
+⠀⢀⠠⢠⠐⢐⠰⢰⠈⢈⠨⢨⠘⢘⠸⢸⡀⣀⡠⣠⡐⣐⡰⣰⡈⣈⡨⣨⡘⣘⡸⣸⠄⢄⠤⢤⠔⢔⠴⢴⠌⢌⠬⢬⠜⢜⠼⢼⡄⣄⡤⣤⡔⣔⡴⣴⡌⣌⡬⣬⡜⣜⡼⣼\
+⠂⢂⠢⢢⠒⢒⠲⢲⠊⢊⠪⢪⠚⢚⠺⢺⡂⣂⡢⣢⡒⣒⡲⣲⡊⣊⡪⣪⡚⣚⡺⣺⠆⢆⠦⢦⠖⢖⠶⢶⠎⢎⠮⢮⠞⢞⠾⢾⡆⣆⡦⣦⡖⣖⡶⣶⡎⣎⡮⣮⡞⣞⡾⣾\
+⠁⢁⠡⢡⠑⢑⠱⢱⠉⢉⠩⢩⠙⢙⠹⢹⡁⣁⡡⣡⡑⣑⡱⣱⡉⣉⡩⣩⡙⣙⡹⣹⠅⢅⠥⢥⠕⢕⠵⢵⠍⢍⠭⢭⠝⢝⠽⢽⡅⣅⡥⣥⡕⣕⡵⣵⡍⣍⡭⣭⡝⣝⡽⣽\
+⠃⢃⠣⢣⠓⢓⠳⢳⠋⢋⠫⢫⠛⢛⠻⢻⡃⣃⡣⣣⡓⣓⡳⣳⡋⣋⡫⣫⡛⣛⡻⣻⠇⢇⠧⢧⠗⢗⠷⢷⠏⢏⠯⢯⠟⢟⠿⢿⡇⣇⡧⣧⡗⣗⡷⣷⡏⣏⡯⣯⡟⣟⡿⣿\
+"
+	if [[ $EXIT_CODE -ne 0 ]]; then
+		echo -ne "\e[31m$block[$((EXIT_CODE+1))]\e[0m"
+	else
+		echo -ne "\e[32m>\e[0m"
+	fi
+}
+
+function prompt_N_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent subst)
+
+  # Load required functions.
+  autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
+
+  # Add hook for calling vcs_info before each command.
+  add-zsh-hook precmd prompt_N_precmd
+
+  # Set vcs_info parameters.
+  zstyle ':vcs_info:*' enable bzr git hg svn
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' stagedstr '%F{green}$%f' #commitされていないファイルがある
+  zstyle ':vcs_info:*' unstagedstr '%F{yellow}$%f' #addされていないファイルがある
+  zstyle ':vcs_info:*' formats ' [%b%c%u]'
+  zstyle ':vcs_info:*' actionformats " [%b%c%u|%F{cyan}%a%f]"
+  zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
+  zstyle ':vcs_info:git*+set-message:*' hooks git_status
+
+  #%(x.true-text.false-text)
+  # Define prompts.
+  PROMPT='${_pwd}${vcs_info_msg_0_} ${_tmux}${ec} %(1j.%j .)'
+  RPROMPT=''
+}
+
+function prompt_N_preview {
+	echo "preview is undefined"
+}
+
+#{{{ old
+function old {
+	setopt transient_rprompt
+	typeset -A pc
+	pc=(abelia 211 borage 39 crocus 57 dahlia 202 pentas-compf 202)
+
+	local pcname=`hostname|sed -e 's/\.coins\.tsukuba\.ac\.jp//'`
+	local pcnum=`echo $pcname|sed -e 's/abelia//'\
+	                              -e 's/borage//'\
+	                              -e 's/dahlia//'\
+	                              -e 's/crocus//'`
+	local flower=`echo $pcname|sed -e "s/$pcnum//"`
+
+	local pcid=`echo -ne "%{\033[38;5;$pc[$flower]m%}$pcnum"`
+
+	if [ "$TMUX" = "" ];then
+		local tmux="<"
+	else
+		local tmux=">"
+	fi
+
+	local ret_status="%(?:%{$fg_bold[green]%}$tmux:%{$fg_bold[red]%}$tmux)"
+
+	PROMPT='${ret_status} $pcid %{$fg[cyan]%}%c%{$reset_color%} '
+	RPROMPT='$(git_prompt_info)'
+
+	ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+	ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
+	ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+}
+#}}}
+
+prompt_N_setup "$@"

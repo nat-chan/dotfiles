@@ -2,7 +2,9 @@ set encoding=utf-8 "このvimrcのエンコーディング
 "Vi互換モードをなくす
 set nocompatible
 "NERDTreeやバッファの選択をマウスでもできるようにする
-set mouse=a
+"set mouse=a
+"ターミナル上からコピペできるようにする
+set mouse=
 
 "改行コードを判別
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
@@ -60,6 +62,9 @@ set ambiwidth=single
 
 "マーカーで折りたたむzaで畳み込みをトグル
 set foldmethod=marker
+
+"置換プレビュー
+set inccommand=nosplit
 
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
 "そのためfishをデフォルトシェルにしている時次の設定が必要
@@ -279,6 +284,12 @@ endif "}}}
     autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
     "}}}
 "}}} Python
+
+"{{{ Javascript
+"    Plug 'emmet-vim'
+"    Plug 'Valloric/YouCompleteMe', { 'do': '/usr/bin/python3 install.py' }
+    Plug 'ternjs/tern_for_vim', {'do': 'npm install tern'}
+"}}} Javascript
 
 call plug#end()
 
