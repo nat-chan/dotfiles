@@ -66,6 +66,9 @@ set foldmethod=marker
 "置換プレビュー
 set inccommand=nosplit
 
+set wildoptions=pum
+set pumblend=20
+
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
 "そのためfishをデフォルトシェルにしている時次の設定が必要
 if $SHELL =~ '/fish$'
