@@ -51,6 +51,9 @@ set nofixeol
 "スワップファイルが発見されたときに "注意" しない
 set shortmess=A
 
+"Ubuntuでクリップボード連携
+set clipboard=unnamedplus
+
 au VimResized * wincmd =
 autocmd FileType netrw setl bufhidden=delete
 set nosplitbelow
@@ -60,6 +63,8 @@ set ambiwidth=single
 
 "マーカーで折りたたむzaで畳み込みをトグル
 set foldmethod=marker
+
+let mapleader = "\<Space>"
 
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
 "そのためfishをデフォルトシェルにしている時次の設定が必要
@@ -247,6 +252,8 @@ endif "}}}
     Plug 'Shougo/context_filetype.vim', {'for':'vim'}
     Plug 'osyo-manga/vim-precious'    , {'for':'vim'}
     Plug 'gorodinskiy/vim-coloresque' , {'for':'vim'}
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
 "}}} Common
 
 "{{{ Python
@@ -269,6 +276,7 @@ endif "}}}
     "}}}
     Plug 'zchee/deoplete-jedi'    , {'for':'python'}
     Plug 'lambdalisue/doctest.vim', {'for':'python'}
+    Plug 'jupyter-vim/jupyter-vim'
 "}}} Python
 
 "{{{ TeX
@@ -278,11 +286,31 @@ endif "}}}
     set swapfile
     set updatetime=1000
     Plug 'lervag/vimtex', {'for':'tex'}
-    "let g:vimtex_view_method = 'zathura'
-    "let g:vimtex_compiler_progname = 'nvr'
+    let g:vimtex_view_method = 'zathura'
+    let g:vimtex_compiler_engine = 'lualatex'
+    let g:vimtex_compiler_progname = 'nvr'
+    let g:vimtex_compiler_latexmk = {
+        \ 'build_dir' : 'latexbuild',
+        \}
+    "Plug 'SirVer/ultisnips'
+    "Plug 'honza/vim-snippets'
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
 "}}} TeX
 
 call plug#end()
+
+     call deoplete#custom#var('omni', 'input_patterns', {
+                \ 'tex' : '\\(?:'
+                    \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+                    \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+                    \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+                    \ . '|usepackage(\s*\[[^]]*\])?\s*\{[^}]*'
+                    \ . '|documentclass(\s*\[[^]]*\])?\s*\{[^}]*'
+                    \ . '|\w*'
+                    \ .')',
+                    \}
+                    \)
 
 "vimrc最後にすべき設定
 filetype plugin indent on
