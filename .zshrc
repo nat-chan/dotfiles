@@ -32,4 +32,4 @@ alias rm=rm
 alias zmv='noglob zmv -W'
 
 [ "$PWD" = "/mnt/c/Windows/System32" ] && cd ~
-source ~/agent.sh
+source ~/dotfiles/scripts/agent.sh
