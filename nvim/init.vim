@@ -34,6 +34,7 @@ set list
 
 set fillchars=fold:\ 
 set foldtext=getline(v:foldstart)
+set foldopen=
 
 "自動的に作られるうざいバックアップを消す
 set noswapfile
@@ -54,7 +55,9 @@ set nofixeol
 set shortmess=A
 
 au VimResized * wincmd =
-autocmd FileType netrw setl bufhidden=delete
+au FileType netrw setl bufhidden=delete
+au TermOpen * setlocal nonumber
+
 set nosplitbelow
 set nosplitright
 " Vimであいまいな幅の文字の論理幅を1にする
@@ -255,7 +258,6 @@ endif "}}}
     Plug 'Shougo/neco-vim'
     Plug 'tpope/vim-fugitive'
     Plug 'thinca/vim-quickrun'
-    Plug 'raghur/vim-ghost'           , {'do': ':GhostInstall'}
     Plug 'Shougo/context_filetype.vim', {'for':'vim'}
     Plug 'osyo-manga/vim-precious'    , {'for':'vim'}
     Plug 'gorodinskiy/vim-coloresque' , {'for':'vim'}
@@ -281,10 +283,16 @@ endif "}}}
     "}}}
     Plug 'zchee/deoplete-jedi'    , {'for':['python', 'ipynb']}
     Plug 'lambdalisue/doctest.vim', {'for':['python', 'ipynb']}
-    Plug 'szymonmaszke/vimpyter' "{{{
+    Plug 'szymonmaszke/vimpyter', {'for':['python', 'ipynb']} "{{{
     autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
     autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
     autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
+    "}}}
+    Plug 'wmvanvliet/jupyter-vim', {'for':['python']}
+    Plug 'SkyLeach/pudb.vim' "{{{
+    autocmd Filetype python nnoremap <Leader>t :PUDBToggleBreakPoint<CR>
+    autocmd Filetype python nnoremap <Leader>l :PUDBLaunchDebuggerTab<CR>
+    autocmd Filetype python nnoremap <Leader>c :PUDBClearAllBreakpoints<CR>:ALEToggle<CR>ALEToggle<CR>
     "}}}
 "}}} Python
 
