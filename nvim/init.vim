@@ -283,16 +283,13 @@ endif "}}}
     "}}}
     Plug 'zchee/deoplete-jedi'    , {'for':['python', 'ipynb']}
     Plug 'lambdalisue/doctest.vim', {'for':['python', 'ipynb']}
-    Plug 'szymonmaszke/vimpyter', {'for':['python', 'ipynb']} "{{{
-    autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
-    autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
-    autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
-    "}}}
-    Plug 'wmvanvliet/jupyter-vim', {'for':['python']}
     Plug 'SkyLeach/pudb.vim' "{{{
     autocmd Filetype python nnoremap <Leader>t :PUDBToggleBreakPoint<CR>
-    autocmd Filetype python nnoremap <Leader>l :PUDBLaunchDebuggerTab<CR>
-    autocmd Filetype python nnoremap <Leader>c :PUDBClearAllBreakpoints<CR>:ALEToggle<CR>ALEToggle<CR>
+    autocmd Filetype python nnoremap <Leader>l :w<CR>:PUDBLaunchDebuggerTab<CR>
+    autocmd Filetype python nnoremap <Leader>c :PUDBClearAllBreakpoints<CR>:ALEToggle<CR>:ALEToggle<CR>
+    "}}}
+    Plug 'goerz/jupytext.vim' "{{{
+    let g:jupytext_fmt = 'py'
     "}}}
 "}}} Python
 

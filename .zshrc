@@ -27,6 +27,7 @@ export GDK_SCALE=2
 #export GDK_DPI_SCALE=2
 
 alias mux=tmuxinator
+alias tmux="tmux -2"
 alias vim=nvim
 alias rm=rm
 alias zmv='noglob zmv -W'
