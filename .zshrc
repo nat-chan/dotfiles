@@ -34,3 +34,5 @@ alias zmv='noglob zmv -W'
 
 [ "$PWD" = "/mnt/c/Windows/System32" ] && cd ~
 source ~/dotfiles/scripts/agent.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

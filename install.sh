@@ -5,3 +5,6 @@ ln -s `readlink -f .inputrc` $HOME/.inputrc
 ln -s `readlink -f .zshrc` $HOME/.zshrc
 ln -s `readlink -f .zpreztorc` $HOME/.zpreztorc
 ln -s `readlink -f prompt_N_setup` $HOME/.zprezto/modules/prompt/functions/prompt_N_setup
+
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
