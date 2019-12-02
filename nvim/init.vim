@@ -309,4 +309,4 @@ filetype plugin indent on
 set t_Co=256
 syntax on
 set termguicolors
-colorscheme molokai
+silent! colorscheme molokai
