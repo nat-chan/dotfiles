@@ -1,4 +1,8 @@
 #!/bin/bash
-mkdir -p ~/local/bin
-wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O ~/local/bin/nvim
-chmod +x ~/local/bin/nvim
+
+DST=~/local/bin/nvim
+
+mkdir -p `dirname $DST`
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O $DST
+chmod +x $DST
+$DST --appimage-extract

@@ -35,3 +35,4 @@ prompt_N_setup,.zgen/sorin-ionescu/prezto-master/modules/prompt/functions/prompt
 nvim,.config/nvim
 .tmux.conf,.tmux.conf
 .inputrc,.inputrc
+.gitconfig,.gitconfig
