@@ -35,7 +35,10 @@ fi
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
 export DOT_DIR="$HOME/dotfiles"
-[ -d $DOT_DIR ] || dot clone && dot set -v
+if [ ! -d $DOT_DIR ] ;then
+    dot clone
+    dot set -v
+fi
 
 autoload zmv
 set -o BSD_ECHO
