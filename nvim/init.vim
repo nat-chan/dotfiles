@@ -58,8 +58,6 @@ au VimResized * wincmd =
 au FileType netrw setl bufhidden=delete
 au TermOpen * setlocal nonumber
 
-set nosplitbelow
-set nosplitright
 " Vimであいまいな幅の文字の論理幅を1にする
 set ambiwidth=single
 
