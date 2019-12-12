@@ -273,6 +273,7 @@ endif "}}}
     "}}}
     Plug 'w0rp/ale'               , {'for':['python', 'ipynb']}              " 非同期チェック         {{{
     let g:ale_linters = {'python': ['mypy']}
+    let g:ale_virtualtext_cursor=1
     "}}}
     Plug 'davidhalter/jedi-vim'   , {'for':['python', 'ipynb']}              "                        {{{
     let g:jedi#auto_initialization = 0                          " デフォルトのキーマップをしない(deopleteを使用)
