@@ -244,7 +244,7 @@ endif "}}}
     endfunction
     "nnoremap <silent> <C-b> :NERDTreeToggle<CR>:execute (&ft == 'nerdtree' ? ':wincmd p' : '')<CR>
     nnoremap <silent> <C-b> :call MyNERDTreeToggle()<CR>
-    autocmd DirChanged * :NERDTreeCWD | :wincmd p
+    "autocmd DirChanged * :NERDTreeCWD | :wincmd p
     "}}}
     Plug 'h1mesuke/vim-alignta'
     Plug 'nat-chan/ksm.vim'
@@ -272,6 +272,7 @@ endif "}}}
     Plug 'w0rp/ale'               , {'for':['python', 'ipynb']}              " 非同期チェック         {{{
     let g:ale_sign_column_always = 1
     let g:ale_linters = {'python': ['mypy']}
+    let g:ale_virtualtext_cursor=1
     "}}}
     Plug 'davidhalter/jedi-vim'   , {'for':['python', 'ipynb']}              "                        {{{
     let g:jedi#auto_initialization = 0                          " デフォルトのキーマップをしない(deopleteを使用)
