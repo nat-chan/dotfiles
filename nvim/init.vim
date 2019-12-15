@@ -246,7 +246,7 @@ endif "}}}
     endfunction
     "nnoremap <silent> <C-b> :NERDTreeToggle<CR>:execute (&ft == 'nerdtree' ? ':wincmd p' : '')<CR>
     nnoremap <silent> <C-b> :call MyNERDTreeToggle()<CR>
-    autocmd DirChanged * :NERDTreeCWD | :wincmd p
+    "autocmd DirChanged * :NERDTreeCWD | :wincmd p
     "}}}
     Plug 'h1mesuke/vim-alignta'
     Plug 'nat-chan/ksm.vim'
