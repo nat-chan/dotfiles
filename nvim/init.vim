@@ -270,6 +270,7 @@ endif "}}}
     let g:deoplete#sources#jedi#show_docstring = 1              " 1にしないと関数のparamしかpreviewされない
     "}}}
     Plug 'w0rp/ale'               , {'for':['python', 'ipynb']}              " 非同期チェック         {{{
+    let g:ale_sign_column_always = 1
     let g:ale_linters = {'python': ['mypy']}
     "}}}
     Plug 'davidhalter/jedi-vim'   , {'for':['python', 'ipynb']}              "                        {{{
