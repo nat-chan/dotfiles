@@ -2,9 +2,7 @@ set encoding=utf-8 "このvimrcのエンコーディング
 "Vi互換モードをなくす
 set nocompatible
 "NERDTreeやバッファの選択をマウスでもできるようにする
-"set mouse=a
-"ターミナル上からコピペできるようにする
-set mouse=
+set mouse=a
 
 "改行コードを判別
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
@@ -54,9 +52,13 @@ set nofixeol
 "スワップファイルが発見されたときに "注意" しない
 set shortmess=A
 
-au VimResized * wincmd =
+"au VimResized * wincmd =
 au FileType netrw setl bufhidden=delete
+
+"ターミナルモードは行番号なし、終了時即消去
 au TermOpen * setlocal nonumber
+au TermOpen * setlocal signcolumn=no
+"au TermOpen * setlocal nohidden
 
 " Vimであいまいな幅の文字の論理幅を1にする
 set ambiwidth=single
@@ -83,6 +85,16 @@ tnoremap <silent> <ESC> <C-\><C-n>
 "コマンドライン行でC-a,C-eで行頭、行末
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
+
+"undo永続化
+"set undodir=~/.vim/undo
+set undofile
+
+" Better display for messages
+set cmdheight=3
+
+"貼り付け先のインデントにあわせる
+nnoremap p ]p
 
 let mapleader = "\<Space>"
 
@@ -252,7 +264,7 @@ endif "}}}
     Plug 'vim-jp/vimdoc-ja' "{{{
     set helplang=ja,en
     "}}}
-    Plug 'Shougo/denite.nvim'
+    Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'Shougo/neco-vim'
     Plug 'tpope/vim-fugitive'
     Plug 'thinca/vim-quickrun'
@@ -272,7 +284,7 @@ endif "}}}
     Plug 'w0rp/ale'               , {'for':['python', 'ipynb']}              " 非同期チェック         {{{
     let g:ale_sign_column_always = 1
     let g:ale_linters = {'python': ['mypy']}
-    let g:ale_virtualtext_cursor=1
+    "let g:ale_virtualtext_cursor=1
     "}}}
     Plug 'davidhalter/jedi-vim'   , {'for':['python', 'ipynb']}              "                        {{{
     let g:jedi#auto_initialization = 0                          " デフォルトのキーマップをしない(deopleteを使用)
@@ -303,6 +315,48 @@ endif "}}}
 "}}} Javascript
 
 call plug#end()
+
+"{{{ denite
+" Change denite default options
+call denite#custom#option('default', {'split': 'floating'})
+" Define mappings
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>    denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d       denite#do_map('do_action', 'delete')
+  nnoremap <silent><buffer><expr> p       denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q       denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i       denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space> denite#do_map('toggle_select').'j'
+  inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+endfunction
+
+autocmd FileType denite-filter call s:denite_filter_my_settings()
+function! s:denite_filter_my_settings() abort
+"  inoremap <silent><buffer>       <C-o>   <Plug>(denite_filter_quit)
+  inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+  nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
+endfunction
+nnoremap D :Denite 
+"}}}
+
+"{{{ debug
+function! g:OnExit(job_id, code, event) abort
+    execute 'buffer' g:file
+endfun
+
+function! T(...) abort
+    write
+    let g:file = expand('%')
+    enew
+    call termopen(g:cmd, {'on_exit': 'g:OnExit'})
+    startinsert
+endfun
+
+command! -nargs=? T call T(<f-args>)
+nnoremap ! :call T()<CR>
+"}}}
 
 "vimrc最後にすべき設定
 filetype plugin indent on
