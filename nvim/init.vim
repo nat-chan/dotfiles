@@ -274,6 +274,7 @@ endif "}}}
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
+    Plug 'mbbill/undotree'
 "}}} Common
 
 "{{{ Python
