@@ -19,6 +19,7 @@ set -o BSD_ECHO
 setopt CLOBBER
 
 export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/dotfiles/scripts:$PATH"
 export DISPLAY=localhost:0
 export MANPAGER="/bin/sh -c \"col -b -x|vim -R -c 'set colorcolumn=0 ft=man nolist nonu noma' -\""
 export EDITOR=vim
