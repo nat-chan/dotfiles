@@ -1,2 +1,0 @@
-#!/bin/bash
-ssh s1611353@pentas-compa.coins.tsukuba.ac.jp "ssh N@localhost -p 8128 :"

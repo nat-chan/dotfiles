@@ -1,2 +1,0 @@
-#!/bin/bash
-/mnt/c/Windows/system32/cmd.exe /c `uw $1|tr '/' '\' 2>/dev/null`

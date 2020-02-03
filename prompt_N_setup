@@ -10,6 +10,8 @@
 
 pmodload 'helper'
 
+id=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
+
 function prompt_N_precmd {
   local EXIT_CODE=$?
   vcs_info
@@ -20,22 +22,18 @@ function prompt_N_precmd {
 ⠁⢁⠡⢡⠑⢑⠱⢱⠉⢉⠩⢩⠙⢙⠹⢹⡁⣁⡡⣡⡑⣑⡱⣱⡉⣉⡩⣩⡙⣙⡹⣹⠅⢅⠥⢥⠕⢕⠵⢵⠍⢍⠭⢭⠝⢝⠽⢽⡅⣅⡥⣥⡕⣕⡵⣵⡍⣍⡭⣭⡝⣝⡽⣽\
 ⠃⢃⠣⢣⠓⢓⠳⢳⠋⢋⠫⢫⠛⢛⠻⢻⡃⣃⡣⣣⡓⣓⡳⣳⡋⣋⡫⣫⡛⣛⡻⣻⠇⢇⠧⢧⠗⢗⠷⢷⠏⢏⠯⢯⠟⢟⠿⢿⡇⣇⡧⣧⡗⣗⡷⣷⡏⣏⡯⣯⡟⣟⡿⣿\
 "
-	if [[ $EXIT_CODE -ne 0 ]]; then
-		ec="%F{red}$block[$((EXIT_CODE+1))]%f"
-	else
-		if [ "$TMUX" = "" ]; then
-			ec="%F{cyan}«%f"
-		else
-			ec="%F{cyan}»%f"
-		fi
-	fi
-	
+    if [[ $EXIT_CODE -ne 0 ]]; then
+        ec="%F{red}$block[$((EXIT_CODE+1))]%f"
+    else
+        ec="%F{cyan}${id}%f"
+    fi
+    
 }
 
 function +vi-git_status {
   # Check for untracked files or updated submodules since vcs_info does not.
   if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
-    hook_com[unstaged]='%F{red}¶%f'
+    hook_com[unstaged]='%F{red}$%f'
   fi
 }
 
@@ -47,11 +45,11 @@ block="\
 ⠁⢁⠡⢡⠑⢑⠱⢱⠉⢉⠩⢩⠙⢙⠹⢹⡁⣁⡡⣡⡑⣑⡱⣱⡉⣉⡩⣩⡙⣙⡹⣹⠅⢅⠥⢥⠕⢕⠵⢵⠍⢍⠭⢭⠝⢝⠽⢽⡅⣅⡥⣥⡕⣕⡵⣵⡍⣍⡭⣭⡝⣝⡽⣽\
 ⠃⢃⠣⢣⠓⢓⠳⢳⠋⢋⠫⢫⠛⢛⠻⢻⡃⣃⡣⣣⡓⣓⡳⣳⡋⣋⡫⣫⡛⣛⡻⣻⠇⢇⠧⢧⠗⢗⠷⢷⠏⢏⠯⢯⠟⢟⠿⢿⡇⣇⡧⣧⡗⣗⡷⣷⡏⣏⡯⣯⡟⣟⡿⣿\
 "
-	if [[ $EXIT_CODE -ne 0 ]]; then
-		echo -ne "\e[31m$block[$((EXIT_CODE+1))]\e[0m"
-	else
-		echo -ne "\e[32m»\e[0m"
-	fi
+    if [[ $EXIT_CODE -ne 0 ]]; then
+        echo -ne "\e[31m$block[$((EXIT_CODE+1))]\e[0m"
+    else
+        echo -ne "\e[32m>\e[0m"
+    fi
 }
 
 function prompt_N_setup {
@@ -69,8 +67,8 @@ function prompt_N_setup {
   # Set vcs_info parameters.
   zstyle ':vcs_info:*' enable bzr git hg svn
   zstyle ':vcs_info:*' check-for-changes true
-  zstyle ':vcs_info:*' stagedstr '%F{green}¶%f' #commitされていないファイルがある
-  zstyle ':vcs_info:*' unstagedstr '%F{yellow}¶%f' #addされていないファイルがある
+  zstyle ':vcs_info:*' stagedstr '%F{green}$%f' #commitされていないファイルがある
+  zstyle ':vcs_info:*' unstagedstr '%F{yellow}$%f' #addされていないファイルがある
   zstyle ':vcs_info:*' formats ' [%b%c%u]'
   zstyle ':vcs_info:*' actionformats " [%b%c%u|%F{cyan}%a%f]"
   zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
@@ -83,39 +81,39 @@ function prompt_N_setup {
 }
 
 function prompt_N_preview {
-	echo "preview is undefined"
+    echo "preview is undefined"
 }
 
 #{{{ old
 function old {
-	setopt transient_rprompt
-	typeset -A pc
-	pc=(abelia 211 borage 39 crocus 57 dahlia 202 pentas-compf 202)
+    setopt transient_rprompt
+    typeset -A pc
+    pc=(abelia 211 borage 39 crocus 57 dahlia 202 pentas-compf 202)
 
-	local pcname=`hostname|sed -e 's/\.coins\.tsukuba\.ac\.jp//'`
-	local pcnum=`echo $pcname|sed -e 's/abelia//'\
-	                              -e 's/borage//'\
-	                              -e 's/dahlia//'\
-	                              -e 's/crocus//'`
-	local flower=`echo $pcname|sed -e "s/$pcnum//"`
+    local pcname=`hostname|sed -e 's/\.coins\.tsukuba\.ac\.jp//'`
+    local pcnum=`echo $pcname|sed -e 's/abelia//'\
+                                  -e 's/borage//'\
+                                  -e 's/dahlia//'\
+                                  -e 's/crocus//'`
+    local flower=`echo $pcname|sed -e "s/$pcnum//"`
 
-	local pcid=`echo -ne "%{\033[38;5;$pc[$flower]m%}$pcnum"`
+    local pcid=`echo -ne "%{\033[38;5;$pc[$flower]m%}$pcnum"`
 
-	if [ "$TMUX" = "" ];then
-		local tmux="<"
-	else
-		local tmux=">"
-	fi
+    if [ "$TMUX" = "" ];then
+        local tmux="<"
+    else
+        local tmux=">"
+    fi
 
-	local ret_status="%(?:%{$fg_bold[green]%}$tmux:%{$fg_bold[red]%}$tmux)"
+    local ret_status="%(?:%{$fg_bold[green]%}$tmux:%{$fg_bold[red]%}$tmux)"
 
-	PROMPT='${ret_status} $pcid %{$fg[cyan]%}%c%{$reset_color%} '
-	RPROMPT='$(git_prompt_info)'
+    PROMPT='${ret_status} $pcid %{$fg[cyan]%}%c%{$reset_color%} '
+    RPROMPT='$(git_prompt_info)'
 
-	ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
-	ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-	ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
-	ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+    ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+    ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+    ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
+    ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
 }
 #}}}
 
