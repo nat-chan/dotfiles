@@ -19,7 +19,9 @@ zplug "modules/prompt", from:prezto
 
 zstyle ':prezto:module:prompt' theme 'N'
 
-zplug check --verbose || zplug install
+if ! zplug check --verbose; then
+    zplug install
+fi
 zplug load
 #}}}
 

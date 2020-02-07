@@ -1,5 +1,4 @@
 #!/bin/zsh
-set -x
 [ -e ~/dotfiles ]|| git clone https://github.com/nat-chan/dotfiles ~/dotfiles
 
 #install zplug
