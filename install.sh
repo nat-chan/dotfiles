@@ -1,4 +1,5 @@
 #!/bin/zsh
+set -x
 [ -e ~/dotfiles ]|| git clone https://github.com/nat-chan/dotfiles ~/dotfiles
 
 #install zplug
@@ -13,6 +14,7 @@ source ~/dotfiles/.zshrc
 
 dot set -f
 
+#anyenv
 anyenv install pyenv
 anyenv install nodenv
 eval "$(anyenv init - zsh)"
@@ -24,3 +26,7 @@ pyenv global main
 
 nodenv install 13.7.0
 nodenv global 13.7.0
+
+#neovim
+~/dotfiles/scripts/fetch_nvim.sh
+nvim +PlugInstall! +qall

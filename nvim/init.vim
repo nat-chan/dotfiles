@@ -271,7 +271,6 @@ endif "}}}
     Plug 'Shougo/context_filetype.vim', {'for':'vim'}
     Plug 'osyo-manga/vim-precious'    , {'for':'vim'}
     Plug 'gorodinskiy/vim-coloresque' , {'for':'vim'}
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
     Plug 'mbbill/undotree'
