@@ -8,11 +8,12 @@ zplug "ssh0/dot", use:"*.sh"
 zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
 zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
 zplug "modules/prompt", from:prezto
+zplug "modules/history", from:prezto
+zplug "modules/editor", from:prezto
 
 #zplug "modules/directory", from:prezto
 #zplug "modules/environment", from:prezto
 #zplug "modules/git", from:prezto
-#zplug "modules/history", from:prezto
 #zplug "modules/spectrum", from:prezto
 #zplug "modules/terminal", from:prezto
 #zplug "modules/utility", from:prezto
@@ -28,6 +29,7 @@ zplug load
 export PATH="\
 :$HOME/.anyenv/bin\
 :$HOME/local/bin\
+:$HOME/dotfiles/scripts\
 :$PATH"
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
@@ -51,6 +53,7 @@ alias vim='nvim'
 alias mux=tmuxinator
 alias tmux='tmux -2'
 alias rm=rm
+alias ls='ls --group-directories-first --color=auto'
 
 eval "$(anyenv init - zsh)"
 source ~/dotfiles/scripts/agent.sh
