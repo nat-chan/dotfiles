@@ -70,14 +70,12 @@ set foldmethod=marker
 set inccommand=nosplit
 
 set wildoptions=pum
-set pumblend=30
-set winblend=30
+set pumblend=10
+set winblend=10
 
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
 "そのためfishをデフォルトシェルにしている時次の設定が必要
-if $SHELL =~ '/fish$'
-	set shell=bash
-endif
+set shell=bash
 
 "ターミナルモードをEscで抜けられるようにする
 "ただしターミナル内のプログラムにEscを送信できなくなる
@@ -112,61 +110,78 @@ call plug#begin('~/.vim/plugged')
 
 "{{{ Appearance
     Plug 'tomasr/molokai'
-    Plug 'itchyny/lightline.vim' "{{{
-    "        \ 'separator': { 'left': '⮀', 'right': '⮂' },
-    "        \ 'subseparator': { 'left': '⮁', 'right': '⮃' },
-    set laststatus=2
-    let g:lightline = {
-            \ 'colorscheme': 'powerline',
-            \ 'mode_map': {'c': 'NORMAL'},
-            \ 'active': {
-            \   'left': [ [ 'mode', 'paste' ], ['fugitive', 'absolutepath' , 'modified'] ]
-            \ },
-            \ 'component_function': {
-            \   'modified': 'LightlineModified',
-            \   'readonly': 'LightlineReadonly',
-            \   'fugitive': 'LightlineFugitive',
-            \   'filename': 'LightlineFilename',
-            \   'fileformat': 'LightlineFileformat',
-            \   'filetype': 'LightlineFiletype',
-            \   'fileencoding': 'LightlineFileencoding',
-            \   'mode': 'LightlineMode'
-            \ }
-            \ }
-    function! LightlineModified()
-      return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-    endfunction
-    function! LightlineReadonly()
-      return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
-    endfunction
-    function! LightlineFilename()
-      return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-            \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-            \  &ft == 'unite' ? unite#get_status_string() :
-            \  &ft == 'vimshell' ? vimshell#get_status_string() :
-            \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-            \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
-    endfunction
-    function! LightlineFugitive()
-      if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-        return fugitive#head()
-      else
-        return ''
-      endif
-    endfunction
-    function! LightlineFileformat()
-      return winwidth(0) > 70 ? &fileformat : ''
-    endfunction
-    function! LightlineFiletype()
-      return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-    endfunction
-    function! LightlineFileencoding()
-      return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
-    endfunction
-    function! LightlineMode()
-      return winwidth(0) > 60 ? lightline#mode() : ''
-    endfunction
+    Plug 'Xuyuanp/nerdtree-git-plugin' "{{{
+        let g:NERDTreeIndicatorMapCustom = {
+        \ "Modified"  : "",
+        \ "Staged"    : "",
+        \ "Untracked" : "",
+        \ "Renamed"   : "➜",
+        \ "Unmerged"  : "═",
+        \ "Deleted"   : "",
+        \ "Dirty"     : "",
+        \ "Clean"     : "",
+        \ 'Ignored'   : '',
+        \ "Unknown"   : "?"
+        \ }
     "}}}
+"    Plug 'itchyny/lightline.vim' "{{{
+""        \ 'separator': { 'left': '⮀', 'right': '⮂' },
+""        \ 'subseparator': { 'left': '⮁', 'right': '⮃' },
+"    set laststatus=2
+"    let g:lightline = {
+"        \ 'separator': { 'left': '', 'right': '' },
+"        \ 'subseparator': { 'left': '', 'right': '' },
+"        \ 'colorscheme': 'powerline',
+"        \ 'mode_map': {'c': 'NORMAL'},
+"        \ 'active': {
+"        \   'left': [ [ 'mode', 'paste' ], ['fugitive', 'absolutepath' , 'modified', 'cocstatus'] ]
+"        \ },
+"        \ 'component_function': {
+"        \   'modified': 'LightlineModified',
+"        \   'readonly': 'LightlineReadonly',
+"        \   'fugitive': 'LightlineFugitive',
+"        \   'filename': 'LightlineFilename',
+"        \   'fileformat': 'LightlineFileformat',
+"        \   'filetype': 'LightlineFiletype',
+"        \   'fileencoding': 'LightlineFileencoding',
+"        \   'mode': 'LightlineMode',
+"        \   'cocstatus': 'coc#status',
+"        \ }
+"        \ }
+"    function! LightlineModified()
+"        return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+"    endfunction
+"    function! LightlineReadonly()
+"        return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+"    endfunction
+"    function! LightlineFilename()
+"        return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+"              \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+"              \  &ft == 'unite' ? unite#get_status_string() :
+"              \  &ft == 'vimshell' ? vimshell#get_status_string() :
+"              \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+"              \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+"    endfunction
+"    function! LightlineFugitive()
+"        if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+"            return fugitive#head()
+"        else
+"            return ''
+"        endif
+"    endfunction
+"    function! LightlineFileformat()
+"        return winwidth(0) > 70 ? &fileformat : ''
+"    endfunction
+"    function! LightlineFiletype()
+"        return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+"    endfunction
+"    function! LightlineFileencoding()
+"        return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+"    endfunction
+"    function! LightlineMode()
+"        return winwidth(0) > 60 ? lightline#mode() : ''
+"    endfunction
+"    "}}}
     Plug 'luochen1990/rainbow' "{{{
     let g:rainbow_active = 1
     let g:rainbow_conf = {
@@ -225,12 +240,43 @@ call plug#begin('~/.vim/plugged')
     \			],
     \		},
     \		'css': 0,
+    \		'nerdtree': 0,
     \	}
     \} "}}}
     Plug 'powerman/vim-plugin-AnsiEsc'
     Plug 'nathanaelkane/vim-indent-guides' "{{{
         let g:indent_guides_enable_on_vim_startup = 1
+        let g:indent_guides_auto_colors = 0
+        let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'startify', '']
+        au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray13 guifg=#455354
+        au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray16 guifg=#455354
+        au TermEnter * IndentGuidesDisable
+        au TermLeave * IndentGuidesEnable
+"        let g:indent_guides_guide_size = 1
+"        au TermOpen * IndentGuidesDisable
     "}}}
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'vim-airline/vim-airline' "{{{
+        nmap <C-p> <Plug>AirlineSelectPrevTab
+        nmap <C-n> <Plug>AirlineSelectNextTab
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#tabline#left_sep = ''
+        let g:airline#extensions#tabline#left_alt_sep = ''
+        let g:airline#extensions#tabline#right_sep = ''
+        let g:airline#extensions#tabline#right_alt_sep = ''
+        let g:airline_left_sep = ''
+        let g:airline_left_alt_sep = ''
+        let g:airline_right_sep = ''
+        let g:airline_right_alt_sep = ''
+        let g:NERDTreeDirArrowExpandable = ''
+        let g:NERDTreeDirArrowCollapsible = ''
+        let g:airline_symbols = {'space': ' ', 'paste': 'PASTE', 'maxlinenr': ' ㏑', 'dirty': '!', 'crypt': '🔒', 'linenr': '☰ ', 'readonly': '', 'spell': 'SPELL', 'modified': '+', 'notexists': 'ﳺ', 'keymap': 'Keymap:', 'ellipsis': '...', 'branch': 'ᚠ', 'whitespace': '☲'}
+    "}}}
+    Plug 'mhinz/vim-startify' "{{{
+        let g:webdevicons_enable_startify = 1
+        let g:startify_custom_header = []
+    "}}}
+    Plug 'airblade/vim-gitgutter'
 "}}} Appearance
 
 "{{{ Common
@@ -255,17 +301,18 @@ call plug#begin('~/.vim/plugged')
     "}}}
     Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'tpope/vim-fugitive'
-    Plug 'thinca/vim-quickrun'
+    Plug '~/.zplug/repos/junegunn/fzf'
     Plug 'junegunn/fzf.vim'
+    Plug 'yuki-ycino/fzf-preview.vim'
     Plug 'mbbill/undotree'
 "}}} Common
 
 "{{{ Python
-    Plug 'SkyLeach/pudb.vim' "{{{
-    autocmd Filetype python nnoremap <Leader>t :PUDBToggleBreakPoint<CR>
-    autocmd Filetype python nnoremap <Leader>l :w<CR>:PUDBLaunchDebuggerTab<CR>
-    autocmd Filetype python nnoremap <Leader>c :PUDBClearAllBreakpoints<CR>:ALEToggle<CR>:ALEToggle<CR>
-    "}}}
+"    Plug 'SkyLeach/pudb.vim' "{{{
+"    autocmd Filetype python nnoremap <Leader>t :<C-u>PUDBToggleBreakPoint<CR>
+"    autocmd Filetype python nnoremap <Leader>l :<C-u>w<CR>:PUDBLaunchDebuggerTab<CR>
+"    autocmd Filetype python nnoremap <Leader>c :<C-u>PUDBClearAllBreakpoints<CR>:ALEToggle<CR>:ALEToggle<CR>
+"    "}}}
     Plug 'goerz/jupytext.vim' "{{{
     let g:jupytext_fmt = 'py'
     "}}}
@@ -275,23 +322,17 @@ call plug#begin('~/.vim/plugged')
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " if hidden is not set, TextEdit might fail.
     set hidden
-
     " Some servers have issues with backup files, see #649
     set nobackup
     set nowritebackup
-
     " Better display for messages
     set cmdheight=2
-
     " You will have bad experience for diagnostic messages when it's default 4000.
     set updatetime=300
-
     " don't give |ins-completion-menu| messages.
     set shortmess+=c
-
     " always show signcolumns
     set signcolumn=yes
-
     " Use tab for trigger completion with characters ahead and navigate.
     " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
     inoremap <silent><expr> <TAB>
@@ -374,13 +415,10 @@ call plug#begin('~/.vim/plugged')
 
     " Use `:Format` to format current buffer
     command! -nargs=0 Format :call CocAction('format')
-
     " Use `:Fold` to fold current buffer
     command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
     " use `:OR` for organize import of current buffer
     command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
     " Add status line support, for integration with other plugin, checkout `:h coc-status`
     set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
@@ -403,6 +441,8 @@ call plug#begin('~/.vim/plugged')
     nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
     autocmd InsertEnter,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
     Plug 'liuchengxu/vista.vim'
+    nnoremap <space>v  :<C-u>Vista coc<CR>
+    Plug 'neoclide/coc-denite'
 "}}}
 
 call plug#end()
@@ -434,14 +474,19 @@ nnoremap D :Denite
 
 "{{{ debug
 function! g:OnExit(job_id, code, event) abort
-    execute 'buffer' g:file
+"    execute 'buffer' g:file
+    call feedkeys(' ')
 endfun
 
 function! T(...) abort
     write
-    let g:file = expand('%')
+    if exists('g:cmd')
+        let l:cmd = g:cmd
+    else
+        let l:cmd = 'bb.py '.expand('%:p')
+    endif
     enew
-    call termopen(g:cmd, {'on_exit': 'g:OnExit'})
+    call termopen(l:cmd, {'on_exit': 'g:OnExit'})
     startinsert
 endfun
 

@@ -24,7 +24,7 @@ class MyDebugger(debugger.Debugger):
             pos += 1
             nvim.command(':e %s'%name)
             nvim.command(':%s'%pos)
-        self.ui.top.listen("ctrl t", inner)
+        self.ui.top.listen("ctrl ^", inner)
 
 pudb.CURRENT_DEBUGGER = [MyDebugger()]
 

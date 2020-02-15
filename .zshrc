@@ -7,6 +7,7 @@ zplug "zsh-users/zsh-completions"
 zplug "ssh0/dot", use:"*.sh"
 zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
 zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
+zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 zplug "modules/prompt", from:prezto
 zplug "modules/history", from:prezto
 zplug "modules/editor", from:prezto
