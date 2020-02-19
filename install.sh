@@ -8,6 +8,9 @@ curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/instal
 git clone https://github.com/anyenv/anyenv ~/.anyenv
 yes|~/.anyenv/bin/anyenv install --init
 
+#install rust
+curl https://sh.rustup.rs -sSf | sh
+
 #enable zplug plugins
 source ~/dotfiles/.zshrc
 
@@ -25,6 +28,8 @@ pyenv global main
 
 nodenv install 13.7.0
 nodenv global 13.7.0
+
+cargo install bat exa ripgrep
 
 #neovim
 ~/dotfiles/scripts/fetch_nvim.sh

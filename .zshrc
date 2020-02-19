@@ -58,3 +58,5 @@ alias ls='ls --group-directories-first --color=auto'
 
 eval "$(anyenv init - zsh)"
 source ~/dotfiles/scripts/agent.sh
+
+source $HOME/.cargo/env

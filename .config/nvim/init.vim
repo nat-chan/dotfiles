@@ -277,6 +277,25 @@ call plug#begin('~/.vim/plugged')
         let g:startify_custom_header = []
     "}}}
     Plug 'airblade/vim-gitgutter'
+"    let g:gitgutter_override_sign_column_highlight = 0
+    Plug 'w0rp/ale', {'for':['python', 'ipynb']}
+        let g:ale_sign_column_always = 1
+        let g:ale_linters = {'python': ['mypy']}
+        let g:ale_fixers = {'python': ['yapf']}
+        let g:ale_virtualtext_cursor=1
+        let g:ale_sign_error = 'E'
+        let g:ale_sign_warning = 'W'
+        au Filetype python map <buffer> [g <Plug>(ale_previous)
+        au Filetype python map <buffer> ]g <Plug>(ale_next)
+
+        au Colorscheme * hi GitGutterAdd          guifg=green
+        au Colorscheme * hi GitGutterChangeLine   guifg=yellow
+        au Colorscheme * hi GitGutterDeleteLine   guifg=red
+
+        au Colorscheme * hi ALEVirtualTextError guifg=red
+        au Colorscheme * hi ALEVirtualTextWarning guifg=orange
+        au Colorscheme * hi ALEErrorSign guifg=red
+        au Colorscheme * hi ALEWarningSign guifg=orange
 "}}} Appearance
 
 "{{{ Common
@@ -301,10 +320,17 @@ call plug#begin('~/.vim/plugged')
     "}}}
     Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
     Plug 'tpope/vim-fugitive'
-    Plug '~/.zplug/repos/junegunn/fzf'
+"    Plug '~/.zplug/repos/junegunn/fzf'
+    Plug 'junegunn/fzf', { 'build': './install --all', 'merged': 0 }
     Plug 'junegunn/fzf.vim'
-    Plug 'yuki-ycino/fzf-preview.vim'
+"    Plug 'yuki-ycino/fzf-preview.vim'
+    Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
+    Plug 'ifreund/skim-preview.vim'
+    let g:fzf_preview_use_dev_icons = 1
+    let g:fzf_preview_dev_icon_prefix_length = 1
+    Plug 'Shougo/neomru.vim'
     Plug 'mbbill/undotree'
+    Plug 'scrooloose/nerdcommenter'
 "}}} Common
 
 "{{{ Python
