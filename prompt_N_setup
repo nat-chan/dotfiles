@@ -7,10 +7,38 @@
 # zsh_directory_name  Dynamic named directoriesによるディレクトリ名変換
 #
 # PROMPTに[32mを混ぜるとtab補完で崩れる
+# %F{000}..%K{000}..%f%k を使う．
 
 pmodload 'helper'
 
-id=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
+function char(){
+  echo $(printf "\x$(printf '%x' $1)")
+}
+
+function colorize(){
+#colorize 0xe3 0xb0 0xc4 0x42 0x98 0xfc 0x1c 0x14 0x9a
+  fr=$(($@[1]%6))
+  fg=$(($@[2]%6))
+  fb=$(($@[3]%6))
+  for i in `seq 6 $#`; do
+    kr=$(($@[i-2]%6))
+    kg=$(($@[i-1]%6))
+    kb=$(($@[i-0]%6))
+    [ $(( 2*(fr-kr)**2+4*(fg-kg)**2+3*(fb-kb)**2 ))  -ge 70 ] && break
+  done
+  F=$((fr*36+fg*6+fb+16))
+  K=$((kr*36+kg*6+kb+16))
+  echo -n "%F{$F}%K{$K}"
+}
+
+function icon(){
+  s=($(ip link|sha256sum|sed 's/\(..\)/0x\1 /g'))
+  id=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
+  [ -z "$id" ] && id=$(char $((s[0]%94+33)))$(char $((s[1]%94+33)))
+  echo -n $(colorize $s[3,17])$id[1]$(colorize $s[18,32])$id[2]%f%k
+}
+
+icon=$(icon)
 
 function prompt_N_precmd {
   local EXIT_CODE=$?
@@ -25,9 +53,8 @@ function prompt_N_precmd {
     if [[ $EXIT_CODE -ne 0 ]]; then
         ec="%F{red}$block[$((EXIT_CODE+1))]%f"
     else
-        ec="%F{cyan}${id}%f"
+        ec=""
     fi
-    
 }
 
 function +vi-git_status {
@@ -35,21 +62,6 @@ function +vi-git_status {
   if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
     hook_com[unstaged]='%F{red}$%f'
   fi
-}
-
-function exit_code() {
-  local EXIT_CODE=$?
-block="\
-⠀⢀⠠⢠⠐⢐⠰⢰⠈⢈⠨⢨⠘⢘⠸⢸⡀⣀⡠⣠⡐⣐⡰⣰⡈⣈⡨⣨⡘⣘⡸⣸⠄⢄⠤⢤⠔⢔⠴⢴⠌⢌⠬⢬⠜⢜⠼⢼⡄⣄⡤⣤⡔⣔⡴⣴⡌⣌⡬⣬⡜⣜⡼⣼\
-⠂⢂⠢⢢⠒⢒⠲⢲⠊⢊⠪⢪⠚⢚⠺⢺⡂⣂⡢⣢⡒⣒⡲⣲⡊⣊⡪⣪⡚⣚⡺⣺⠆⢆⠦⢦⠖⢖⠶⢶⠎⢎⠮⢮⠞⢞⠾⢾⡆⣆⡦⣦⡖⣖⡶⣶⡎⣎⡮⣮⡞⣞⡾⣾\
-⠁⢁⠡⢡⠑⢑⠱⢱⠉⢉⠩⢩⠙⢙⠹⢹⡁⣁⡡⣡⡑⣑⡱⣱⡉⣉⡩⣩⡙⣙⡹⣹⠅⢅⠥⢥⠕⢕⠵⢵⠍⢍⠭⢭⠝⢝⠽⢽⡅⣅⡥⣥⡕⣕⡵⣵⡍⣍⡭⣭⡝⣝⡽⣽\
-⠃⢃⠣⢣⠓⢓⠳⢳⠋⢋⠫⢫⠛⢛⠻⢻⡃⣃⡣⣣⡓⣓⡳⣳⡋⣋⡫⣫⡛⣛⡻⣻⠇⢇⠧⢧⠗⢗⠷⢷⠏⢏⠯⢯⠟⢟⠿⢿⡇⣇⡧⣧⡗⣗⡷⣷⡏⣏⡯⣯⡟⣟⡿⣿\
-"
-    if [[ $EXIT_CODE -ne 0 ]]; then
-        echo -ne "\e[31m$block[$((EXIT_CODE+1))]\e[0m"
-    else
-        echo -ne "\e[32m>\e[0m"
-    fi
 }
 
 function prompt_N_setup {
@@ -76,7 +88,7 @@ function prompt_N_setup {
 
   #%(x.true-text.false-text)
   # Define prompts.
-  PROMPT='${_pwd}${vcs_info_msg_0_} ${_tmux}${ec} %(1j.%j .)'
+  PROMPT='${icon}${_pwd}${vcs_info_msg_0_}${ec}%(1j.%j .) '
   RPROMPT=''
 }
 
@@ -84,37 +96,5 @@ function prompt_N_preview {
     echo "preview is undefined"
 }
 
-#{{{ old
-function old {
-    setopt transient_rprompt
-    typeset -A pc
-    pc=(abelia 211 borage 39 crocus 57 dahlia 202 pentas-compf 202)
-
-    local pcname=`hostname|sed -e 's/\.coins\.tsukuba\.ac\.jp//'`
-    local pcnum=`echo $pcname|sed -e 's/abelia//'\
-                                  -e 's/borage//'\
-                                  -e 's/dahlia//'\
-                                  -e 's/crocus//'`
-    local flower=`echo $pcname|sed -e "s/$pcnum//"`
-
-    local pcid=`echo -ne "%{\033[38;5;$pc[$flower]m%}$pcnum"`
-
-    if [ "$TMUX" = "" ];then
-        local tmux="<"
-    else
-        local tmux=">"
-    fi
-
-    local ret_status="%(?:%{$fg_bold[green]%}$tmux:%{$fg_bold[red]%}$tmux)"
-
-    PROMPT='${ret_status} $pcid %{$fg[cyan]%}%c%{$reset_color%} '
-    RPROMPT='$(git_prompt_info)'
-
-    ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
-    ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-    ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}✗"
-    ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
-}
-#}}}
-
 prompt_N_setup "$@"
+# vim:ts=2 sw=2
