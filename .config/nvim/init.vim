@@ -75,7 +75,7 @@ set winblend=10
 
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
 "そのためfishをデフォルトシェルにしている時次の設定が必要
-set shell=bash
+"set shell=bash
 
 "ターミナルモードをEscで抜けられるようにする
 "ただしターミナル内のプログラムにEscを送信できなくなる
@@ -91,9 +91,6 @@ set undofile
 
 " Better display for messages
 set cmdheight=3
-
-"貼り付け先のインデントにあわせる
-nnoremap p ]p
 
 let mapleader = "\<Space>"
 
@@ -296,6 +293,10 @@ call plug#begin('~/.vim/plugged')
         au Colorscheme * hi ALEVirtualTextWarning guifg=orange
         au Colorscheme * hi ALEErrorSign guifg=red
         au Colorscheme * hi ALEWarningSign guifg=orange
+
+    Plug 'camspiers/lens.vim'
+    Plug 'camspiers/animate.vim'
+    let g:lens#disabled_filetypes = ['nerdtree', 'fzf', 'vista']
 "}}} Appearance
 
 "{{{ Common
@@ -327,13 +328,17 @@ call plug#begin('~/.vim/plugged')
     Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
     Plug 'ifreund/skim-preview.vim'
     let g:fzf_preview_use_dev_icons = 1
-    let g:fzf_preview_dev_icon_prefix_length = 1
+"    let g:fzf_preview_dev_icon_prefix_length = 1
     Plug 'Shougo/neomru.vim'
     Plug 'mbbill/undotree'
     Plug 'scrooloose/nerdcommenter'
+    Plug 'andymass/vim-matchup'
 "}}} Common
 
 "{{{ Python
+"     Plug 'ykwoshia/pudb.vim'
+     Plug 'nat-chan/vim-pudb'
+     nnoremap <space>b :TogglePudbBreakPoint<CR>
 "    Plug 'SkyLeach/pudb.vim' "{{{
 "    autocmd Filetype python nnoremap <Leader>t :<C-u>PUDBToggleBreakPoint<CR>
 "    autocmd Filetype python nnoremap <Leader>l :<C-u>w<CR>:PUDBLaunchDebuggerTab<CR>
@@ -468,6 +473,7 @@ call plug#begin('~/.vim/plugged')
     autocmd InsertEnter,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
     Plug 'liuchengxu/vista.vim'
     nnoremap <space>v  :<C-u>Vista coc<CR>
+    au FileType vista map  <buffer> <silent> <2-LeftMouse> :<C-u>call  vista#cursor#FoldOrJump()<CR>
     Plug 'neoclide/coc-denite'
 "}}}
 

@@ -88,7 +88,7 @@ function prompt_N_setup {
 
   #%(x.true-text.false-text)
   # Define prompts.
-  PROMPT='${icon}${_pwd}${vcs_info_msg_0_}${ec}%(1j.%j .) '
+  PROMPT='${icon}${_pwd}${vcs_info_msg_0_}${ec}%F{black}%K{yellow}%(1j.%j.)%f%k '
   RPROMPT=''
 }
 

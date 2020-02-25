@@ -59,4 +59,20 @@ alias ls='ls --group-directories-first --color=auto'
 eval "$(anyenv init - zsh)"
 source ~/dotfiles/scripts/agent.sh
 
-source $HOME/.cargo/env
+#source $HOME/.cargo/env
+
+## >>> conda initialize >>>
+## !! Contents within this block are managed by 'conda init' !!
+#__conda_setup="$('/home/natsuki/.anyenv/envs/pyenv/versions/anaconda3-5.2.0/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+#if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+#else
+#    if [ -f "/home/natsuki/.anyenv/envs/pyenv/versions/anaconda3-5.2.0/etc/profile.d/conda.sh" ]; then
+#        . "/home/natsuki/.anyenv/envs/pyenv/versions/anaconda3-5.2.0/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/natsuki/.anyenv/envs/pyenv/versions/anaconda3-5.2.0/bin:$PATH"
+#    fi
+#fi
+#unset __conda_setup
+## <<< conda initialize <<<
+#
