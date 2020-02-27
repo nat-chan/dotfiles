@@ -32,7 +32,10 @@ function colorize(){
 }
 
 function icon(){
-  s=($(ip link|sha256sum|sed 's/\(..\)/0x\1 /g'))
+  ip=$(echo $SSH_CONNECTION|awk '{print $3}')
+  if [ -z $ip ] && return
+  mac=$(ip addr|grep -B 1 $ip|head -1|awk '{print $2}')
+  s=($(echo $mac|sha256sum|sed 's/\(..\)/0x\1 /g'))
   id=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
   [ -z "$id" ] && id=$(char $((s[0]%94+33)))$(char $((s[1]%94+33)))
   echo -n $(colorize $s[3,17])$id[1]$(colorize $s[18,32])$id[2]%f%k
