@@ -10,10 +10,12 @@ PIPEB=18.176.57.176/89e6c98d92887913cadf06b2adb97f26cde4849b
 if [ $1 = 'server' ]; then
     while :; do
         socat "EXEC:curl -NsS http\://${PIPEA}!!EXEC:curl -NsST - http\://${PIPEB}" TCP:127.0.0.1:${PORTA}
+        [ $? -eq 130 ]&&break
     done
 elif [ $1 = 'client' ];then
     while :; do
         socat TCP-LISTEN:${PORTB} "EXEC:curl -NsS http\://${PIPEB}!!EXEC:curl -NsST - http\://${PIPEA}"
+        [ $? -eq 130 ]&&break
     done
 elif [ $1 = 'deploy' ];then
     wget https://github.com/nwtgck/piping-server-pkg/releases/download/v0.15.8/piping-server-linux
