@@ -30,6 +30,7 @@
 # arguments and confirm whether or not to execute that command.
 #
 #------------------------------------------------------------------------------
+
 prompt_N_setup        , .zplug/repos/sorin-ionescu/prezto/modules/prompt/functions/prompt_N_setup
 .zshrc                , .zshrc
 .config/nvim          , .config/nvim
@@ -37,3 +38,4 @@ prompt_N_setup        , .zplug/repos/sorin-ionescu/prezto/modules/prompt/functio
 .inputrc              , .inputrc
 .gitconfig            , .gitconfig
 .config/pudb/pudb.cfg , .config/pudb/pudb.cfg
+.p10k.zsh             , .p10k.zsh
