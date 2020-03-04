@@ -63,7 +63,7 @@
   # The list of segments shown on the left. Fill it with the most important segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
     # =========================[ Line #1 ]=========================
-    os_icon                 # os identifier
+    # os_icon                 # os identifier
     dir                     # current directory
     vcs                     # git status
     # =========================[ Line #1 ]=========================
@@ -113,7 +113,7 @@
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
     asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
     direnv                  # direnv status (https://direnv.net/)
-    background_jobs         # presence of background jobs
+    # background_jobs         # presence of background jobs
     command_execution_time  # duration of the last command
     status                  # exit code of the last command
     # =========================[ Line #2 ]=========================
@@ -196,7 +196,7 @@
 
   # Connect left prompt lines with these symbols. You'll probably want to use the same color
   # as POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND below.
-  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=$(icon)
+  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="$(icon)%F{black}%K{yellow}%(1j.%j.)%f%k"
   typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX=
   typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=
   # Connect right prompt lines with these symbols.

@@ -1,0 +1,6 @@
+#!/bin/bash
+fifo=/tmp/p.png
+mkfifo $fifo
+while :;do
+    img2sixel $fifo
+done
