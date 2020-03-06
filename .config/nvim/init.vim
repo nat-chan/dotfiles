@@ -39,6 +39,8 @@ endfunction
 set foldtext=Myfold()
 set foldopen=
 au Colorscheme * hi Folded guifg=#E6DB74
+au Colorscheme * hi Normal guibg=black
+au ColorScheme * hi ColorColumn guibg=gray10
 
 "自動的に作られるうざいバックアップを消す
 set noswapfile
@@ -73,7 +75,7 @@ set ambiwidth=single
 set inccommand=nosplit
 
 set wildoptions=pum
-set pumblend=10
+set pumblend=0
 set winblend=0
 
 "Vim の外部プロセス呼び出しがPOSIX互換シェルを前提としている
@@ -208,7 +210,7 @@ Plug 'vim-airline/vim-airline' "{{{
     let g:NERDTreeDirArrowCollapsible = ''
     let g:airline_symbols = {'space': ' ', 'paste': 'PASTE', 'maxlinenr': ' ㏑', 'dirty': '!', 'crypt': '🔒', 'linenr': '☰ ', 'readonly': '', 'spell': 'SPELL', 'modified': '+', 'notexists': 'ﳺ', 'keymap': 'Keymap:', 'ellipsis': '...', 'branch': 'ᚠ', 'whitespace': '☲'}
     Plug 'vim-airline/vim-airline-themes'
-    let g:airline_theme='dark'
+    let g:airline_theme='kolor'
     "luna
     "murmur
     "serene
@@ -275,13 +277,78 @@ Plug 'junegunn/fzf.vim'
 Plug 'nat-chan/skim', { 'dir': '~/.skim', 'do': './install' }
 Plug 'ifreund/skim-preview.vim' "{{{
     let g:fzf_preview_use_dev_icons = 1
-    nnoremap <silent> F :<C-u>Denite command -input=FzfPreview<CR>
+    nnoremap <silent> DF :<C-u>Denite command -input=FzfPreview<CR>
 "}}}
 Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neoyank.vim'
 Plug 'mbbill/undotree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'andymass/vim-matchup'
-Plug 'sheerun/vim-polyglot'
+Plug 't9md/vim-surround_custom_mapping' "{{{
+    let g:surround_custom_mapping = {}
+    let g:surround_custom_mapping._ = {
+    \ 'p':  "<pre> \r </pre>",
+    \ 'w':  "%w(\r)",
+    \ }
+    let g:surround_custom_mapping.help = {
+    \ 'p':  "> \r <",
+    \ }
+    let g:surround_custom_mapping.ruby = {
+    \ '-':  "<% \r %>",
+    \ '=':  "<%= \r %>",
+    \ '9':  "(\r)",
+    \ '5':  "%(\r)",
+    \ '%':  "%(\r)",
+    \ 'w':  "%w(\r)",
+    \ '#':  "#{\r}",
+    \ '3':  "#{\r}",
+    \ 'e':  "begin \r end",
+    \ 'E':  "<<EOS \r EOS",
+    \ 'i':  "if \1if\1 \r end",
+    \ 'u':  "unless \1unless\1 \r end",
+    \ 'c':  "class \1class\1 \r end",
+    \ 'm':  "module \1module\1 \r end",
+    \ 'd':  "def \1def\1\2args\r..*\r(&)\2 \r end",
+    \ 'p':  "\1method\1 do \2args\r..*\r|&| \2\r end",
+    \ 'P':  "\1method\1 {\2args\r..*\r|&|\2 \r }",
+    \ }
+    let g:surround_custom_mapping.javascript = {
+    \ 'f':  "function(){ \r }"
+    \ }
+    let g:surround_custom_mapping.lua = {
+    \ 'f':  "function(){ \r }"
+    \ }
+    let g:surround_custom_mapping.python = {
+    \ 'p':  "print( \r)",
+    \ '[':  "[\r]",
+    \ }
+    let g:surround_custom_mapping.vim= {
+    \'f':  "function! \r endfunction",
+    \'m':  "\"{{{ \r \"}}}",
+    \ }
+"}}}
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+
+Plug 'chrisbra/Colorizer'
+Plug 'christoomey/vim-tmux-navigator' "{{{
+    let g:tmux_navigator_no_mappings = 1
+    nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
+    nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
+    nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
+    nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
+    nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+"}}}
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'blueyed/vim-diminactive' "{{{
+    let g:diminactive_enable_focus = 1
+    "let g:diminactive_filetype_whitelist = ['dirvish','nerdtree','startify','vista']
+"}}}
+Plug 'roxma/vim-tmux-clipboard'
+Plug 'benmills/vimux' "{{{
+vnoremap <silent> <C-j> "vy :<C-u>call VimuxSendText(@v)<CR>
+nnoremap <silent> <C-j> V"vy :<C-u>call VimuxSendText(@v)<CR>j
+"}}}
 
 Plug 'nat-chan/vim-pudb' "{{{
     nnoremap <space>b :TogglePudbBreakPoint<CR>
@@ -290,13 +357,26 @@ Plug 'goerz/jupytext.vim' "{{{
     let g:jupytext_fmt = 'py'
 "}}}
 Plug 'neoclide/coc.nvim', {'branch': 'release'} "{{{
+let g:coc_global_extensions = [
+\  'coc-python'
+\, 'coc-tabnine'
+\, 'coc-lists'
+\, 'coc-pairs'
+\, 'coc-vimlsp'
+\, 'coc-tsserver'
+\, 'coc-json'
+\, 'coc-marketplace'
+\, 'coc-html'
+\, 'coc-css'
+\, 'coc-snippets'
+\ ]
 " if hidden is not set, TextEdit might fail.
 set hidden
 " Some servers have issues with backup files, see #649
 set nobackup
 set nowritebackup
 " Better display for messages
-set cmdheight=1
+set cmdheight=2
 " You will have bad experience for diagnostic messages when it's default 4000.
 set updatetime=300
 " don't give |ins-completion-menu| messages.
@@ -439,7 +519,8 @@ function! s:denite_filter_my_settings() abort
   inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
 endfunction
-nnoremap D :Denite 
+set wildcharm=<tab>
+nnoremap DD :Denite <Tab><C-p>
 "}}}
 
 "{{{debug
