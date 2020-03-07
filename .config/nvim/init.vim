@@ -347,7 +347,7 @@ Plug 'blueyed/vim-diminactive' "{{{
 Plug 'roxma/vim-tmux-clipboard'
 Plug 'benmills/vimux' "{{{
 vnoremap <silent> <C-j> "vy :<C-u>call VimuxSendText(@v)<CR>
-nnoremap <silent> <C-j> V"vy :<C-u>call VimuxSendText(@v)<CR>j
+nnoremap <silent> <C-j> :<C-u>echo VimuxSendText(getline('.')) && call VimuxSendKeys('Enter')<CR>j
 "}}}
 
 Plug 'nat-chan/vim-pudb' "{{{
