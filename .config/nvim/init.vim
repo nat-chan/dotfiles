@@ -210,7 +210,7 @@ Plug 'vim-airline/vim-airline' "{{{
     let g:NERDTreeDirArrowCollapsible = ''
     let g:airline_symbols = {'space': ' ', 'paste': 'PASTE', 'maxlinenr': ' ㏑', 'dirty': '!', 'crypt': '🔒', 'linenr': '☰ ', 'readonly': '', 'spell': 'SPELL', 'modified': '+', 'notexists': 'ﳺ', 'keymap': 'Keymap:', 'ellipsis': '...', 'branch': 'ᚠ', 'whitespace': '☲'}
     Plug 'vim-airline/vim-airline-themes'
-    let g:airline_theme='kolor'
+    let g:airline_theme='murmur'
     "luna
     "murmur
     "serene
@@ -268,9 +268,7 @@ Plug 'vim-jp/vimdoc-ja' "{{{
     set helplang=ja,en
 "}}}
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'tpope/vim-fugitive' "{{{
-    autocmd FileType fugitive nnoremap <silent><buffer> u :<C-u>!rm <C-R><C-R><C-F>
-"}}}
+Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plug 'yuki-ycino/fzf-preview.vim'
@@ -338,6 +336,35 @@ Plug 'christoomey/vim-tmux-navigator' "{{{
     nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
     nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
     nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
+    tnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
+    tnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
+    tnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
+    tnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
+    tnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
+    inoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
+    inoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
+    inoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
+    inoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
+    inoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
+    vnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
+    vnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
+    vnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
+    vnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
+    vnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
+
+    let g:previous_window = -1
+    function SmartInsert()
+        if &buftype == 'terminal'
+            if g:previous_window != winnr()
+                startinsert
+            endif
+                let g:previous_window = winnr()
+        else
+             let g:previous_window = -1
+        endif
+    endfunction
+
+    au BufEnter * call SmartInsert()
 "}}}
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'blueyed/vim-diminactive' "{{{
