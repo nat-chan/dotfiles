@@ -83,7 +83,7 @@
     nnn                     # nnn shell (https://github.com/jarun/nnn)
     ranger                  # ranger shell (https://github.com/ranger/ranger)
     nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
-    context                 # user@hostname
+    # context                 # user@hostname
     google_app_cred         # google application credentials (https://cloud.google.com/docs/authentication/production)
     gcloud                  # google cloud cli account and project (https://cloud.google.com/)
     azure                   # azure account name (https://docs.microsoft.com/en-us/cli/azure)

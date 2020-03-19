@@ -1,9 +1,11 @@
 #!/usr/bin/env python
+import signal
 import pudb
 from pudb import debugger
 from pynvim import attach
 import os
-
+signal.signal(signal.SIGWINCH, print)
+#exec(compile(open("a.py").read(), "a.py", "exec"))
 #print("\033[?1049h")
 
 socket=os.getenv('NVIM_LISTEN_ADDRESS')
@@ -18,13 +20,26 @@ class MyDebugger(debugger.Debugger):
 
         socket=os.getenv('NVIM_LISTEN_ADDRESS')
         nvim = attach('socket', path=socket)
-        def inner(w, size, key):
+        def goto(w, size, key):
             _, pos = self.ui.source.get_focus()
             name = self.ui.source_code_provider.identifier()
             pos += 1
             nvim.command(':e %s'%name)
             nvim.command(':%s'%pos)
-        self.ui.top.listen("ctrl ^", inner)
+        def traceback(w, size, key):
+            if self.ui.current_exc_tuple is not None:
+                from pudb.lowlevel import format_exception
+                fname = "/tmp/traceback.txt"
+                ex = format_exception(self.ui.current_exc_tuple)
+                ex = ex[:1] + ex[5:]
+                with open(fname, "w") as f:
+                    f.write("".join(ex))
+                nvim.command(':compiler python')
+                nvim.command(':silent! cfile %s|cw'%fname)
+            else:
+                self.ui.message("No exception available.")
+        self.ui.top.listen("ctrl g", goto)
+        self.ui.top.listen("M", traceback)
 
 pudb.CURRENT_DEBUGGER = [MyDebugger()]
 

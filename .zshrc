@@ -6,6 +6,7 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "ssh0/dot", use:"*.sh"
 zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
+zplug "Aloxaf/fzf-tab", use:"*.plugin.zsh"
 #zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
 #zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 zplug "modules/prompt", from:prezto
@@ -34,7 +35,7 @@ export PATH="\
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
 export DOT_DIR="$HOME/dotfiles"
-export MANPAGER="/bin/sh -c \"col -b -x|vim -R -c 'set colorcolumn=0 ft=man nolist nonu noma' -\""
+export MANPAGER="/bin/sh -c \"col -b -x|nvim -R -c 'set colorcolumn=0 ft=man nolist nonu' -\""
 
 #{{{substring search
 autoload -U up-line-or-beginning-search

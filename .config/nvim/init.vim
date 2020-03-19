@@ -9,7 +9,7 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 set fileformats=unix,dos,mac
 
 "一行のコードが長くならないように130行目に縦線を引く
-set colorcolumn=130
+"set colorcolumn=130
 set nowrap
 "行番号を表示
 set number
@@ -30,6 +30,10 @@ set list
 "行末の空白とタブを可視化
 "set listchars=tab:\|-,trail:-
 
+"ヘルプを横に開く
+autocmd FileType help wincmd H
+
+set signcolumn=auto:3
 "マーカーで折りたたむzaで畳み込みをトグル
 set foldmethod=marker
 set fillchars=fold:\ 
@@ -41,10 +45,12 @@ set foldopen=
 au Colorscheme * hi Folded guifg=#E6DB74
 au Colorscheme * hi Normal guibg=black
 au ColorScheme * hi ColorColumn guibg=gray10
+au ColorScheme * hi MatchParen guifg=white
 
 "自動的に作られるうざいバックアップを消す
 set noswapfile
 set nobackup
+set nowritebackup
 "カーソルを見失うので対応するかっこのハイライトを消す
 "rainbowプラグインを入れてるので十分わかるはず。
 "ノーマルモードで%を入力することで対応するかっこにジャンプできる
@@ -104,6 +110,20 @@ let mapleader = "\<Space>"
 call plug#begin('~/.vim/plugged')
 
 Plug 'tomasr/molokai'
+Plug 'scrooloose/nerdtree' "{{{
+    let g:NERDTreeMouseMode=3 "シングルクリックで開く
+    function! MyNERDTreeToggle() abort
+        :NERDTreeToggle
+        if &ft == 'nerdtree'
+            call b:NERDTree.root.refresh()
+            call b:NERDTree.render()
+            :wincmd p
+        endif
+    endfunction
+    "nnoremap <silent> <C-b> :NERDTreeToggle<CR>:execute (&ft == 'nerdtree' ? ':wincmd p' : '')<CR>
+    nnoremap <silent> <C-b> :call MyNERDTreeToggle()<CR>
+    "autocmd DirChanged * :NERDTreeCWD | :wincmd p
+"}}}
 Plug 'Xuyuanp/nerdtree-git-plugin' "{{{
     let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "",
@@ -118,6 +138,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin' "{{{
     \ "Unknown"   : "?"
     \ }
 "}}}
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'luochen1990/rainbow' "{{{
     let g:rainbow_active = 1
     let g:rainbow_conf = {
@@ -184,7 +205,7 @@ Plug 'powerman/vim-plugin-AnsiEsc'
 Plug 'nathanaelkane/vim-indent-guides' "{{{
     let g:indent_guides_enable_on_vim_startup = 1
     let g:indent_guides_auto_colors = 0
-    let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'startify', '']
+    let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'startify', 'man']
     au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray13 guifg=#455354
     au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray16 guifg=#455354
     au TermEnter * IndentGuidesDisable
@@ -193,10 +214,10 @@ Plug 'nathanaelkane/vim-indent-guides' "{{{
 "    au TermOpen * IndentGuidesDisable
 "}}}
 Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'vim-airline/vim-airline' "{{{
     nmap <C-p> <Plug>AirlineSelectPrevTab
     nmap <C-n> <Plug>AirlineSelectNextTab
+    let g:airline#extensions#tabline#fnamemod = ':t'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#left_sep = ''
     let g:airline#extensions#tabline#left_alt_sep = ''
@@ -223,12 +244,18 @@ Plug 'vim-airline/vim-airline' "{{{
     "jet
     "base16_apathy
 "}}}
-Plug 'mhinz/vim-startify' "{{{
-    let g:webdevicons_enable_startify = 1
-    let g:startify_custom_header = []
+"Plug 'mhinz/vim-startify' "{{{
+"    let g:webdevicons_enable_startify = 1
+"    let g:startify_custom_header = []
+""}}}
+Plug 'airblade/vim-gitgutter' "{{{
+    set updatetime=100
+    au Colorscheme * hi GitGutterAdd    guifg=green guibg=#232526
+    au Colorscheme * hi GitGutterChange guifg=yellow guibg=#232526
+    au Colorscheme * hi GitGutterDelete guifg=red guibg=#232526
 "}}}
-Plug 'airblade/vim-gitgutter'
-Plug 'w0rp/ale', {'for':['python', 'ipynb']} "{{{
+
+Plug 'w0rp/ale', {'for':['python']} "{{{
     let g:ale_sign_column_always = 1
     let g:ale_linters = {'python': ['pylint']}
     let g:ale_fixers = {'python': ['yapf']}
@@ -237,31 +264,12 @@ Plug 'w0rp/ale', {'for':['python', 'ipynb']} "{{{
     let g:ale_sign_warning = 'W'
     au Filetype python map <buffer> [g <Plug>(ale_previous)
     au Filetype python map <buffer> ]g <Plug>(ale_next)
-
-    au Colorscheme * hi GitGutterAdd          guifg=green
-    au Colorscheme * hi GitGutterChangeLine   guifg=yellow
-    au Colorscheme * hi GitGutterDeleteLine   guifg=red
-
     au Colorscheme * hi ALEVirtualTextError guifg=red
     au Colorscheme * hi ALEVirtualTextWarning guifg=orange
-    au Colorscheme * hi ALEErrorSign guifg=red
-    au Colorscheme * hi ALEWarningSign guifg=orange
+    au Colorscheme * hi ALEErrorSign guifg=red guibg=#232526
+    au Colorscheme * hi ALEWarningSign guifg=orange guibg=#232526
 "}}}
 
-Plug 'scrooloose/nerdtree' "{{{
-    let g:NERDTreeMouseMode=3 "シングルクリックで開く
-    function! MyNERDTreeToggle() abort
-        :NERDTreeToggle
-        if &ft == 'nerdtree'
-            call b:NERDTree.root.refresh()
-            call b:NERDTree.render()
-            :wincmd p
-        endif
-    endfunction
-    "nnoremap <silent> <C-b> :NERDTreeToggle<CR>:execute (&ft == 'nerdtree' ? ':wincmd p' : '')<CR>
-    nnoremap <silent> <C-b> :call MyNERDTreeToggle()<CR>
-    "autocmd DirChanged * :NERDTreeCWD | :wincmd p
-"}}}
 Plug 'h1mesuke/vim-alignta'
 Plug 'tyru/capture.vim'
 Plug 'vim-jp/vimdoc-ja' "{{{
@@ -275,11 +283,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'nat-chan/skim', { 'dir': '~/.skim', 'do': './install' }
 Plug 'ifreund/skim-preview.vim' "{{{
     let g:fzf_preview_use_dev_icons = 1
-    nnoremap <silent> DF :<C-u>Denite command -input=FzfPreview<CR>
 "}}}
 Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neoyank.vim'
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree' "{{{
+let g:undotree_ShortIndicators = 1
+"let g:undotree_TreeNodeShape = 'o'
+"}}
 Plug 'scrooloose/nerdcommenter'
 Plug 'andymass/vim-matchup'
 Plug 't9md/vim-surround_custom_mapping' "{{{
@@ -351,6 +361,11 @@ Plug 'christoomey/vim-tmux-navigator' "{{{
     vnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
     vnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
     vnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
+    cnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
+    cnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
+    cnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
+    cnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
+    cnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
 
     let g:previous_window = -1
     function SmartInsert()
@@ -383,150 +398,141 @@ Plug 'nat-chan/vim-pudb' "{{{
 Plug 'goerz/jupytext.vim' "{{{
     let g:jupytext_fmt = 'py'
 "}}}
-Plug 'neoclide/coc.nvim', {'branch': 'release'} "{{{
-let g:coc_global_extensions = [
-\  'coc-python'
-\, 'coc-tabnine'
-\, 'coc-lists'
-\, 'coc-pairs'
-\, 'coc-vimlsp'
-\, 'coc-tsserver'
-\, 'coc-json'
-\, 'coc-marketplace'
-\, 'coc-html'
-\, 'coc-css'
-\, 'coc-snippets'
-\ ]
-" if hidden is not set, TextEdit might fail.
-set hidden
-" Some servers have issues with backup files, see #649
-set nobackup
-set nowritebackup
-" Better display for messages
-set cmdheight=2
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-" always show signcolumns
-set signcolumn=auto:3
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
-
-" Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s).
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-augroup end
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Create mappings for function text object, requires document symbols feature of languageserver.
-xmap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap if <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-
-" Use <C-d> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-"nmap <silent> <C-d> <Plug>(coc-range-select)
-"xmap <silent> <C-d> <Plug>(coc-range-select)
-
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-" Add status line support, for integration with other plugin, checkout `:h coc-status`
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Using CocList
-" Show all diagnostics
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-autocmd InsertEnter,CursorMovedI * silent! call CocActionAsync('showSignatureHelp')
-Plug 'liuchengxu/vista.vim'
-nnoremap <space>v  :<C-u>Vista coc<CR>
-au FileType vista map  <buffer> <silent> <2-LeftMouse> :<C-u>call  vista#cursor#FoldOrJump()<CR>
+Plug 'liuchengxu/vista.vim' "{{{
+    nnoremap <space>v  :<C-u>Vista!!<CR>
+    au FileType vista_kind map  <buffer> <silent> <2-LeftMouse> :<C-u>call  vista#cursor#FoldOrJump()<CR>
+    let g:vista_icon_indent=['└ ', '├ ']
+    let g:vista_sidebar_position = 'vertical topleft'
+"    let g:vista_default_executive = 'vim_lsp'
+    let g:vista_executive_for = {
+    \ 'python': 'vim_lsp',
+    \ 'vim': 'vim_lsp',
+    \ 'javascript': 'vim_lsp',
+    \ }
 "}}}
+Plug 'ervandew/supertab' "{{{
+    let g:SuperTabDefaultCompletionType = "<c-n>"
+"}}}
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp' "{{{
+set omnifunc=lsp#complete   " オムニ補完を有効化
+nnoremap <C-k> :<C-u>LspDefinition<CR>
+nnoremap gd :<C-u>LspDefinition<CR>
+nnoremap gr :<C-u>LspReferences<CR>
+nnoremap gs :<C-u>LspDocumentSymbol<CR>
+nnoremap ge :<C-u>LspDocumentDiagnostics<CR>
+nnoremap K :<C-u>LspHover<CR>
+"let g:lsp_diagnostics_enabled = 0  " 警告やエラーの表示はALEに任せるのでOFFにする
+let g:lsp_highlight_references_enabled = 1
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_signs_error = {'text': 'E'}
+let g:lsp_signs_warning = {'text': 'W'}
+let g:lsp_signs_info = {'text': 'I'}
+let g:lsp_signs_hint = {'text': 'H'}
+au Colorscheme * hi LspErrorText       guibg=#232526 guifg=red
+au Colorscheme * hi LspWarningText     guibg=#232526 guifg=orange
+au Colorscheme * hi LspInformationText guibg=#232526 guifg=white
+au Colorscheme * hi LspHintText        guibg=#232526 guifg=white
+"}}}
+Plug 'mattn/vim-lsp-settings'
+Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'} "{{{
+    let g:deoplete#enable_at_startup = 1
+"}}}
+Plug 'lighttiger2505/deoplete-vim-lsp'
+Plug 'ncm2/float-preview.nvim' "{{{
+    let g:float_preview#docked = 0
+    set completeopt-=preview
+"}}}
+Plug 'tbodt/deoplete-tabnine', {'do': './install.sh'}
+
+Plug 'davidhalter/jedi-vim', {'for':['python']} "{{{
+    let g:jedi#auto_initialization = 0
+    "let g:jedi#completions_enabled = 0
+    autocmd Filetype python nnoremap <space>rn :call jedi#rename()<CR>
+"}}}
+
+Plug 'ronakg/quickr-preview.vim' "{{{
+    let g:quickr_preview_keymaps = 0
+    let g:quickr_preview_on_cursor = 1
+    let g:quickr_preview_exit_on_enter = 1
+"}}}
+
+Plug 'jpalardy/vim-slime' "{{{
+    let g:slime_no_mappings = 1
+    xmap <C-j> <Plug>SlimeRegionSend
+    nmap <C-j> <Plug>SlimeParagraphSend
+    let g:slime_target = "tmux"
+    ""{marked}"
+    ""{right-of}"
+    let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.2"}
+    let g:slime_python_ipython = 1
+    let g:slime_dont_ask_default = 1
+"}}}
+
+Plug 'tlvince/vim-compiler-python'
+
+" Track the engine.
+"Plug 'SirVer/ultisnips' "{{{
+"
+"" Snippets are separated from the engine. Add this if you want them:
+"Plug 'honza/vim-snippets'
+"
+"" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-z>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+"
+"" If you want :UltiSnipsEdit to split your window.
+"let g:UltiSnipsEditSplit="vertical"
+"}}}
+
+Plug 'Shougo/neosnippet.vim' "{{{
+Plug 'Shougo/neosnippet-snippets'
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+"}}}
+
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'microsoft/vscode-python'
+Plug 'vahidk/tensorflow-snippets'
+Plug 'SvenBecker/vscode-pytorch'
+" You can use other key to expand snippet.
+imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+imap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#available(1)  ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+Plug 'tamago324/gtrans.nvim'
 
 call plug#end()
 
+call deoplete#custom#source('lsp', 'rank', 2000)
+"call deoplete#custom#source('neosnippet', 'rank', 3000)
+call deoplete#custom#source('denite', 'rank', 5000)
 "{{{denite
-" Change denite default options
-call denite#custom#option('default', {'split': 'floating'})
 " Define mappings
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
@@ -542,12 +548,34 @@ endfunction
 
 autocmd FileType denite-filter call s:denite_filter_my_settings()
 function! s:denite_filter_my_settings() abort
-"  inoremap <silent><buffer>       <C-o>   <Plug>(denite_filter_quit)
   inoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
   nnoremap <silent><buffer><expr> <C-c>   denite#do_map('quit')
 endfunction
+
 set wildcharm=<tab>
-nnoremap DD :Denite <Tab><C-p>
+nnoremap <silent> DD :<C-u>Denite <Tab><C-p>
+nnoremap <silent> DB :<C-u>Denite buffer -auto-action=preview -vertical-preview<CR>
+nnoremap <silent> DF :<C-u>Denite command -start-filter -input=FzfPreview<CR>
+nnoremap <silent> DL :<C-u>Denite command -start-filter -input=Lsp<CR>
+
+" Change denite default options
+call denite#custom#option('default', {
+    \ 'split': 'floating',
+    \ 'auto_resize': 1,
+    \ 'winrow': 2,
+    \ 'reversed': 1,
+    \ })
+
+"let s:denite_win_width_percent = 0.85
+"let s:denite_win_height_percent = 0.5
+"    \ 'winwidth': float2nr(&columns * s:denite_win_width_percent),
+"    \ 'winheight': float2nr(&lines * s:denite_win_height_percent),
+"    \ 'wincol': float2nr((&columns - (&columns * s:denite_win_width_percent)) / 2),
+"    \ 'winrow': float2nr((&lines - (&lines * s:denite_win_height_percent)) / 2),
+"let g:webdevicons_enable_denite = 1
+"call denite#custom#source('change,buffer,file,file/rec,file_mru,file/old,file/point', 'converters', ['devicons_denite_converter'])
+
+call denite#custom#source('buffer,change,directory_rec,grep,jump,line,mark,menu,outline,output,spell,tag,file,file/old,file/point,file/rec,directory_mru,file_mru', 'converters', ['devicons_denite_converter'])
 "}}}
 
 "{{{debug

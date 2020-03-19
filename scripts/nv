@@ -1,0 +1,5 @@
+#!/bin/bash
+echo -n 'export '
+for pid in $(pgrep -P $(pgrep -P $(tmux display-message -t :.1 -p "#{pane_pid}")));do
+    sed 's/\x00/\n/g' /proc/$pid/environ
+done|grep NVIM_LISTEN_ADDRESS|sort|uniq
