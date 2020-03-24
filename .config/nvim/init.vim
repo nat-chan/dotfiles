@@ -33,6 +33,8 @@ set list
 "ヘルプを横に開く
 autocmd FileType help wincmd H
 
+set cmdheight=2
+
 set signcolumn=auto:3
 "マーカーで折りたたむzaで畳み込みをトグル
 set foldmethod=marker
@@ -259,6 +261,8 @@ Plug 'w0rp/ale', {'for':['python']} "{{{
     let g:ale_sign_column_always = 1
     let g:ale_linters = {'python': ['pylint']}
     let g:ale_fixers = {'python': ['yapf']}
+    let g:ale_python_pylint_use_msg_id = 1
+    let g:ale_python_pylint_options = '--disable=C0103,C0301,C0114'
     let g:ale_virtualtext_cursor=1
     let g:ale_sign_error = 'E'
     let g:ale_sign_warning = 'W'
@@ -288,8 +292,9 @@ Plug 'Shougo/neomru.vim'
 Plug 'Shougo/neoyank.vim'
 Plug 'mbbill/undotree' "{{{
 let g:undotree_ShortIndicators = 1
+let g:undotree_WindowLayout = 2
 "let g:undotree_TreeNodeShape = 'o'
-"}}
+"}}}
 Plug 'scrooloose/nerdcommenter'
 Plug 'andymass/vim-matchup'
 Plug 't9md/vim-surround_custom_mapping' "{{{
@@ -423,18 +428,21 @@ nnoremap gr :<C-u>LspReferences<CR>
 nnoremap gs :<C-u>LspDocumentSymbol<CR>
 nnoremap ge :<C-u>LspDocumentDiagnostics<CR>
 nnoremap K :<C-u>LspHover<CR>
-"let g:lsp_diagnostics_enabled = 0  " 警告やエラーの表示はALEに任せるのでOFFにする
-let g:lsp_highlight_references_enabled = 1
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-let g:lsp_signs_error = {'text': 'E'}
-let g:lsp_signs_warning = {'text': 'W'}
-let g:lsp_signs_info = {'text': 'I'}
-let g:lsp_signs_hint = {'text': 'H'}
-au Colorscheme * hi LspErrorText       guibg=#232526 guifg=red
-au Colorscheme * hi LspWarningText     guibg=#232526 guifg=orange
-au Colorscheme * hi LspInformationText guibg=#232526 guifg=white
-au Colorscheme * hi LspHintText        guibg=#232526 guifg=white
+let g:lsp_diagnostics_enabled = 0  " 警告やエラーの表示はALEに任せるのでOFFにする
+"let g:lsp_virtual_text_enabled = 0 "常時表示はうざいので消す
+"let g:lsp_highlight_references_enabled = 1 "カーソル下のエラーは表示
+""let g:lsp_signs_enabled = 1         " enable signs
+"let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+"let g:lsp_signs_error = {'text': 'E'}
+"let g:lsp_signs_warning = {'text': 'W'}
+"let g:lsp_signs_info = {'text': 'I'}
+"let g:lsp_signs_hint = {'text': 'H'}
+"au Colorscheme * hi LspErrorText       guibg=#232526 guifg=red
+"au Colorscheme * hi LspWarningText     guibg=#232526 guifg=orange
+"au Colorscheme * hi LspInformationText guibg=#232526 guifg=white
+"au Colorscheme * hi LspHintText        guibg=#232526 guifg=white
+"map [g <plug>(lsp-previous-diagnostic)
+"map ]g <plug>(lsp-next-diagnostic)
 "}}}
 Plug 'mattn/vim-lsp-settings'
 Plug 'Shougo/deoplete.nvim', {'do':':UpdateRemotePlugins'} "{{{
@@ -527,6 +535,10 @@ smap <expr> <S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-T
 
 Plug 'tamago324/gtrans.nvim'
 
+Plug '/home/natsuki/executor.nvim'
+
+Plug 'fisadev/vim-isort'
+
 call plug#end()
 
 call deoplete#custom#source('lsp', 'rank', 2000)
@@ -553,7 +565,7 @@ function! s:denite_filter_my_settings() abort
 endfunction
 
 set wildcharm=<tab>
-nnoremap <silent> DD :<C-u>Denite <Tab><C-p>
+nnoremap          DD :<C-u>Denite <Tab><C-p>
 nnoremap <silent> DB :<C-u>Denite buffer -auto-action=preview -vertical-preview<CR>
 nnoremap <silent> DF :<C-u>Denite command -start-filter -input=FzfPreview<CR>
 nnoremap <silent> DL :<C-u>Denite command -start-filter -input=Lsp<CR>
