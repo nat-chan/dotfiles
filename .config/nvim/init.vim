@@ -30,6 +30,9 @@ set list
 "行末の空白とタブを可視化
 "set listchars=tab:\|-,trail:-
 
+"カーソル形状を変えない
+set guicursor=
+
 "ヘルプを横に開く
 autocmd FileType help wincmd H
 
@@ -408,7 +411,7 @@ Plug 'liuchengxu/vista.vim' "{{{
     nnoremap <space>v  :<C-u>Vista!!<CR>
     au FileType vista_kind map  <buffer> <silent> <2-LeftMouse> :<C-u>call  vista#cursor#FoldOrJump()<CR>
     let g:vista_icon_indent=['└ ', '├ ']
-    let g:vista_sidebar_position = 'vertical topleft'
+"    let g:vista_sidebar_position = 'vertical topleft'
 "    let g:vista_default_executive = 'vim_lsp'
     let g:vista_executive_for = {
     \ 'python': 'vim_lsp',

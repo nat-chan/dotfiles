@@ -73,7 +73,7 @@ def run_with_timeout(code, time, globals=None):
 def pudb_stringifier(obj):
     if hasattr(obj, 'dtype') and hasattr(obj, 'shape'):
         return str(obj.dtype).split('.')[-1] + str(tuple(obj.shape))
-    else: return type(obj)
+    else: return str(obj)
     """
     This is the custom stringifier.
 
