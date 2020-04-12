@@ -468,6 +468,7 @@ Plug 'ronakg/quickr-preview.vim' "{{{
     let g:quickr_preview_keymaps = 0
     let g:quickr_preview_on_cursor = 1
     let g:quickr_preview_exit_on_enter = 1
+    au Filetype qf nnoremap <silent> <buffer> q :<C-u>q<CR>
 "}}}
 
 Plug 'jpalardy/vim-slime' "{{{

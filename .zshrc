@@ -1,3 +1,5 @@
+start=$(date "+%s.%N")
+zmodload zsh/zprof
 #{{{zplug
 source ~/.zplug/init.zsh
 
@@ -54,10 +56,13 @@ alias vim='nvim'
 alias mux=tmuxinator
 alias tmux='tmux -2'
 alias rm=rm
-alias ls='ls --group-directories-first --color=auto'
+alias ls='exa --group-directories-first --color=auto --icons'
+export LS_COLORS="$(vivid generate molokai)"
 
 source ~/dotfiles/scripts/agent.sh
 source $HOME/.cargo/env
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+end=$(date "+%s.%N")
+echo $((end-start))
