@@ -59,6 +59,9 @@ alias rm=rm
 alias ls='exa --group-directories-first --color=auto --icons'
 export LS_COLORS="$(vivid generate molokai)"
 
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
 source ~/dotfiles/scripts/agent.sh
 source $HOME/.cargo/env
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
