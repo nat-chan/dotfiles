@@ -4,6 +4,9 @@ set nocompatible
 "NERDTreeやバッファの選択をマウスでもできるようにする
 set mouse=a
 
+"Ubuntuでのクリップボード共有
+set clipboard=unnamedplus
+
 "改行コードを判別
 set fileencodings=utf-8,iso-2022-jp,euc-jp,sjis
 set fileformats=unix,dos,mac
@@ -407,18 +410,18 @@ Plug 'goerz/jupytext.vim' "{{{
     let g:jupytext_fmt = 'py'
 "}}}
 
-Plug 'liuchengxu/vista.vim' "{{{
-    nnoremap <space>v  :<C-u>Vista!!<CR>
-    au FileType vista_kind map  <buffer> <silent> <2-LeftMouse> :<C-u>call  vista#cursor#FoldOrJump()<CR>
-    let g:vista_icon_indent=['└ ', '├ ']
-"    let g:vista_sidebar_position = 'vertical topleft'
-"    let g:vista_default_executive = 'vim_lsp'
-    let g:vista_executive_for = {
-    \ 'python': 'vim_lsp',
-    \ 'vim': 'vim_lsp',
-    \ 'javascript': 'vim_lsp',
-    \ }
-"}}}
+"Plug 'liuchengxu/vista.vim' "{{{
+"    nnoremap <space>v  :<C-u>Vista!!<CR>
+"    au FileType vista_kind map  <buffer> <silent> <2-LeftMouse> :<C-u>call  vista#cursor#FoldOrJump()<CR>
+"    let g:vista_icon_indent=['└ ', '├ ']
+""    let g:vista_sidebar_position = 'vertical topleft'
+""    let g:vista_default_executive = 'vim_lsp'
+"    let g:vista_executive_for = {
+"    \ 'python': 'vim_lsp',
+"    \ 'vim': 'vim_lsp',
+"    \ 'javascript': 'vim_lsp',
+"    \ }
+""}}}
 Plug 'ervandew/supertab' "{{{
     let g:SuperTabDefaultCompletionType = "<c-n>"
 "}}}
@@ -637,3 +640,4 @@ set t_Co=256
 syntax on
 set termguicolors
 silent! colorscheme molokai
+source /home/natsuki/.vim/plugged/vim-airline/autoload/airline/extensions/vista.vim
