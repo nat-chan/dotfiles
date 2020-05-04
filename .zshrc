@@ -14,6 +14,7 @@ zplug "Aloxaf/fzf-tab", use:"*.plugin.zsh"
 zplug "modules/prompt", from:prezto
 zplug "modules/history", from:prezto
 zplug "modules/editor", from:prezto
+zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 
 #zplug "modules/directory", from:prezto
 #zplug "modules/environment", from:prezto
@@ -38,6 +39,7 @@ export PATH="\
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
 export DOT_DIR="$HOME/dotfiles"
 export MANPAGER="/bin/sh -c \"col -b -x|nvim -R -c 'set colorcolumn=0 ft=man nolist nonu' -\""
+export EDITOR="nvim"
 
 #{{{substring search
 autoload -U up-line-or-beginning-search
