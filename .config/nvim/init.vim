@@ -286,7 +286,10 @@ Plug 'vim-jp/vimdoc-ja' "{{{
     set helplang=ja,en
 "}}}
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive' "{{{
+    "fugitiveのdiffを垂直分割する
+    set diffopt+=vertical
+"}}}
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plug 'yuki-ycino/fzf-preview.vim'
