@@ -62,7 +62,12 @@ export LS_COLORS="$(vivid generate molokai)"
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 
-source ~/dotfiles/scripts/agent.sh
+if [[ "$(hostname)" =~ DESKTOP.* ]]; then
+    source ~/dotfiles/scripts/agent_client.sh
+else
+    source ~/dotfiles/scripts/agent.sh
+fi
+
 source $HOME/.cargo/env
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
