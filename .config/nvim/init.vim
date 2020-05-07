@@ -265,7 +265,7 @@ Plug 'airblade/vim-gitgutter' "{{{
 
 Plug 'w0rp/ale', {'for':['python']} "{{{
     let g:ale_sign_column_always = 1
-    let g:ale_linters = {'python': ['pylint']}
+    let g:ale_linters = {'python': ['pylint'], 'javascript': ['eslint']}
     let g:ale_fixers = {'python': ['yapf']}
     let g:ale_python_pylint_use_msg_id = 1
     let g:ale_python_pylint_options = '--disable=C0103,C0301,C0114'
@@ -425,9 +425,9 @@ Plug 'goerz/jupytext.vim' "{{{
 "    \ 'javascript': 'vim_lsp',
 "    \ }
 ""}}}
-Plug 'ervandew/supertab' "{{{
-    let g:SuperTabDefaultCompletionType = "<c-n>"
-"}}}
+"Plug 'ervandew/supertab' "{{{
+"    let g:SuperTabDefaultCompletionType = "<c-n>"
+""}}}
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp' "{{{
 set omnifunc=lsp#complete   " オムニ補完を有効化
@@ -548,6 +548,9 @@ Plug 'tamago324/gtrans.nvim'
 Plug '/home/natsuki/executor.nvim'
 
 Plug 'fisadev/vim-isort'
+
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 call plug#end()
 
