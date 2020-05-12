@@ -223,8 +223,8 @@ Plug 'nathanaelkane/vim-indent-guides' "{{{
 "}}}
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline' "{{{
-    nmap <C-p> <Plug>AirlineSelectPrevTab
-    nmap <C-n> <Plug>AirlineSelectNextTab
+    nmap <C-n> <Plug>AirlineSelectPrevTab
+    nmap <C-p> <Plug>AirlineSelectNextTab
     let g:airline#extensions#tabline#fnamemod = ':t'
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#left_sep = ''
