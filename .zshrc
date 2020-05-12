@@ -60,7 +60,7 @@ alias tmux='tmux -2'
 alias rm=rm
 alias ls='exa --group-directories-first --color=auto --icons'
 alias gi='nvim +Gstatus'
-export LS_COLORS="$(vivid generate molokai)"
+source ~/dotfiles/scripts/vivid.sh
 
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
