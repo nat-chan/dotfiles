@@ -39,3 +39,4 @@ prompt_N_setup        , .zplug/repos/sorin-ionescu/prezto/modules/prompt/functio
 .gitconfig            , .gitconfig
 .config/pudb/pudb.cfg , .config/pudb/pudb.cfg
 .p10k.zsh             , .p10k.zsh
+.pylintrc             , .pylintrc
