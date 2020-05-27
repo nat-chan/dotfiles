@@ -140,7 +140,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin' "{{{
     \ "Renamed"   : "➜",
     \ "Unmerged"  : "═",
     \ "Deleted"   : "",
-    \ "Dirty"     : "",
+    \ "Dirty"     : "",
     \ "Clean"     : "",
     \ 'Ignored'   : '',
     \ "Unknown"   : "?"
