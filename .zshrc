@@ -32,6 +32,7 @@ zplug load
 #}}}
 
 export PATH="\
+:$HOME/go/bin\
 :$HOME/local/bin\
 :$HOME/dotfiles/scripts\
 :$PATH"
@@ -77,3 +78,8 @@ eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 end=$(date "+%s.%N")
 echo $((end-start))
+
+for p in $HOME/.vscode-server/bin/*/bin; do
+    export PATH="$p:$PATH"
+done
+export BETTER_EXCEPTIONS=1
