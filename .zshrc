@@ -55,12 +55,13 @@ set -o BSD_ECHO #デフォでecho -e <引数> するのをやめる
 autoload zmv
 
 alias zmv='noglob zmv -W'
-alias vim='nvim'
+#alias vim='nvim'
 alias mux=tmuxinator
-alias tmux='tmux -2'
+alias tmux='~/miniconda3/bin/tmux -2'
 alias rm=rm
 alias ls='exa --group-directories-first --color=auto --icons'
 alias gi='nvim +Gstatus'
+alias concrete="conda env create --force --file"
 source ~/dotfiles/scripts/vivid.sh
 
 autoload -Uz bracketed-paste-magic

@@ -50,10 +50,10 @@ function Myfold()
 endfunction
 set foldtext=Myfold()
 set foldopen=
-au Colorscheme * hi Folded guifg=#E6DB74
-au Colorscheme * hi Normal guibg=black
-au ColorScheme * hi ColorColumn guibg=gray10
-au ColorScheme * hi MatchParen guifg=white
+"au Colorscheme * hi Folded guifg=#E6DB74
+"au Colorscheme * hi Normal guibg=black
+"au ColorScheme * hi ColorColumn guibg=gray10
+"au ColorScheme * hi MatchParen guifg=white
 
 "自動的に作られるうざいバックアップを消す
 set noswapfile
@@ -133,7 +133,7 @@ Plug 'scrooloose/nerdtree' "{{{
     "autocmd DirChanged * :NERDTreeCWD | :wincmd p
 "}}}
 Plug 'Xuyuanp/nerdtree-git-plugin' "{{{
-    let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Modified"  : "",
     \ "Staged"    : "",
     \ "Untracked" : "",
@@ -210,17 +210,17 @@ Plug 'luochen1990/rainbow' "{{{
     \}
 "}}}
 Plug 'powerman/vim-plugin-AnsiEsc'
-Plug 'nathanaelkane/vim-indent-guides' "{{{
-    let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_auto_colors = 0
-    let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'startify', 'man']
-    au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray13 guifg=#455354
-    au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray16 guifg=#455354
-    au TermEnter * IndentGuidesDisable
-    au TermLeave * IndentGuidesEnable
-"    let g:indent_guides_guide_size = 1
-"    au TermOpen * IndentGuidesDisable
-"}}}
+"Plug 'nathanaelkane/vim-indent-guides' "{{{
+"    let g:indent_guides_enable_on_vim_startup = 1
+"    let g:indent_guides_auto_colors = 0
+"    let g:indent_guides_exclude_filetypes = ['help', 'nerdtree', 'startify', 'man']
+"    au VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=gray13 guifg=#455354
+"    au VimEnter,Colorscheme * :hi IndentGuidesEven guibg=gray16 guifg=#455354
+"    au TermEnter * IndentGuidesDisable
+"    au TermLeave * IndentGuidesEnable
+""    let g:indent_guides_guide_size = 1
+""    au TermOpen * IndentGuidesDisable
+""}}}
 Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline' "{{{
     nmap <C-n> <Plug>AirlineSelectPrevTab
@@ -409,9 +409,9 @@ nnoremap <silent> <C-j> :<C-u>echo VimuxSendText(getline('.')) && call VimuxSend
 Plug 'nat-chan/vim-pudb' "{{{
     nnoremap <space>b :TogglePudbBreakPoint<CR>
 "}}}
-Plug 'goerz/jupytext.vim' "{{{
-    let g:jupytext_fmt = 'py'
-"}}}
+"Plug 'goerz/jupytext.vim' "{{{
+"    let g:jupytext_fmt = 'py'
+""}}}
 
 "Plug 'liuchengxu/vista.vim' "{{{
 "    nnoremap <space>v  :<C-u>Vista!!<CR>
@@ -462,7 +462,7 @@ Plug 'ncm2/float-preview.nvim' "{{{
     let g:float_preview#docked = 0
     set completeopt-=preview
 "}}}
-Plug 'tbodt/deoplete-tabnine', {'do': './install.sh'}
+"Plug 'tbodt/deoplete-tabnine', {'do': './install.sh'}
 
 Plug 'davidhalter/jedi-vim', {'for':['python']} "{{{
     let g:jedi#auto_initialization = 0
@@ -545,12 +545,13 @@ smap <expr> <S-Tab> vsnip#available(-1) ? '<Plug>(vsnip-jump-prev)'      : '<S-T
 
 Plug 'tamago324/gtrans.nvim'
 
-Plug '/home/natsuki/executor.nvim'
+"Plug '/home/natsuki/executor.nvim'
 
 Plug 'fisadev/vim-isort'
 
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'dstein64/vim-startuptime'
 
 call plug#end()
 
