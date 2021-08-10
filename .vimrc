@@ -38,7 +38,7 @@ endfunction
 set foldtext=Myfold()
 set foldopen=
  "ターミナルモードをEscで抜けられるようにする
-tnoremap <silent> <ESC> <C-\><C-n>
+silent! tnoremap <silent> <ESC> <C-\><C-n>
  "コマンドライン行でC-a,C-eで行頭、行末
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
@@ -141,11 +141,11 @@ Plug 'christoomey/vim-tmux-navigator' "{{{
     nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
     nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
     nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
-    tnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
-    tnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
-    tnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
-    tnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
-    tnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
+    silent! tnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
+    silent! tnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
+    silent! tnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
+    silent! tnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
+    silent! tnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
     inoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
     inoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
     inoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
@@ -194,5 +194,5 @@ call plug#end()
 filetype plugin indent on
 set t_Co=256
 syntax on
-set termguicolors
+silent! set termguicolors
 silent! colorscheme molokai
