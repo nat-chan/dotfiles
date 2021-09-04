@@ -77,10 +77,15 @@ source $HOME/.cargo/env
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-end=$(date "+%s.%N")
-echo $((end-start))
 
 for p in $HOME/.vscode-server/bin/*/bin; do
     export PATH="$p:$PATH"
 done
 export BETTER_EXCEPTIONS=1
+
+hname=$(hostname -I|grep -oP '(?<=192.168.)\d.\d*')
+[ -z "$hname" ]&&hname=$HOST
+echo -ne "\033]0;${hname}\007"
+
+end=$(date "+%s.%N")
+echo $((end-start))
