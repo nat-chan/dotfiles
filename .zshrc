@@ -83,7 +83,7 @@ for p in $HOME/.vscode-server/bin/*/bin; do
 done
 export BETTER_EXCEPTIONS=1
 
-hname=$(hostname -I|grep -oP '(?<=192.168.)\d.\d*')
+hname=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
 [ -z "$hname" ]&&hname=$HOST
 echo -ne "\033]0;${hname}\007"
 
