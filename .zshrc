@@ -25,8 +25,12 @@ zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 
 zstyle ':prezto:module:prompt' theme 'powerlevel10k'
 
-if ! zplug check --verbose; then
-    zplug install
+if [ ! ~/.zcheck -nt ~/.zshrc ]; then
+    touch ~/.zcheck
+    echo .zcheck
+    if ! zplug check --verbose; then
+        zplug install
+    fi
 fi
 zplug load
 #}}}
@@ -49,6 +53,22 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^P" up-line-or-beginning-search # Up
 bindkey "^N" down-line-or-beginning-search # Down
+#}}}
+
+#{{{auto_pushd
+# https://qiita.com/yoshikaw/items/e12e239afdbaaec78ec7
+# https://qiita.com/sho-t/items/8e78d374512703cc2f38
+DIRSTACKSIZE=100
+setopt auto_pushd
+setopt pushd_silent
+setopt pushd_minus
+# cd -<TAB>でセレクト時にハイライトされるが
+# 起動時間が1sec遅くなる
+#autoload -Uz compinit && compinit
+#
+#zstyle ':completion:*' menu select
+#zstyle ':completion:*:cd:*' ignore-parents parent pwd
+#zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
 #}}}
 
 set -o BSD_ECHO #デフォでecho -e <引数> するのをやめる
