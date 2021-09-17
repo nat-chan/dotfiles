@@ -1,0 +1,5 @@
+#!/bin/bash
+
+txt=$1
+[ -z "${txt}" ] &&txt=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
+ curl -X POST -H "Content-Type: application/json" -d "{\"value1\":\"${txt}\"}" https://maker.ifttt.com/trigger/notify/with/key/k-MIPeGOTV2InbONiM_VnHhPE07_Pu5GdOwsgZS72wA
