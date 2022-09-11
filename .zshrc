@@ -40,14 +40,20 @@ export PATH="\
 :$HOME/local/bin\
 :$HOME/dotfiles/scripts\
 :$PATH"
+
 export CPATH="/usr/local/cuda-10.2/targets/x86_64-linux/include:$CPATH"
 export LD_LIBRARY_PATH="/usr/local/cuda-10.2/targets/x86_64-linux/lib:$LD_LIBRARY_PATH"
 export PATH="/usr/local/cuda-10.2/bin:$PATH"
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
 export DOT_DIR="$HOME/dotfiles"
+if [ -d ~/.zsh/dot ]; then
+    fpath=($HOME/.zsh/dot $fpath)
+    source $HOME/.zsh/dot/dot.sh
+fi
+
 export MANPAGER="/bin/sh -c \"col -b -x|nvim -R -c 'set colorcolumn=0 ft=man nolist nonu' -\""
-export EDITOR="nvim"
+export EDITOR="vi"
 
 #{{{substring search
 autoload -U up-line-or-beginning-search
@@ -78,12 +84,21 @@ set -o BSD_ECHO #デフォでecho -e <引数> するのをやめる
 autoload zmv
 
 alias zmv='noglob zmv -W'
-#alias vim='nvim'
 alias mux=tmuxinator
-alias tmux='~/miniconda3/bin/tmux -2'
+
+if [ -e ~/miniconda3/bin/tmux ] ; then
+    alias tmux='~/miniconda3/bin/tmux -2'
+else
+    alias tmux='tmux -2'
+fi
+
 alias rm=rm
-alias ls='exa --group-directories-first --color=auto --icons'
-alias gi='nvim +Gstatus'
+if [ -e ~/.cargo/bin/exa ]; then
+    alias ls='exa --group-directories-first --color=auto --icons'
+else
+    alias ls='ls --color'
+fi
+alias gi='vim +Gstatus'
 alias concrete="conda env create --force --file"
 source ~/dotfiles/scripts/vivid.sh
 
