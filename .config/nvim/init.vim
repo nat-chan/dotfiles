@@ -286,10 +286,10 @@ Plug 'vim-jp/vimdoc-ja' "{{{
     set helplang=ja,en
 "}}}
 Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'tpope/vim-fugitive' "{{{
-    "fugitiveのdiffを垂直分割する
-    set diffopt+=vertical
-"}}}
+"Plug 'tpope/vim-fugitive' "{{{
+"    "fugitiveのdiffを垂直分割する
+"    set diffopt+=vertical
+""}}}
 Plug 'junegunn/fzf', { 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 "Plug 'yuki-ycino/fzf-preview.vim'
@@ -353,54 +353,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 
 Plug 'chrisbra/Colorizer'
-Plug 'christoomey/vim-tmux-navigator' "{{{
-    let g:tmux_navigator_no_mappings = 1
-    nnoremap <silent> <M-h> :TmuxNavigateLeft<cr>
-    nnoremap <silent> <M-j> :TmuxNavigateDown<cr>
-    nnoremap <silent> <M-k> :TmuxNavigateUp<cr>
-    nnoremap <silent> <M-l> :TmuxNavigateRight<cr>
-    nnoremap <silent> <M-\> :TmuxNavigatePrevious<cr>
-    tnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
-    tnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
-    tnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
-    tnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
-    tnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
-    inoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
-    inoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
-    inoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
-    inoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
-    inoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
-    vnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
-    vnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
-    vnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
-    vnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
-    vnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
-    cnoremap <silent> <M-h> <C-\><C-n>:TmuxNavigateLeft<cr>
-    cnoremap <silent> <M-j> <C-\><C-n>:TmuxNavigateDown<cr>
-    cnoremap <silent> <M-k> <C-\><C-n>:TmuxNavigateUp<cr>
-    cnoremap <silent> <M-l> <C-\><C-n>:TmuxNavigateRight<cr>
-    cnoremap <silent> <M-\> <C-\><C-n>:TmuxNavigatePrevious<cr>
 
-    let g:previous_window = -1
-    function SmartInsert()
-        if &buftype == 'terminal'
-            if g:previous_window != winnr()
-                startinsert
-            endif
-                let g:previous_window = winnr()
-        else
-             let g:previous_window = -1
-        endif
-    endfunction
-
-    au BufEnter * call SmartInsert()
-"}}}
-Plug 'tmux-plugins/vim-tmux-focus-events'
-Plug 'blueyed/vim-diminactive' "{{{
-    let g:diminactive_enable_focus = 1
-    "let g:diminactive_filetype_whitelist = ['dirvish','nerdtree','startify','vista']
-"}}}
-Plug 'roxma/vim-tmux-clipboard'
 Plug 'benmills/vimux' "{{{
 vnoremap <silent> <C-j> "vy :<C-u>call VimuxSendText(@v)<CR>
 nnoremap <silent> <C-j> :<C-u>echo VimuxSendText(getline('.')) && call VimuxSendKeys('Enter')<CR>j

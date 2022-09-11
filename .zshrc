@@ -8,7 +8,7 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "ssh0/dot", use:"*.sh"
 zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
-zplug "Aloxaf/fzf-tab", use:"*.plugin.zsh"
+#zplug "Aloxaf/fzf-tab", use:"*.plugin.zsh"
 #zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
 #zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 zplug "modules/prompt", from:prezto
@@ -40,6 +40,9 @@ export PATH="\
 :$HOME/local/bin\
 :$HOME/dotfiles/scripts\
 :$PATH"
+export CPATH="/usr/local/cuda-10.2/targets/x86_64-linux/include:$CPATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-10.2/targets/x86_64-linux/lib:$LD_LIBRARY_PATH"
+export PATH="/usr/local/cuda-10.2/bin:$PATH"
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
 export DOT_DIR="$HOME/dotfiles"
