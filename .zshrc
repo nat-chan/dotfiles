@@ -41,9 +41,9 @@ export PATH="\
 :$HOME/dotfiles/scripts\
 :$PATH"
 
-export CPATH="/usr/local/cuda-10.2/targets/x86_64-linux/include:$CPATH"
-export LD_LIBRARY_PATH="/usr/local/cuda-10.2/targets/x86_64-linux/lib:$LD_LIBRARY_PATH"
-export PATH="/usr/local/cuda-10.2/bin:$PATH"
+if [ -d /usr/local/cuda-10.2 ]; then
+    source ~/dotfiles/scripts/CUDA10.2_ENV.sh
+fi
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
 export DOT_DIR="$HOME/dotfiles"
