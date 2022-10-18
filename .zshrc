@@ -52,7 +52,7 @@ if [ -d ~/.zsh/dot ]; then
     source $HOME/.zsh/dot/dot.sh
 fi
 
-export MANPAGER="/bin/sh -c \"col -b -x|nvim -R -c 'set colorcolumn=0 ft=man nolist nonu' -\""
+export MANPAGER="/bin/sh -c \"col -b -x|vim -R -c 'set colorcolumn=0 ft=man nolist nonu' -\""
 export EDITOR="vi"
 
 #{{{substring search
@@ -85,6 +85,7 @@ autoload zmv
 
 alias zmv='noglob zmv -W'
 alias mux=tmuxinator
+alias p="/usr/local/bin/proxychains4 -q"
 
 if [ -e ~/miniconda3/bin/tmux ] ; then
     alias tmux='~/miniconda3/bin/tmux -2'
@@ -116,9 +117,12 @@ eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-for p in $HOME/.vscode-server/bin/*/bin; do
-    export PATH="$p:$PATH"
-done
+
+if [ -d $HOME/.vscode-server ]; then
+    for p in $HOME/.vscode-server/bin/*/bin; do
+        export PATH="$p:$PATH"
+    done
+fi
 export BETTER_EXCEPTIONS=1
 
 hname=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
