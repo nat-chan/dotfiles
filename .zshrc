@@ -23,7 +23,7 @@ zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 #zplug "modules/terminal", from:prezto
 #zplug "modules/utility", from:prezto
 
-zstyle ':prezto:module:prompt' theme 'powerlevel10k'
+zplug romkatv/powerlevel10k, as:theme, depth:1
 
 if [ ! ~/.zcheck -nt ~/.zshrc ]; then
     touch ~/.zcheck
