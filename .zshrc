@@ -7,7 +7,6 @@ zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-completions"
 zplug "ssh0/dot", use:"*.sh"
-zplug "stedolan/jq", from:gh-r, as:command, rename-to:jq
 #zplug "Aloxaf/fzf-tab", use:"*.plugin.zsh"
 #zplug "junegunn/fzf-bin", from:gh-r, as:command, rename-to:fzf, use:"*linux*amd64*"
 #zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
@@ -124,6 +123,10 @@ if [ -d $HOME/.vscode-server ]; then
     done
 fi
 export BETTER_EXCEPTIONS=1
+
+HISTSIZE=100000
+SAVEHIST=100000
+setopt extended_history
 
 hname=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
 [ -z "$hname" ]&&hname=$HOST
