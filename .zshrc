@@ -41,7 +41,12 @@ export PATH="\
 :$PATH"
 
 if [ -d /usr/local/cuda-10.2 ]; then
-    source ~/dotfiles/scripts/CUDA10.2_ENV.sh
+    source ~/dotfiles/scripts/CUDA9.2_ENV.sh
+fi
+
+if [ -d /usr/local/cuda-12.1 ]; then
+    export PATH="/usr/local/cuda-12.1/bin:${PATH}"
+    export LD_LIBRARY_PATH="/usr/local/cuda-12.1/lib64:${LD_LIBRARY_PATH}"
 fi
 
 export DOT_REPO="https://github.com/nat-chan/dotfiles"
@@ -61,6 +66,7 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^P" up-line-or-beginning-search # Up
 bindkey "^N" down-line-or-beginning-search # Down
+bindkey -e
 #}}}
 
 #{{{auto_pushd
@@ -81,6 +87,11 @@ setopt pushd_minus
 
 set -o BSD_ECHO #デフォでecho -e <引数> するのをやめる
 autoload zmv
+
+win() {
+    windows_title=$(grep -i windows /boot/grub/grub.cfg | cut -d "'" -f 2)
+    sudo grub-reboot "$windows_title" && sudo reboot
+}
 
 alias zmv='noglob zmv -W'
 alias mux=tmuxinator
@@ -124,9 +135,15 @@ if [ -d $HOME/.vscode-server ]; then
 fi
 export BETTER_EXCEPTIONS=1
 
-HISTSIZE=100000
-SAVEHIST=100000
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=100000
+export SAVEHIST=100000
 setopt extended_history
+
+winboot () {
+    windows_title=$(grep -i windows /boot/grub/grub.cfg | cut -d "'" -f 2)
+    sudo grub-reboot "$windows_title" && sudo reboot
+}
 
 hname=$(hostname -I|grep -oP '(?<=192.168.0.1)\d*')
 [ -z "$hname" ]&&hname=$HOST
