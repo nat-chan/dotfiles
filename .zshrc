@@ -36,6 +36,7 @@ zplug load
 
 export PATH="\
 :$HOME/go/bin\
+:$HOME/.local/bin\
 :$HOME/local/bin\
 :$HOME/dotfiles/scripts\
 :$PATH"
@@ -78,11 +79,10 @@ setopt pushd_silent
 setopt pushd_minus
 # cd -<TAB>でセレクト時にハイライトされるが
 # 起動時間が1sec遅くなる
-#autoload -Uz compinit && compinit
-#
-#zstyle ':completion:*' menu select
-#zstyle ':completion:*:cd:*' ignore-parents parent pwd
-#zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
 #}}}
 
 set -o BSD_ECHO #デフォでecho -e <引数> するのをやめる
@@ -116,11 +116,7 @@ source ~/dotfiles/scripts/vivid.sh
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
 
-if [[ "$(hostname)" =~ DESKTOP.* ]]; then
-    source ~/dotfiles/scripts/agent_client.sh
-else
-    source ~/dotfiles/scripts/agent.sh
-fi
+source ~/dotfiles/scripts/agent_client.sh
 
 source $HOME/.cargo/env
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
@@ -139,6 +135,11 @@ export HISTFILE=${HOME}/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=100000
 setopt extended_history
+
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+# 便利
+zstyle :bracketed-paste-magic paste-init backward-extend-paste
 
 winboot () {
     windows_title=$(grep -i windows /boot/grub/grub.cfg | cut -d "'" -f 2)
