@@ -23,6 +23,7 @@ zplug "tmuxinator/tmuxinator", use:"completion/tmuxinator.zsh"
 #zplug "modules/utility", from:prezto
 
 zplug romkatv/powerlevel10k, as:theme, depth:1
+#zplug "agkozak/zsh-z"
 
 if [ ! ~/.zcheck -nt ~/.zshrc ]; then
     touch ~/.zcheck
@@ -33,6 +34,7 @@ if [ ! ~/.zcheck -nt ~/.zshrc ]; then
 fi
 zplug load
 #}}}
+. ~/z/z.sh
 
 export PATH="\
 :$HOME/go/bin\
@@ -85,6 +87,10 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
 #}}}
 
+# https://qiita.com/yaotti/items/157ff0a46736ec793a91
+setopt AUTO_CD
+cdpath=(.. ../.. ~ /mnt/d)
+
 set -o BSD_ECHO #デフォでecho -e <引数> するのをやめる
 autoload zmv
 
@@ -93,6 +99,7 @@ win() {
     sudo grub-reboot "$windows_title" && sudo reboot
 }
 
+alias c='cursor'
 alias zmv='noglob zmv -W'
 alias mux=tmuxinator
 alias p="/usr/local/bin/proxychains4 -q"
@@ -124,11 +131,11 @@ eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
-if [ -d $HOME/.vscode-server ]; then
-    for p in $HOME/.vscode-server/bin/*/bin; do
-        export PATH="$p:$PATH"
-    done
-fi
+#if [ -d $HOME/.vscode-server ]; then
+#    for p in $HOME/.vscode-server/bin/*/bin; do
+#        export PATH="$p:$PATH"
+#    done
+#fi
 export BETTER_EXCEPTIONS=1
 
 export HISTFILE=${HOME}/.zsh_history
