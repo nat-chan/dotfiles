@@ -34,7 +34,6 @@ if [ ! ~/.zcheck -nt ~/.zshrc ]; then
 fi
 zplug load
 #}}}
-. ~/z/z.sh
 
 export PATH="\
 :$HOME/go/bin\
@@ -57,6 +56,9 @@ export DOT_DIR="$HOME/dotfiles"
 if [ -d ~/.zsh/dot ]; then
     fpath=($HOME/.zsh/dot $fpath)
     source $HOME/.zsh/dot/dot.sh
+fi
+if [ -d $HOME/.zsh/pueue ]; then
+    fpath=($HOME/.zsh/pueue $fpath)
 fi
 
 export MANPAGER="/bin/sh -c \"col -b -x|vim -R -c 'set colorcolumn=0 ft=man nolist nonu' -\""
@@ -100,6 +102,8 @@ win() {
 }
 
 alias c='cursor'
+alias q='pueue'
+alias qa='pueue add --'
 alias zmv='noglob zmv -W'
 alias mux=tmuxinator
 alias p="/usr/local/bin/proxychains4 -q"
