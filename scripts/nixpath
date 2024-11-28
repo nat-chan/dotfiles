@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# USAGE: nix develop環境内で./thisfile.shを実行
+SETTINGS_JSON=${1:-".vscode/settings.json"}
+IFS=':' read -r -a path_array <<< "$PYTHONPATH"
+rep="["
+for path in "${path_array[@]}"; do
+    rep+="\"$path\", "
+done
+rep="${rep%, }]"
+awk '{
+    buffer = buffer $0 "\n"; 
+} 
+END {
+    gsub(/, *\n *}/, "\n }", buffer); 
+    printf "%s", buffer;
+}' ${SETTINGS_JSON} | \
+jq '.["python.analysis.extraPaths"] = '"$rep" | \
+> /tmp/settings.json
+mv /tmp/settings.json ${SETTINGS_JSON}
