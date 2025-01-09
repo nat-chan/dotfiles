@@ -1,0 +1,126 @@
+#!/bin/bash
+
+set -euo pipefail
+trap 'q' SIGINT
+
+REGIONS=(
+    "ap-northeast-1"
+    "us-west-2"
+    "us-east-2"
+    "us-west-1"
+    "us-east-1"
+    "ap-northeast-2"
+    "ap-northeast-3"
+    "ap-south-1"
+    "ap-southeast-1"
+    "ap-southeast-2"
+    "ca-central-1"
+    "eu-central-1"
+    "eu-north-1"
+    "eu-west-1"
+    "eu-west-2"
+    "eu-west-3"
+    "sa-east-1"
+)
+
+
+REGION=ap-northeast-1
+InstanceId=i-00000000000000000
+Name=Name
+
+# リージョン選択
+r(){
+    REGION=$(echo "${REGIONS[@]}" | tr ' ' '\n' | fzf)
+}
+
+# インスタンス選択
+i(){
+    all_region_results=$(aws ec2 describe-instances \
+        --region $REGION \
+        --filters "Name=instance-state-name,Values=running" \
+        --query "Reservations[].Instances[].[InstanceId, Tags[?Key=='Name'].Value|[0]]" \
+        --output text | \
+        tr '\t' ' ' | \
+        awk -v region="$REGION" '{print $0, region}' | \
+        fzf)
+    InstanceId=$(echo $all_region_results | awk '{print $1}')
+    Name=$(echo $all_region_results | awk '{print $2}')
+}
+
+# インスタンス選択（全リージョン）
+I(){
+    all_region_results=""
+    for region in "${REGIONS[@]}"; do
+        echo $region
+        single_region_results=$(aws ec2 describe-instances \
+            --region $region \
+            --filters "Name=instance-state-name,Values=running" \
+            --query "Reservations[].Instances[].[InstanceId, Tags[?Key=='Name'].Value|[0]]" \
+            --output text | \
+            tr '\t' ' ' | \
+            awk -v region="$region" '{print $0, region}')
+        echo "$single_region_results"
+        all_region_results+=$single_region_results$'\n'
+    done
+    line=$(echo "$all_region_results" | fzf)
+    InstanceId=$(echo $line | awk '{print $1}')
+    Name=$(echo $line | awk '{print $2}')
+    REGION=$(echo $line | awk '{print $3}')
+}
+
+# インスタンス終了
+x(){
+    echo -e "yes\nno" | \
+    fzf --prompt="are you sure you want to terminate? > " | \
+    grep -q yes && \
+    aws ec2 terminate-instances \
+        --region $REGION \
+        --instance-ids $InstanceId
+}
+
+# ユーザーデータ表示
+u(){
+    aws ec2 describe-instance-attribute \
+        --region $REGION \
+        --instance-id $InstanceId \
+        --attribute userData \
+        --query "UserData.Value" \
+        --output text | base64 --decode
+}
+
+# ssh接続
+s(){
+    ssh -i ~/.ssh/sd_backend \
+    -o ProxyCommand="aws ssm start-session --target $InstanceId --document-name AWS-StartSSHSession --parameters 'portNumber=22' --profile r5_common_backend --region $REGION" \
+    ubuntu@$InstanceId
+}
+
+# cloud-initのログをtail
+l(){
+    ssh -i ~/.ssh/sd_backend \
+    -o ProxyCommand="aws ssm start-session --target $InstanceId --document-name AWS-StartSSHSession --parameters 'portNumber=22' --profile r5_common_backend --region $REGION" \
+    ubuntu@$InstanceId tail -f /var/log/cloud-init-output.log
+}
+
+# 終了
+q(){
+    echo "InstanceId=$InstanceId" > /tmp/ta
+    echo "Name=$Name" >> /tmp/ta
+    echo "REGION=$REGION" >> /tmp/ta
+    echo "quit"
+    exit
+}
+
+regex="$(declare -F | awk '{print $3}' | paste -sd '|')"
+
+if [ -f /tmp/ta ]; then
+    source /tmp/ta
+fi
+
+while : ; do
+    echo -ne "\e[2K\r$InstanceId $Name $REGION ($regex) > "
+    read -s -n 1 command
+    if [[ "$command" =~ ^($regex)$ ]] ; then
+        $command
+    fi
+done
